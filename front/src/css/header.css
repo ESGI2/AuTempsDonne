@@ -1,0 +1,43 @@
+
+body {
+
+}
+
+header {
+    background-color: #6096B4;
+    width: 100%;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    margin: 0;
+    padding: 0;
+}
+
+.logo img {
+    height: 50px;
+}
+
+nav button {
+    color: black;
+    border: none;
+    background: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-right: 10px;
+    cursor: pointer;
+    font-family: 'Courgette', cursive;
+}
+
+nav button a {
+    text-decoration: none;
+    color: white;
+}
+
+.association-btn:hover,
+.missions-btn:hover,
+.rejoindre-btn:hover {
+    background-color: #93BFCF;
+}
+
