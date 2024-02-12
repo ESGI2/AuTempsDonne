@@ -42,6 +42,10 @@ app.use('/register', registerRoutes);
 const truckRoutes = require('./routes/truck.routes');
 app.use('/truck', truckRoutes);
 
+// PRODUCT ROUTE
+const productRoutes = require('./routes/product.routes');
+app.use('/product', productRoutes);
+
 // Setup default route
 app.use('/', (req, res) => {
     res.send("Bienvenue sur l'API !");

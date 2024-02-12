@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../config/db');
 
-const Truck = sequelize.define('truck', {
+const Product = sequelize.define('product', {
     id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -11,13 +11,9 @@ const Truck = sequelize.define('truck', {
         type: Sequelize.STRING,
         allowNull: false
     },
-    localisation: {
-        type: Sequelize.STRING,
-        allowNull: false
-    }
 }, {
-    tableName: 'truck',
+    tableName: 'product',
     timestamps: false
 });
 
-module.exports = Truck;
+module.exports = Product;
