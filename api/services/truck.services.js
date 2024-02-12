@@ -9,6 +9,14 @@ class TruckServices {
             throw error;
         }
     }
+    static async getAllTrucks() {
+        try {
+            return await TruckRepository.getAllTrucks();
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
 }
 
 module.exports = TruckServices;

@@ -12,6 +12,15 @@ class TruckRepository {
             throw error;
         }
     }
+    static async getAllTrucks() {
+        try {
+            return await Truck.findAll();
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
 }
 
 module.exports = TruckRepository;
