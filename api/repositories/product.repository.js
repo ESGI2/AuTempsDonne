@@ -19,6 +19,15 @@ class ProductRepository {
             throw error;
         }
     }
+
+    static async getAllProducts() {
+        try {
+            return await Product.findAll();
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
 }
 
 module.exports = ProductRepository;

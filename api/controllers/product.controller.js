@@ -20,6 +20,16 @@ class ProductController {
             res.status(500).json({ error: 'Error during product post' });
         }
     }
+
+    static async getAllProducts(req, res) {
+        try {
+            const products = await ProductService.getAllProducts();
+            res.status(200).json(products);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Error during product get' });
+        }
+    }
 }
 
 module.exports = ProductController;
