@@ -30,7 +30,7 @@ class TruckRepository {
         }
     }
 
-    static async updateTruckLocation(id, newLocation) {
+    static async updateTruckLocalisation(id, newLocalisation) {
         try {
             const truck = await Truck.findByPk(id);
 
@@ -38,7 +38,7 @@ class TruckRepository {
                 throw new Error('Truck not found');
             }
 
-            truck.localisation = newLocation;
+            truck.localisation = newLocalisation;
             await truck.save();
         } catch (error) {
             console.error(error);

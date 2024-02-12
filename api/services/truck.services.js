@@ -28,9 +28,9 @@ class TruckServices {
         }
     }
 
-    static async updateTruckLocation(id, newLocation) {
+    static async updateTruckLocalisation(id, newLocalisation) {
         try {
-            return await TruckRepository.updateTruckLocation(id, newLocation);
+            return await TruckRepository.updateTruckLocalisation(id, newLocalisation);
         } catch (error) {
             console.error(error);
             throw error;

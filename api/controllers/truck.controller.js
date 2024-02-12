@@ -37,17 +37,17 @@ class TruckController {
         }
     }
 
-    static async updateTruckLocation(req, res) {
+    static async updateTruckLocalisation(req, res) {
         try {
             const { id } = req.query;
-            const { location } = req.query;
+            const { localisation } = req.query;
 
-            await TruckServices.updateTruckLocation(id, location);
+            await TruckServices.updateTruckLocalisation(id, localisation);
 
-            res.status(200).json({ message: "Truck location updated successfully" });
+            res.status(200).json({ message: 'Truck localisation updated successfully' });
         } catch (error) {
             console.error(error);
-            res.status(500).json({ error: "Error during localisation patch" });
+            res.status(500).json({ error: 'Internal server error' });
         }
     }
 }

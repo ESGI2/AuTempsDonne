@@ -6,6 +6,6 @@ const router = express.Router();
 router.post('/', TruckController.truckAdded);
 router.get('/', TruckController.getAllTrucks);
 router.get('/:id', TruckController.getTruckById);
-router.patch('/', TruckController.updateTruckLocation);
+router.patch('/', TruckController.updateTruckLocalisation);
 
 module.exports = router;
