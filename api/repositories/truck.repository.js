@@ -21,6 +21,15 @@ class TruckRepository {
         }
     }
 
+    static async getTruckById(id) {
+        try {
+            return await Truck.findByPk(id);
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
 }
 
 module.exports = TruckRepository;

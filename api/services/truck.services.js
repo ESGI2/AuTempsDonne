@@ -9,9 +9,19 @@ class TruckServices {
             throw error;
         }
     }
+
     static async getAllTrucks() {
         try {
             return await TruckRepository.getAllTrucks();
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
+    static async getTruckById(id) {
+        try {
+            return await TruckRepository.getTruckById(id);
         } catch (error) {
             console.error(error);
             throw error;

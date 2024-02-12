@@ -21,6 +21,21 @@ class TruckController {
             res.status(500).json({ error: "Error during truck get" });
         }
     }
+
+    static async getTruckById(req, res) {
+        try {
+            const truckId = req.params.id;
+            const truck = await TruckServices.getTruckById(truckId);
+
+            if (!truck) {
+                return res.status(404).json({ error: 'Truck not found' });
+            }
+            res.status(200).json(truck);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal server error' });
+        }
+    }
 }
 
 module.exports = TruckController;
