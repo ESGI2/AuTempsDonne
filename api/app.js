@@ -35,8 +35,10 @@ const generateAccessToken = require("./middlewares/generateToken");
 // USER ROUTE
 const userRoutes = require('./routes/user.routes');
 const registerRoutes = require('./routes/register.routes');
+const loginRoutes = require('./routes/login.routes');
 app.use('/user', userRoutes);
 app.use('/register', registerRoutes);
+app.use('/login', loginRoutes);
 
 // Setup default route
 app.use('/', (req, res) => {

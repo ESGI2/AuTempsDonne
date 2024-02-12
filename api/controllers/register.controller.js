@@ -1,7 +1,4 @@
-const express = require('express');
 const RegisterServices = require("../services/register.services");
-
-const router = express.Router();
 
 class RegisterController {
     static async registerBeneficiary(req, res){

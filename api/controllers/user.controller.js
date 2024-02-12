@@ -1,7 +1,4 @@
-const express = require('express');
 const UserServices = require("../services/user.services");
-
-const router = express.Router();
 
 class UserController {
     static async getAllUsers(req, res){
