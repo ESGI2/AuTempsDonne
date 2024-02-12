@@ -43,11 +43,11 @@ const User = sequelize.define('user', {
     },
     salt: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: false
     },
     email: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: false
     },
     phone: {
         type: Sequelize.STRING,
