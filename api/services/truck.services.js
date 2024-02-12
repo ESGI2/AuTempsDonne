@@ -27,6 +27,15 @@ class TruckServices {
             throw error;
         }
     }
+
+    static async updateTruckLocation(id, newLocation) {
+        try {
+            return await TruckRepository.updateTruckLocation(id, newLocation);
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
 }
 
 module.exports = TruckServices;

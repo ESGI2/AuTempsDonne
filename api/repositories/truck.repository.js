@@ -30,6 +30,22 @@ class TruckRepository {
         }
     }
 
+    static async updateTruckLocation(id, newLocation) {
+        try {
+            const truck = await Truck.findByPk(id);
+
+            if (!truck) {
+                throw new Error('Truck not found');
+            }
+
+            truck.localisation = newLocation;
+            await truck.save();
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
 }
 
 module.exports = TruckRepository;
