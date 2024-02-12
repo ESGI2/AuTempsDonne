@@ -7,12 +7,12 @@ class LoginServices {
         try {
             const user = await LoginRepository.login(data);
             if (!user) {
-                return {"Message": "Utilisateur non trouvé"};
+                return {"Error": "User not found"};
             }
 
-            const passwordIsValid = await PasswordHash.verifyHashPassword(data.password, user.password, user.salt);
+            const passwordIsValid = PasswordHash.verifyHashPassword(data.password, user.password, user.salt);
             if (!passwordIsValid) {
-                return {"Message": "Mot de passe incorrect"};
+                return {"Error": "Invalid password"};
             }
 
             return user;

@@ -4,22 +4,22 @@ class RegisterController {
     static async registerBeneficiary(req, res){
         const data = req.body;
         try {
-            const user = await RegisterServices.registerBeneficiary(data);
-            res.status(200).json({"Message": "Enregistrement d'un utilisateur"});
+            await RegisterServices.registerBeneficiary(data);
+            res.status(201).json({"Message": "Beneficiary successfully registered"});
         } catch (error) {
             console.error(error);
-            res.status(500).json({"Error": "Erreur lors de l'enregistrement de l'utilisateur."});
+            res.status(500).json({"Error": "Error registering user"});
         }
     }
 
     static async registerVolunteer(req, res){
         const data = req.body;
         try {
-            const user = await RegisterServices.registerVolunteer(data);
-            res.status(200).json({"Message": "Enregistrement d'un utilisateur"});
+            await RegisterServices.registerVolunteer(data);
+            res.status(201).json({"Message": "Volunteer successfully registered"});
         } catch (error) {
             console.error(error);
-            res.status(500).json({"Error": "Erreur lors de l'enregistrement de l'utilisateur."});
+            res.status(500).json({"Error": "Error registering user"});
         }
     }
 }

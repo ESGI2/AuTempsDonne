@@ -6,12 +6,13 @@ class LoginController {
         try {
             const user = await LoginServices.login(data);
             if (!user) {
-                res.status(404).json({"Message": "Utilisateur non trouvé"});
+                res.status(404).json({"Error": "User not found"});
+            } else {
+                res.status(200).json(user);
             }
-            res.status(200).json({"Message": "Utilisateur connecté", "User": user});
         } catch (error) {
             console.error(error);
-            res.status(500).json({"Error": "Erreur lors de la connexion de l'utilisateur."});
+            res.status(500);
         }
     }
 }

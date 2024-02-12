@@ -6,14 +6,13 @@ const authMiddleware = (req, res, next) => {
 
     if (authToken) {
         try {
-            const infos = jwt.verify(authToken, authentificationToken);
-            req.user = infos;
+            req.user = jwt.verify(authToken, authentificationToken);
             next();
         } catch (error) {
-            res.status(403).json({error: "Token expiré ou invalide"});
+            res.status(403).json({"Error": "Expired or invalid token"});
         }
     } else {
-        return res.status(401).json({message: "Clé d'authentification manquante"});
+        return res.status(401).json({"Message": "Missing authentication key"});
     }
 };
 

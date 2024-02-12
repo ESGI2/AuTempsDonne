@@ -8,8 +8,7 @@ class RegisterServices {
             const { salt, hash } = await PasswordHash.hashPassword(data.password);
             data.salt = salt;
             data.password = hash;
-            const user = await RegisterRepository.registerBeneficiary(data);
-            return {"Message": "Enregistrement d'un bénéficiaire effectué avec succès"};
+            await RegisterRepository.registerBeneficiary(data);
         } catch (error) {
             console.error(error);
             throw error;
@@ -21,8 +20,7 @@ class RegisterServices {
             const { salt, hash } = await PasswordHash.hashPassword(data.password);
             data.salt = salt;
             data.password = hash;
-            const user = await RegisterRepository.registerVolunteer(data);
-            return {"Message": "Enregistrement d'un bénévole effectué avec succès"};
+            await RegisterRepository.registerVolunteer(data);
         } catch (error) {
             console.error(error);
             throw error;

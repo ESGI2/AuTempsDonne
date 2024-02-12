@@ -5,7 +5,7 @@ const moment = require('moment-timezone');
 class RegisterRepository {
     static async registerBeneficiary(data) {
         try {
-            const benefiaciary = await User.create(
+            await User.create(
                 {
                     first_name: data.first_name,
                     last_name: data.last_name,
@@ -28,7 +28,7 @@ class RegisterRepository {
 
     static async registerVolunteer(data) {
         try {
-            const volunteer = await User.create(
+            await User.create(
                 {
                     first_name: data.first_name,
                     last_name: data.last_name,
