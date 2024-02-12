@@ -4,6 +4,7 @@ CREATE TABLE if not exists user(
     id integer NOT NULL AUTO_INCREMENT,
     first_name varchar(50) NOT NULL,
     last_name varchar(50) NOT NULL,
+    email varchar(50) NOT NULL,
     password varchar(255) NOT NULL,
     role varchar(50) NOT NULL,
     registration_date date NOT NULL,
@@ -12,7 +13,6 @@ CREATE TABLE if not exists user(
     newsletter boolean NOT NULL,
     salt varchar(255) NOT NULL,
 
-    email varchar(50),
     phone varchar(50),
     country varchar(50),
     city varchar(50),
