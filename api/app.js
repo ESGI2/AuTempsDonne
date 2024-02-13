@@ -27,6 +27,18 @@ app.use('/user', userRoutes);
 app.use('/register', registerRoutes);
 app.use('/login', loginRoutes);
 
+// TRUCK ROUTE
+const truckRoutes = require('./routes/truck.routes');
+app.use('/truck', truckRoutes);
+
+// PRODUCT ROUTE
+const productRoutes = require('./routes/product.routes');
+app.use('/product', productRoutes);
+
+// WAREHOUSE ROUTE
+const warehouseRoutes = require('./routes/warehouse.routes');
+app.use('/warehouse', warehouseRoutes);
+
 // Setup default route
 app.use('/', (req, res) => {
     res.send("Welcome to the API!");
