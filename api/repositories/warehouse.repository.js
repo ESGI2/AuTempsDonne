@@ -10,6 +10,16 @@ class WarehouseRepository {
             throw error;
         }
     }
+
+    static async getAllWarehouses() {
+        try {
+            const warehouses = await Warehouse.findAll();
+            return warehouses;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
 }
 
 module.exports = WarehouseRepository;

@@ -16,6 +16,16 @@ class WarehouseController {
             res.status(500).json({ error: "Can't patch warehouse" });
         }
     }
+
+    static async getAllWarehouses(req, res) {
+        try {
+            const warehouses = await WarehouseService.getAllWarehouses();
+            res.json(warehouses);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Error during warehouse get' });
+        }
+    }
 }
 
 module.exports = WarehouseController;
