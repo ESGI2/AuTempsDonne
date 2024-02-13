@@ -20,6 +20,15 @@ class WarehouseRepository {
             throw error;
         }
     }
+
+    static async getWarehouseByName(name) {
+        try {
+            const warehouse = await Warehouse.findOne({ where: { name: name } });
+            return warehouse;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = WarehouseRepository;

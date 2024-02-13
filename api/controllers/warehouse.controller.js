@@ -26,6 +26,25 @@ class WarehouseController {
             res.status(500).json({ error: 'Error during warehouse get' });
         }
     }
+
+    static async getWarehouseByName(req, res) {
+        try {
+            const name = req.params.name;
+            if (!name) {
+                return res.status(400).json({ error: 'Give name parameter' });
+            }
+
+            const warehouse = await WarehouseService.getWarehouseByName(name);
+            if (!warehouse) {
+                return res.status(404).json({ error: 'No warehouse found with this name' });
+            }
+
+            res.json(warehouse);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'EError during warehouse get' });
+        }
+    }
 }
 
 module.exports = WarehouseController;
