@@ -29,6 +29,15 @@ class WarehouseService {
             throw error;
         }
     }
+
+    static async deleteWarehouseById(id) {
+        try {
+            await WarehouseRepository.deleteWarehouseById(id);
+        } catch (error) {
+            throw error;
+        }
+    }
+
 }
 
 module.exports = WarehouseService;

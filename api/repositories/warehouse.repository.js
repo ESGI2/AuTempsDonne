@@ -29,6 +29,17 @@ class WarehouseRepository {
             throw error;
         }
     }
+
+    static async deleteWarehouseById(id) {
+        try {
+            const deletedRows = await Warehouse.destroy({ where: { id: id } });
+            if (deletedRows === 0) {
+                throw new Error('No warehouses found with this ID');
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = WarehouseRepository;

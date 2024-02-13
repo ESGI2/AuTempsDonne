@@ -33,18 +33,33 @@ class WarehouseController {
             if (!name) {
                 return res.status(400).json({ error: 'Give name parameter' });
             }
-
             const warehouse = await WarehouseService.getWarehouseByName(name);
             if (!warehouse) {
                 return res.status(404).json({ error: 'No warehouse found with this name' });
             }
-
             res.json(warehouse);
         } catch (error) {
             console.error(error);
-            res.status(500).json({ error: 'EError during warehouse get' });
+            res.status(500).json({ error: 'Error during warehouse get' });
         }
     }
+
+    static async deleteWarehouseById(req, res) {
+        try {
+            const id = req.params.id;
+            if (!id) {
+                return res.status(400).json({ error: 'Give id parameter' });
+            }
+
+            await WarehouseService.deleteWarehouseById(id);
+
+            res.json({ message: 'Warehouse delete !' });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Error during warehouse delete' });
+        }
+    }
+
 }
 
 module.exports = WarehouseController;
