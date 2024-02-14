@@ -50,9 +50,16 @@ app.use('/product', productRoutes);
 const warehouseRoutes = require('./routes/warehouse.routes');
 app.use('/warehouse', warehouseRoutes);
 
+
+
+// MARAUDE ROUTE
+const maraudeRoute = require('./routes/maraude.route');
+app.use('/maraude', maraudeRoute);
+
 // STOCK ROUTE
 const stockRoutes = require('./routes/stock.routes');
 app.use('/stock', stockRoutes);
+
 
 // Setup default route
 app.use('/', (req, res) => {
