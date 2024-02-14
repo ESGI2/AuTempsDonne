@@ -28,6 +28,16 @@ class ProductRepository {
             throw error;
         }
     }
+
+    static async getProductById(id) {
+        try {
+            const product = await Product.findByPk(id);
+            return product;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
 }
 
 module.exports = ProductRepository;
