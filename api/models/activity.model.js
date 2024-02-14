@@ -8,30 +8,19 @@ const Activity = sequelize.define('Activity', {
         autoIncrement: true,
         primaryKey: true
     },
-    nom: {
+    activity_name: {
         type: DataTypes.STRING,
         allowNull: false
     },
     description: {
-        type: DataTypes.STRING
-    },
-    date: {
-        type: DataTypes.DATE,
-        allowNull: false
-    },
-    heure: {
-        type: DataTypes.TIME,
-        allowNull: false
-    },
-    lieu: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     },
-    nbParticipantsMax: {
+    people_needed: {
         type: DataTypes.INTEGER
     }
 }, {
-    tableName: 'activities',
+    tableName: 'activity',
     timestamps: false
 });
 

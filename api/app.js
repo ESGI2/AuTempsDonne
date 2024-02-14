@@ -51,6 +51,9 @@ const warehouseRoutes = require('./routes/warehouse.routes');
 app.use('/warehouse', warehouseRoutes);
 
 
+// ACTIVITY ROUTE
+const activityRoute = require('./routes/activity.route');
+app.use('/activity', activityRoute);
 
 // MARAUDE ROUTE
 const maraudeRoute = require('./routes/maraude.route');
