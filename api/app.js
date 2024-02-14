@@ -39,6 +39,10 @@ app.use('/product', productRoutes);
 const warehouseRoutes = require('./routes/warehouse.routes');
 app.use('/warehouse', warehouseRoutes);
 
+// ACTIVITY ROUTE
+const activityRoute = require('./routes/activity.route');
+app.use('/activity', activityRoute);
+
 // Setup default route
 app.use('/', (req, res) => {
     res.send("Welcome to the API!");

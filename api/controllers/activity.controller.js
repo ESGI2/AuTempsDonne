@@ -39,15 +39,16 @@ class ActivityController {
     }
     //UPDATE
     static async updateActivity(req, res) {
+        const { id } = req.params;
+        const activityData = req.body;
         try {
-            const {id} = req.params;
-            const activityData = req.body;
+
             const updateActivity = await ActivityRepository.updateActivity(id, activityData);
             if (!updateActivity) {
                 res.status(404).json({ "Error": "Activity not found" });
 
             } else {
-                res.status(200).json({ "Message": "Activity updated successfully" }, updateActivity);
+                res.status(200).json({ "Message": "Update success", updateActivity});
             }
         } catch (error) {
             console.error(error);
@@ -56,13 +57,13 @@ class ActivityController {
     }
     //DELETE
     static async deleteActivity(req, res) {
+        const { id } = req.params;
         try {
-            const id = req.params.id;
-            const deleted = await ActivityRepository.deleteActivity(id);
-            if (!deleted) {
+            const deleteActivity = await ActivityRepository.deleteActivity(id);
+            if (!deleteActivity) {
                 res.status(404).json({ "Error": "Activity not found" });
             } else {
-                res.status(200).json({ "Message": "Activity deleted successfully" }, deleted);
+                res.status(200).json({ "Message": "Update success", deleteActivity});
             }
         } catch (error) {
             console.error(error);
