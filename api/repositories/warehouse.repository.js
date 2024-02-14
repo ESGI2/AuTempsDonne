@@ -23,20 +23,20 @@ class WarehouseRepository {
 
     static async getWarehouseByName(name) {
         try {
-            const warehouse = await Warehouse.findOne({ where: { name: name } });
+            const warehouse = await Warehouse.findOne({name});
             return warehouse;
         } catch (error) {
+            console.error(error);
             throw error;
         }
     }
 
-    static async deleteWarehouseById(id) {
+    static async getWarehouseById(id) {
         try {
-            const deletedRows = await Warehouse.destroy({ where: { id: id } });
-            if (deletedRows === 0) {
-                throw new Error('No warehouses found with this ID');
-            }
+            const warehouse = await Warehouse.findByPk(id);
+            return warehouse;
         } catch (error) {
+            console.error(error);
             throw error;
         }
     }
