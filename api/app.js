@@ -1,18 +1,14 @@
-// Setup Express base API
+// Setup Express, JWT, Sequelize and dotenv
 const express = require('express');
 const app = express();
-const port = 3000;
-
-// Setup dotenv
 require('dotenv').config();
+const sequelize = require('./config/db');
 
 // Setup body-parser
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Setup Sequelize
-const sequelize = require('./config/db');
 sequelize.sync().then(() => {
     console.log('La connexion à la base de données a été établie avec succès.');
     const port = 3000;
@@ -23,11 +19,32 @@ sequelize.sync().then(() => {
     console.error('Erreur lors de la connexion à la base de données:', error);
   });
 
-// Setup routes
+// USER ROUTE
 const userRoutes = require('./routes/user.routes');
+const registerRoutes = require('./routes/register.routes');
+const loginRoutes = require('./routes/login.routes');
 app.use('/user', userRoutes);
+app.use('/register', registerRoutes);
+app.use('/login', loginRoutes);
+
+// TRUCK ROUTE
+const truckRoutes = require('./routes/truck.routes');
+app.use('/truck', truckRoutes);
+
+// PRODUCT ROUTE
+const productRoutes = require('./routes/product.routes');
+app.use('/product', productRoutes);
+
+// WAREHOUSE ROUTE
+const warehouseRoutes = require('./routes/warehouse.routes');
+app.use('/warehouse', warehouseRoutes);
+
+
+// MARAUDE ROUTE
+const maraudeRoute = require('./routes/maraude.route');
+app.use('/maraude', maraudeRoute);
 
 // Setup default route
 app.use('/', (req, res) => {
-    res.send("Bienvenue sur l'API !");
+    res.send("Welcome to the API!");
 });
