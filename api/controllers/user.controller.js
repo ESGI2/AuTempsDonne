@@ -44,6 +44,34 @@ class UserController {
             res.status(500).json({ "Error": "Error deleting user" });
         }
     }
+
+    static async editUser(req, res) {
+        try {
+            const { id } = req.params;
+            const user = await UserServices.getUserById(id);
+            if (!user) return res.status(404).json({ "Error": "User not found" });
+            const data = req.body;
+            await UserServices.editUser(id, data);
+            res.status(200).json({ "Message": "User updated" });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ "Error": "Error updating user" });
+        }
+    }
+
+    static async editPassword(req, res) {
+        try {
+            const { id } = req.params;
+            const user = await UserServices.getUserById(id);
+            if (!user) return res.status(404).json({ "Error": "User not found" });
+            const { password } = req.body;
+            await UserServices.editPassword(id, password);
+            res.status(200).json({ "Message": "Password updated" });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ "Error": "Error updating password" });
+        }
+    }
 }
 
 module.exports = UserController;

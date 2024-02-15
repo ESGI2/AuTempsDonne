@@ -45,6 +45,31 @@ class UserRepository {
             throw error;
         }
     }
+
+    static async editUser(id, data) {
+        try {
+            const user = await User.findByPk(id);
+            await user.update(data);
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
+    static async editPassword(id, hash, salt) {
+        try {
+            const user = await User.findByPk(id);
+            await user.update(
+                {
+                    hash: hash,
+                    salt: salt
+                }
+            );
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
 }
 
 module.exports = UserRepository;

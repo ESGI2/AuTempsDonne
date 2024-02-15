@@ -1,5 +1,5 @@
 const UserRepository = require('../repositories/user.repository');
-
+const PasswordHash = require("../components/passwordHash");
 class UserServices {
     static async getAllUsers() {
         try {
@@ -34,6 +34,25 @@ class UserServices {
     static async deleteUser(id) {
         try {
             return await UserRepository.deleteUser(id);
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
+    static async editUser(id, data) {
+        try {
+            return await UserRepository.editUser(id, data);
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
+    static async editPassword(id, password) {
+        try {
+            const { salt, hash } = await PasswordHash.hashPassword(password);
+            return await UserRepository.editPassword(id, hash, salt);
         } catch (error) {
             console.error(error);
             throw error;
