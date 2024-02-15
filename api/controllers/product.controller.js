@@ -30,6 +30,19 @@ class ProductController {
             res.status(500).json({ error: 'Error during product get' });
         }
     }
+
+    static async deleteProductByName(req, res) {
+        try {
+            const { name } = req.params;
+            const deletedProduct = await ProductService.deleteProductByName(name);
+            if (deletedProduct === 1) {
+                res.status(200).json({ message: `Product ${name} deleted successfully.` });
+            }
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Error during product delete' });
+        }
+    }
 }
 
 module.exports = ProductController;

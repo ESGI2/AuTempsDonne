@@ -29,14 +29,16 @@ class WarehouseController {
 
     static async getWarehouseByName(req, res) {
         try {
-            const name = req.params.name;
+            const name  = req.params.name;
             if (!name) {
                 return res.status(400).json({ error: 'Give name parameter' });
             }
+
             const warehouse = await WarehouseService.getWarehouseByName(name);
             if (!warehouse) {
-                return res.status(404).json({ error: 'No warehouse found with this name' });
+                return res.status(404).json({ error: 'there is no warehouse with this name' });
             }
+
             res.json(warehouse);
         } catch (error) {
             console.error(error);
@@ -44,22 +46,16 @@ class WarehouseController {
         }
     }
 
-    static async deleteWarehouseById(req, res) {
+    static async deleteWarehouse(req, res) {
         try {
-            const id = req.params.id;
-            if (!id) {
-                return res.status(400).json({ error: 'Give id parameter' });
-            }
-
-            await WarehouseService.deleteWarehouseById(id);
-
-            res.json({ message: 'Warehouse delete !' });
+            const warehouseId = req.params.id;
+            await WarehouseService.deleteWarehouse(warehouseId);
+            res.status(204).end();
         } catch (error) {
             console.error(error);
-            res.status(500).json({ error: 'Error during warehouse delete' });
+            res.status(500).json({ error: 'Internal Server Error' });
         }
     }
-
 }
 
 module.exports = WarehouseController;
