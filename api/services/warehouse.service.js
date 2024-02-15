@@ -24,20 +24,22 @@ class WarehouseService {
     static async getWarehouseByName(name) {
         try {
             const warehouse = await WarehouseRepository.getWarehouseByName(name);
+            console.log(warehouse);
             return warehouse;
         } catch (error) {
+            console.error(error);
             throw error;
         }
     }
 
-    static async deleteWarehouseById(id) {
+    static async deleteWarehouse(warehouseId) {
         try {
-            await WarehouseRepository.deleteWarehouseById(id);
+            await WarehouseRepository.deleteWarehouse(warehouseId);
         } catch (error) {
+            console.error(error);
             throw error;
         }
     }
-
 }
 
 module.exports = WarehouseService;
