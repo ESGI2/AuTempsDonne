@@ -1,4 +1,5 @@
 const Warehouse = require('../models/warehouse.model');
+const Stock = require('../models/stock.model');
 
 class WarehouseRepository {
     static async addWarehouse(name, country, city, postal_code, road, road_number) {
@@ -35,6 +36,25 @@ class WarehouseRepository {
         try {
             const warehouse = await Warehouse.findByPk(id);
             return warehouse;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
+    static async deleteWarehouse(warehouseId) {
+        try {
+            await Stock.destroy({
+                where: {
+                    id_warehouse: warehouseId
+                }
+            });
+
+            await Warehouse.destroy({
+                where: {
+                    id: warehouseId
+                }
+            });
         } catch (error) {
             console.error(error);
             throw error;
