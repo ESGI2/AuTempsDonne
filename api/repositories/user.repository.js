@@ -61,7 +61,7 @@ class UserRepository {
             const user = await User.findByPk(id);
             await user.update(
                 {
-                    hash: hash,
+                    password: hash,
                     salt: salt
                 }
             );
