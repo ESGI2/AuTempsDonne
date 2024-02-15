@@ -4,19 +4,13 @@ const app = express();
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const sequelize = require('./config/db');
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
 
 // Setup body-parser
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-const user = {
-    id: 1,
-    username: 'test',
-    role: 'admin'
-}
-
-//console.log(generateAccessToken(user));
 
 sequelize.sync().then(() => {
     console.log('La connexion à la base de données a été établie avec succès.');
@@ -50,7 +44,6 @@ app.use('/product', productRoutes);
 const warehouseRoutes = require('./routes/warehouse.routes');
 app.use('/warehouse', warehouseRoutes);
 
-
 // ACTIVITY ROUTE
 const activityRoute = require('./routes/activity.route');
 app.use('/activity', activityRoute);
@@ -63,8 +56,6 @@ app.use('/maraude', maraudeRoute);
 const stockRoutes = require('./routes/stock.routes');
 app.use('/stock', stockRoutes);
 
-
 // Setup default route
-app.use('/', (req, res) => {
-    res.send("Bienvenue sur l'API !");
-});
+app.use((req, res) => {
+    res.status(404).json({"Error": "Not found"});
