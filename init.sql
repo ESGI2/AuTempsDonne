@@ -78,8 +78,8 @@ CREATE TABLE if not exists event(
     start date NOT NULL,
     end date NOT NULL,
     activity_id integer NOT NULL,
-    activity_type varchar(50) NOT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    FOREIGN KEY (activity_id) REFERENCES activity(id)
 );
 
 CREATE TABLE if not exists event_listing(
@@ -103,6 +103,7 @@ CREATE TABLE if not exists maraude(
     date date NOT NULL,
     duration integer NOT NULL,
     id_truck integer NOT NULL,
+    people_needed integer NOT NULL,
     FOREIGN KEY (id_truck) REFERENCES truck(id),
     PRIMARY KEY (id)
 );
@@ -149,7 +150,7 @@ CREATE TABLE if not exists product(
     PRIMARY KEY (id)
 );
 
-CREATE TABLE if not exists werehouse(
+CREATE TABLE if not exists warehouse(
     id integer NOT NULL AUTO_INCREMENT,
     name varchar(50) NOT NULL,
     country varchar(50) NOT NULL,
@@ -164,8 +165,8 @@ CREATE TABLE if not exists stock(
     id_product integer NOT NULL,
     id_warehouse integer NOT NULL,
     quantity integer NOT NULL,
-    FOREIGN KEY (id_product) REFERENCES product(id),
-    FOREIGN KEY (id_warehouse) REFERENCES werehouse(id),
+    FOREIGN KEY (id_product) REFERENCES product(id) ON DELETE CASCADE,
+    FOREIGN KEY (id_warehouse) REFERENCES werehouse(id) ON DELETE CASCADE,
     PRIMARY KEY (id_product, id_warehouse)
 );
 
