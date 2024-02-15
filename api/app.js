@@ -1,7 +1,6 @@
 // Setup Express, JWT, Sequelize and dotenv
 const express = require('express');
 const app = express();
-const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const sequelize = require('./config/db');
 const cookieParser = require('cookie-parser');
@@ -22,15 +21,13 @@ sequelize.sync().then(() => {
     console.error('Erreur lors de la connexion à la base de données:', error);
   });
 
-// MIDDLEWARES ROUTES
-const authMiddleware = require('./middlewares/authMiddleware');
-const generateAccessToken = require("./middlewares/generateToken");
-
 // USER ROUTE
 const userRoutes = require('./routes/user.routes');
 const registerRoutes = require('./routes/register.routes');
+const loginRoutes = require('./routes/login.routes');
 app.use('/user', userRoutes);
 app.use('/register', registerRoutes);
+app.use('/login', loginRoutes);
 
 // TRUCK ROUTE
 const truckRoutes = require('./routes/truck.routes');
@@ -59,3 +56,4 @@ app.use('/stock', stockRoutes);
 // Setup default route
 app.use((req, res) => {
     res.status(404).json({"Error": "Not found"});
+});
