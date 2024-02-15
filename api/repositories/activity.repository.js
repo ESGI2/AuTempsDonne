@@ -17,12 +17,14 @@ class ActivityRepository {
 
     //UPDATE
     static async updateActivity(id, activityData) {
-        return await Activity.update(activityData, { where: { id } });
+        const activity = await Activity.findByPk(id);
+        return await activity.update(activityData);
     }
 
     //DELETE
     static async deleteActivity(id) {
-        return await Activity.destroy({ where: { id } });
+        const activity = await Activity.findByPk(id);
+        return await activity.destroy();
     }
 }
 
