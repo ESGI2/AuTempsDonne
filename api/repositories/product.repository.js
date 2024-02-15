@@ -38,6 +38,16 @@ class ProductRepository {
             throw error;
         }
     }
+
+    static async deleteProductByName(name) {
+        try {
+            const deletedRows = await Product.destroy({ where: { name } });
+            return deletedRows;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
 }
 
 module.exports = ProductRepository;

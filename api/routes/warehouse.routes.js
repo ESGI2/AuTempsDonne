@@ -6,6 +6,6 @@ const router = express.Router();
 router.post('/', WarehouseController.addWarehouse);
 router.get('/', WarehouseController.getAllWarehouses);
 router.get('/:name', WarehouseController.getWarehouseByName);
-router.delete('/:id', WarehouseController.deleteWarehouseById);
+router.delete('/:id', WarehouseController.deleteWarehouse);
 
 module.exports = router;

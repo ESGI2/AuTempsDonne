@@ -17,9 +17,9 @@ class StockRepository {
 
     static async getStockQuantity(id_product, id_warehouse) {
         try {
-            const stock = await Stock.findOne({ where: { id_product: id_product, id_warehouse: id_warehouse } });
+            const stock = await Stock.findOne
             return stock.quantity;
-        } catch (error) {
+        } catch (error) {({ where: { id_product: id_product, id_warehouse: id_warehouse } });
             console.error(error);
             throw error;
         }
@@ -29,6 +29,16 @@ class StockRepository {
         try {
             const allStocks = await Stock.findAll();
             return allStocks;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
+    static async deleteStockByProductId(productId) {
+        try {
+            const deletedRows = await Stock.destroy({ where: { id_product: productId } });
+            return deletedRows;
         } catch (error) {
             console.error(error);
             throw error;

@@ -41,6 +41,16 @@ class StockService {
             throw error;
         }
     }
+
+    static async deleteStockByProductId(productId) {
+        try {
+            const deletedRows = await StockRepository.deleteStockByProductId(productId);
+            return deletedRows;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
 }
 
 module.exports = StockService;
