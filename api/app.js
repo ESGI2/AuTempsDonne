@@ -1,6 +1,7 @@
 // Setup Express, JWT, Sequelize and dotenv
 const express = require('express');
 const app = express();
+const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const sequelize = require('./config/db');
 const cookieParser = require('cookie-parser');
@@ -21,16 +22,40 @@ sequelize.sync().then(() => {
     console.error('Erreur lors de la connexion à la base de données:', error);
   });
 
+// MIDDLEWARES ROUTES
+const authMiddleware = require('./middlewares/authMiddleware');
+const generateAccessToken = require("./middlewares/generateToken");
+
 // USER ROUTE
 const userRoutes = require('./routes/user.routes');
 const registerRoutes = require('./routes/register.routes');
-const loginRoutes = require('./routes/login.routes');
 app.use('/user', userRoutes);
 app.use('/register', registerRoutes);
-app.use('/login', loginRoutes);
+
+// TRUCK ROUTE
+const truckRoutes = require('./routes/truck.routes');
+app.use('/truck', truckRoutes);
+
+// PRODUCT ROUTE
+const productRoutes = require('./routes/product.routes');
+app.use('/product', productRoutes);
+
+// WAREHOUSE ROUTE
+const warehouseRoutes = require('./routes/warehouse.routes');
+app.use('/warehouse', warehouseRoutes);
+
+// ACTIVITY ROUTE
+const activityRoute = require('./routes/activity.route');
+app.use('/activity', activityRoute);
+
+// MARAUDE ROUTE
+const maraudeRoute = require('./routes/maraude.route');
+app.use('/maraude', maraudeRoute);
+
+// STOCK ROUTE
+const stockRoutes = require('./routes/stock.routes');
+app.use('/stock', stockRoutes);
 
 // Setup default route
-
 app.use((req, res) => {
     res.status(404).json({"Error": "Not found"});
-});
