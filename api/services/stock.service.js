@@ -21,6 +21,16 @@ class StockService {
             throw new Error(error.message);
         }
     }
+
+    static async getStockQuantity(id_product, id_warehouse) {
+        try {
+            const stockQuantity = await StockRepository.getStockQuantity(id_product, id_warehouse);
+            return stockQuantity;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
 }
 
 module.exports = StockService;
