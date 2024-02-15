@@ -30,6 +30,15 @@ class UserServices {
             throw error;
         }
     }
+
+    static async deleteUser(id) {
+        try {
+            return await UserRepository.deleteUser(id);
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
 }
 
 module.exports = UserServices;

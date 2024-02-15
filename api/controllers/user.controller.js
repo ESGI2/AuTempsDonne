@@ -31,6 +31,19 @@ class UserController {
             res.status(500).json({ "Error": "Error recovering users" });
         }
     }
+
+    static async deleteUser(req, res) {
+        try {
+            const { id } = req.params;
+            const user = await UserServices.getUserById(id);
+            if (!user) return res.status(404).json({ "Error": "User not found" });
+            await UserServices.deleteUser(id);
+            res.status(200).json({ "Message": "User deleted" });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ "Error": "Error deleting user" });
+        }
+    }
 }
 
 module.exports = UserController;

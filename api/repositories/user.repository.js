@@ -35,6 +35,16 @@ class UserRepository {
             throw error;
         }
     }
+
+    static async deleteUser(id) {
+        try {
+            const user = await User.findByPk(id);
+            await user.destroy();
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
 }
 
 module.exports = UserRepository;
