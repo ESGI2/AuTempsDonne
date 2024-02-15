@@ -29,6 +29,16 @@ class StockController {
             res.status(500).json({ error: 'Error during stock get' });
         }
     }
+
+    static async getAllStocks(req, res) {
+        try {
+            const allStocks = await StockService.getAllStocks();
+            res.status(200).json(allStocks);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Error during stock get' });
+        }
+    }
 }
 
 module.exports = StockController;

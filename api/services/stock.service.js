@@ -31,6 +31,16 @@ class StockService {
             throw error;
         }
     }
+
+    static async getAllStocks() {
+        try {
+            const allStocks = await StockRepository.getAllStocks();
+            return allStocks;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
 }
 
 module.exports = StockService;
