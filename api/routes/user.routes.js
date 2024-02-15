@@ -5,6 +5,6 @@ const isAdmin = require('../middlewares/isAdmin');
 
 const router = express.Router();
 
-router.get('/', [authMiddleware, isAdmin], UserController.getAllUsers);
+router.get('/', [authMiddleware, isAdmin], UserController.getUsers);
 
 module.exports = router;
