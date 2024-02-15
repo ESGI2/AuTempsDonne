@@ -33,7 +33,7 @@ class EventController{
             const { name, description, start, end, activity_id, activity_type } = req.body;
             const requiredFields = ['name', 'description', 'start', 'end', 'activity_id', 'activity_type'];
             let missingFields = [];
-            const dateFormat = "DD/MM/YYYY"; //Verify hh:mm => hours
+            const dateFormat = "DD/MM/YYYY HH:MI"; //Verify hh:mm => hours
 
             requiredFields.forEach(field =>{
                 if (!req.body[field]){
@@ -49,11 +49,11 @@ class EventController{
             }
 
             if (!moment(start, dateFormat, true).isValid() || !moment(end, dateFormat, true).isValid()) {
-                return res.status(400).json({error: "Invalid date format. Use DD/MM/YYYY."});
+                return res.status(400).json({error: "Invalid date format. Use DD/MM/YYYY HH:MI."});
             }
             //Pour le save dans la bdd Y/M/D
-            const formattedStart = moment(start, dateFormat).format('YYYY-MM-DD');
-            const formattedEnd = moment(end, dateFormat).format('YYYY-MM-DD');
+            const formattedStart = moment(start, dateFormat).format('YYYY-MM-DD HH:MI');
+            const formattedEnd = moment(end, dateFormat).format('YYYY-MM-DD HH:MI.');
             if (moment(formattedStart).isAfter(formattedEnd)) {
                 return res.status(400).json({error: "The start date must be before the end date."});
             }
