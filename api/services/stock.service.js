@@ -21,6 +21,36 @@ class StockService {
             throw new Error(error.message);
         }
     }
+
+    static async getStockQuantity(id_product, id_warehouse) {
+        try {
+            const stockQuantity = await StockRepository.getStockQuantity(id_product, id_warehouse);
+            return stockQuantity;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
+    static async getAllStocks() {
+        try {
+            const allStocks = await StockRepository.getAllStocks();
+            return allStocks;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
+    static async deleteStockByProductId(productId) {
+        try {
+            const deletedRows = await StockRepository.deleteStockByProductId(productId);
+            return deletedRows;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
 }
 
 module.exports = StockService;
