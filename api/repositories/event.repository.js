@@ -26,6 +26,16 @@ class EventRepository {
             throw error;
         }
     }
+    //ADD
+    static async addEvent(eventData){
+        try{
+            return await Event.create(eventData)
+        }catch (error){
+            console.error("Event error :", error);
+            throw error;
+        }
+    }
 }
+
 
 module.exports = EventRepository;

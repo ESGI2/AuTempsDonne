@@ -1,6 +1,7 @@
 const EventRepository = require('../repositories/event.repository');
 
 class EventService {
+    //GET ALL & By ID
     static async getAllEvents(){
         try {
             const event = await EventRepository.getAllEvents();
@@ -19,6 +20,11 @@ class EventService {
             throw error;
         }
 
+    }
+
+    //ADD
+    static async addEvent(eventData){
+        return EventRepository.addEvent(eventData);
     }
 }
 
