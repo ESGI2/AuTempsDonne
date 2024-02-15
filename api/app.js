@@ -63,6 +63,10 @@ app.use('/maraude', maraudeRoute);
 const stockRoutes = require('./routes/stock.routes');
 app.use('/stock', stockRoutes);
 
+// EVENT ROUTE
+const eventRoute = require('./routes/event.route');
+app.use('/event', eventRoute);
+
 
 // Setup default route
 app.use('/', (req, res) => {
