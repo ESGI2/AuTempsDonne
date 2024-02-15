@@ -3,6 +3,8 @@ const express = require('express');
 const app = express();
 require('dotenv').config();
 const sequelize = require('./config/db');
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
 
 // Setup body-parser
 var bodyParser = require('body-parser');
@@ -28,6 +30,7 @@ app.use('/register', registerRoutes);
 app.use('/login', loginRoutes);
 
 // Setup default route
-app.use('/', (req, res) => {
-    res.send("Welcome to the API!");
+
+app.use((req, res) => {
+    res.status(404).json({"Error": "Not found"});
 });
