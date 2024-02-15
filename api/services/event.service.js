@@ -26,6 +26,12 @@ class EventService {
     static async addEvent(eventData){
         return EventRepository.addEvent(eventData);
     }
+
+    //UPDATE
+    static async updateEvent(id, eventData) {
+        return await EventRepository.updateEvent(id, eventData);
+    }
+
 }
 
 module.exports = EventService;

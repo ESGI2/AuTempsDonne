@@ -35,6 +35,21 @@ class EventRepository {
             throw error;
         }
     }
+    //UPDATE
+    static async updateEvent(id, eventData){
+        try {
+            const event = await Event.findByPk(id);
+            if (!event){
+                console.error("Event not found");
+                return {message: "Event not found"};
+            }
+            await Event.update(eventData);
+            return event.reload();
+        }catch (error){
+            console.error(error);
+            throw error;
+        }
+    }
 }
 
 

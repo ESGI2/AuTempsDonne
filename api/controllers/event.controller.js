@@ -1,5 +1,5 @@
 const EventService = require ('../services/event.service');
-const ActivityService = require('../services/activity.service');
+//const ActivityService = require('../services/activity.service');
 const moment = require('moment'); //Need 'npm install moment'
 
 class EventController{
@@ -33,7 +33,7 @@ class EventController{
             const { name, description, start, end, activity_id, activity_type } = req.body;
             const requiredFields = ['name', 'description', 'start', 'end', 'activity_id', 'activity_type'];
             let missingFields = [];
-            const dateFormat = "DDMMYYYY";
+            const dateFormat = "DD/MM/YYYY"; //Verify hh:mm => hours
 
             requiredFields.forEach(field =>{
                 if (!req.body[field]){
@@ -49,7 +49,7 @@ class EventController{
             }
 
             if (!moment(start, dateFormat, true).isValid() || !moment(end, dateFormat, true).isValid()) {
-                return res.status(400).json({error: "Invalid date format. Use DDMMYYYY."});
+                return res.status(400).json({error: "Invalid date format. Use DD/MM/YYYY."});
             }
             //Pour le save dans la bdd Y/M/D
             const formattedStart = moment(start, dateFormat).format('YYYY-MM-DD');
@@ -57,12 +57,12 @@ class EventController{
             if (moment(formattedStart).isAfter(formattedEnd)) {
                 return res.status(400).json({error: "The start date must be before the end date."});
             }
-
-            const activity = await ActivityService.findById(activity_id);
-            if (!activity) {
-                return res.status(400).json({ error: "Activity not found." });
-            }
-            //Type activity need more precision,what's exactly the mean of it.
+            //Refaire activityService
+           // const activity = await ActivityService.findById(activity_id);
+            // if (!activity) {
+            //    return res.status(400).json({ error: "Activity not found." });
+            //}
+            //Type activity need more precision,what's exactly the mean of it. ==> SUREMENT DEGAGE
             const eventData = { name, description, start: formattedStart, end: formattedEnd, activity_id, activity_type };
             const newEvent = await EventService.addEvent(eventData);
             res.status(201).json(newEvent);
@@ -71,6 +71,46 @@ class EventController{
             res.status(500).json({error: "Error creating event"})
         }
     }
+    //UPDATE
+    static async updateEvent(req, res) {
+        try {
+            const { id } = req.params;
+            const { name, description, start, end, activity_id, activity_type } = req.body;
+            const dateFormat = "DDMMYYYY";
+            let eventToUpdate = await EventService.getEventById(id);
+
+
+            if (!eventToUpdate) {
+                return res.status(404).json({ error: "Event not found." });
+            }
+
+            eventToUpdate.name = name ?? eventToUpdate.name;
+            eventToUpdate.description = description ?? eventToUpdate.description;
+            eventToUpdate.activity_id = activity_id ?? eventToUpdate.activity_id; //Name or Id, what's better ?
+            eventToUpdate.activity_type = activity_type ?? eventToUpdate.activity_type;
+
+            if (start && moment(start, dateFormat, true).isValid()) {
+                eventToUpdate.start = moment(start, dateFormat).format('YYYY-MM-DD');
+            }
+            if (end && moment(end, dateFormat, true).isValid()) {
+                eventToUpdate.end = moment(end, dateFormat).format('YYYY-MM-DD');
+            }
+
+            if (eventToUpdate.start && eventToUpdate.end && moment(eventToUpdate.start).isAfter(eventToUpdate.end)) {
+                return res.status(400).json({ error: "The start date must be before the end date." });
+            }
+
+
+            const updatedEvent = await EventService.updateEvent(id, eventToUpdate);
+            res.status(200).json(updatedEvent);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: "Error updating event" });
+        }
+    }
+
+
+
 }
 
 module.exports = EventController;
