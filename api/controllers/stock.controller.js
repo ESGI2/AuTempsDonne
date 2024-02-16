@@ -39,6 +39,24 @@ class StockController {
             res.status(500).json({ error: 'Error during stock get' });
         }
     }
+
+    static async updateStockQuantity(req, res) {
+        const productId = req.params.productId;
+        const warehouseId = req.params.warehouseId;
+        const quantityChange = parseInt(req.params.quantity);
+
+        if (!productId || !warehouseId || isNaN(quantityChange)) {
+            return res.status(400).json({ error: 'Give all parameter' });
+        }
+
+        try {
+            const updatedStock = await StockService.updateStockQuantity(productId, warehouseId, quantityChange);
+            return res.json(updatedStock);
+        } catch (error) {
+            return res.status(500).json({ error: 'Error during stock patch' });
+        }
+    }
+
 }
 
 module.exports = StockController;

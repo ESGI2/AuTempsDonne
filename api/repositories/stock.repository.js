@@ -44,6 +44,22 @@ class StockRepository {
             throw error;
         }
     }
+
+    static async updateStockQuantity(productId, warehouseId, quantityChange) {
+        try {
+            const stock = await Stock.findOne({ where: { id_product: productId, id_warehouse: warehouseId } });
+            if (!stock) {
+                throw new Error('Stock not found');
+            }
+
+            stock.quantity += quantityChange;
+            await stock.save();
+
+            return stock;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = StockRepository;
