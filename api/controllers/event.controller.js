@@ -112,10 +112,25 @@ class EventController{
             }
 
             await eventToUpdate.update(updatedData);
-            res.status(200).json({ message: "Event updated successfully", event: eventToUpdate });
+            res.status(200).json({message: "Event updated successfully", event: eventToUpdate });
         } catch (error) {
             console.error(error);
             res.status(500).json({ error: "Error updating event" });
+        }
+    }
+    //DELETE
+    static async deleteEvent(req, res){
+        try {
+            const {id} = req.params;
+            const deleteEvent = await EventService.deleteEvent(id);
+            if (!deleteEvent){
+                res.status(404).json({error: "Event not found"});
+            }else {
+                res.status(200).json({message: "Event deleted success", deleteEvent});
+            }
+        }catch (error){
+            console.error(error);
+            res.status(500).json({error: "Error deleting event"})
         }
     }
 
