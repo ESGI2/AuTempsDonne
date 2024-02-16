@@ -33,6 +33,10 @@ app.use('/login', loginRoutes);
 const childRoutes = require('./routes/child.route');
 app.use('/child', childRoutes);
 
+// TICKET ROUTE
+const ticketRoutes = require('./routes/ticket.route');
+app.use('/ticket', ticketRoutes);
+
 // TRUCK ROUTE
 const truckRoutes = require('./routes/truck.routes');
 app.use('/truck', truckRoutes);
