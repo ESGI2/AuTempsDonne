@@ -50,6 +50,20 @@ class EventRepository {
             throw error;
         }
     }
+    //DELETE
+    static async deleteEvent(id){
+        try {
+            const event = await Event.findByPk(id);
+            if (!event){
+                console.error("Event not found");
+                return{message: "Event not found"};
+            }
+            return await event.destroy();
+        }catch (error){
+            console.error("Event error", error);
+            throw error;
+        }
+    }
 }
 
 

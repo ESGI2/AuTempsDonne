@@ -32,6 +32,11 @@ class EventService {
         return await EventRepository.updateEvent(id, eventData);
     }
 
+    //DELETE
+    static async deleteEvent(id){
+        return EventRepository.deleteEvent(id);
+    }
+
 }
 
 module.exports = EventService;
