@@ -57,6 +57,9 @@ app.use('/stock', stockRoutes);
 const eventRoute = require('./routes/event.route');
 app.use('/event', eventRoute);
 
+// EVENT LISTING ROUTE
+const eventListingRoute = require('./routes/eventListing.route');
+app.use('/eventListing', eventListingRoute);
 // Setup default route
 app.use((req, res) => {
     res.status(404).json({"Error": "Not found"});
