@@ -10,6 +10,6 @@ router.post('/',[authMiddleware, isAdmin], eventController.addEvent);
 router.put('/:id',[authMiddleware, isAdmin], eventController.updateEvent);
 router.delete('/:id',[authMiddleware, isAdmin], eventController.deleteEvent);
 
-                        //Verif si il est responsable\\
+                        // Verif si il est responsable \\
 
 module.exports = router;
