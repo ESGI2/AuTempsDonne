@@ -17,19 +17,15 @@ const Event = sequelize.define('Event', {
         allowNull: false
     },
     start: {
-        type: DataTypes.DATEONLY,
+        type: DataTypes.DATE,
         allowNull: false
     },
     end: {
-        type: DataTypes.DATEONLY,
+        type: DataTypes.DATE,
         allowNull: false
     },
     activity_id: {
         type: DataTypes.INTEGER,
-        allowNull: false
-    },
-    activity_type: {
-        type: DataTypes.STRING(50),
         allowNull: false
     },
 }, {
