@@ -51,6 +51,14 @@ class StockService {
             throw error;
         }
     }
+
+    static async updateStockQuantity(productId, warehouseId, quantityChange) {
+        try {
+            return await StockRepository.updateStockQuantity(productId, warehouseId, quantityChange);
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = StockService;

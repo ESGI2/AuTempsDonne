@@ -166,7 +166,7 @@ CREATE TABLE if not exists stock(
     id_warehouse integer NOT NULL,
     quantity integer NOT NULL,
     FOREIGN KEY (id_product) REFERENCES product(id) ON DELETE CASCADE,
-    FOREIGN KEY (id_warehouse) REFERENCES werehouse(id) ON DELETE CASCADE,
+    FOREIGN KEY (id_warehouse) REFERENCES warehouse(id) ON DELETE CASCADE,
     PRIMARY KEY (id_product, id_warehouse)
 );
 

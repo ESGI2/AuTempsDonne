@@ -7,7 +7,7 @@ class LoginController {
         try {
             const user = await LoginServices.login(data);
             if (!user) {
-                res.status(404).json({"Error": "User not found"});
+                res.status(404).json({"Error": "User or password not found"});
             } else {
                 // Création du token JWT
                 const user_data = {
