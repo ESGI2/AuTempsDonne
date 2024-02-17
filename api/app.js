@@ -65,6 +65,9 @@ app.use('/stock', stockRoutes);
 const eventRoute = require('./routes/event.route');
 app.use('/event', eventRoute);
 
+// DELIVERY ROUTE
+const deliveryRoutes = require('./routes/delivery.route');
+app.use('/delivery', deliveryRoutes);
 // Setup default route
 app.use((req, res) => {
     res.status(404).json({"Error": "Not found"});
