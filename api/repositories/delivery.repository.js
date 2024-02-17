@@ -12,6 +12,15 @@ class DeliveryRepository {
             throw error;
         }
     }
+
+    static async getAllDeliveries() {
+        try {
+            const deliveries = await Delivery.findAll();
+            return deliveries;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = DeliveryRepository;
