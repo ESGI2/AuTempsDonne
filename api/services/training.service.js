@@ -32,6 +32,14 @@ class TrainingService {
             throw error;
         }
     }
+
+    static async deleteTraining(id) {
+        try {
+            return await TrainingRepository.deleteTraining(id);
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = TrainingService;

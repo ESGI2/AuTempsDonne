@@ -54,6 +54,19 @@ class TrainingController {
             return res.status(500).json({ message: error.message });
         }
     }
+
+    static async deleteTraining(req, res) {
+        try {
+            const { id } = req.params;
+            const training = await TrainingService.deleteTraining(id);
+            if (!training) {
+                return res.status(404).json({ message: 'Training not found' });
+            }
+            return res.status(200).json({ message: 'Training deleted'});
+        } catch (error) {
+            return res.status(500).json({ message: error.message });
+        }
+    }
 }
 
 module.exports = TrainingController;

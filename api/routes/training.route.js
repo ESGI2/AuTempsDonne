@@ -9,6 +9,6 @@ router.get('/',[authMiddleware], TrainingController.getAllTraining);
 router.get('/:id', [authMiddleware], TrainingController.getTrainingById);
 router.post('/', [authMiddleware], TrainingController.addTraining);
 router.put('/:id', [authMiddleware], TrainingController.updateTraining);
-// router.delete('/:id', [authMiddleware], TrainingController.deleteTraining);
+router.delete('/:id', [authMiddleware], TrainingController.deleteTraining);
 
 module.exports = router;

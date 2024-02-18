@@ -41,6 +41,21 @@ class TrainingRepository {
             throw error;
         }
     }
+
+    static async deleteTraining(id) {
+        try {
+            const trainingToDelete = await Training.findByPk(id);
+            if (trainingToDelete) {
+                const deletedTraining = await Training.destroy({
+                    where: { id: id }
+                });
+                return deletedTraining;
+            }
+            return null;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = TrainingRepository;
