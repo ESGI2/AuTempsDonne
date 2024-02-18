@@ -36,6 +36,24 @@ class TrainingController {
             return res.status(500).json({ message: error.message });
         }
     }
+
+    static async updateTraining(req, res) {
+        try {
+            const { id } = req.params;
+            const training = req.body;
+            // input check
+            if (!training.name && !training.description && !training.duration) {
+                return res.status(400).json({ message: 'At least one field is required'});
+            }
+            const updateTraining = await TrainingService.updateTraining(id, training);
+            if (!updateTraining) {
+                return res.status(404).json({ message: 'Training not found' });
+            }
+            return res.status(200).json({ message: 'Training updated'});
+        } catch (error) {
+            return res.status(500).json({ message: error.message });
+        }
+    }
 }
 
 module.exports = TrainingController;

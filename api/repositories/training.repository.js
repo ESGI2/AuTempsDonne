@@ -24,6 +24,23 @@ class TrainingRepository {
             throw error;
         }
     }
+
+    static async updateTraining(id, training) {
+        try {
+            const trainingToUpdate = await Training.findByPk(id);
+            if (trainingToUpdate) {
+                await Training.update( {
+                    name: training.name,
+                    description: training.description,
+                    duration: training.duration
+                }, { where: { id: id } });
+                return training;
+            }
+            return null;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = TrainingRepository;

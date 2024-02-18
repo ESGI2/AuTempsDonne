@@ -24,6 +24,14 @@ class TrainingService {
             throw error;
         }
     }
+
+    static async updateTraining(id, training) {
+        try {
+            return await TrainingRepository.updateTraining(id, training);
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = TrainingService;
