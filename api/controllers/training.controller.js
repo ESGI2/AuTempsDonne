@@ -10,6 +10,19 @@ class TrainingController {
         }
     }
 
+    static async getTrainingById(req, res) {
+        try {
+            const { id } = req.params;
+            const training = await TrainingService.getTrainingById(id);
+            if (!training) {
+                return res.status(404).json({ message: 'Training not found' });
+            }
+            return res.status(200).json(training);
+        } catch (error) {
+            return res.status(500).json({ message: error.message });
+        }
+    }
+
     static async addTraining(req, res) {
         try {
             const training = req.body;
@@ -18,7 +31,7 @@ class TrainingController {
                 return res.status(400).json({ message: 'All fields are required' });
             }
             const newTraining = await TrainingService.addTraining(training);
-            return res.status(201).json(newTraining);
+            return res.status(201).json({ message: 'Training added'});
         } catch (error) {
             return res.status(500).json({ message: error.message });
         }

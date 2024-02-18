@@ -9,6 +9,14 @@ class TrainingService {
         }
     }
 
+    static async getTrainingById(id) {
+        try {
+            return await TrainingRepository.getTrainingById(id);
+        } catch (error) {
+            throw error;
+        }
+    }
+
     static async addTraining(newTraining) {
         try {
             return await TrainingRepository.addTraining(newTraining);
