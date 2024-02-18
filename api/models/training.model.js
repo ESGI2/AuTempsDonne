@@ -18,7 +18,8 @@ const Training = sequelize.define('training', {
     }
 },
 {
-    timestamps: false
+    timestamps: false,
+    tableName: 'training'
 });
 
 module.exports = Training;

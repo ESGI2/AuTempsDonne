@@ -8,6 +8,25 @@ class TrainingListingRepository {
             throw error;
         }
     }
+
+    static async getListingById(id) {
+        try {
+            return await TrainingListing.findByPk(id);
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async addTrainingParticipation(userId, trainingId) {
+        try {
+            return await TrainingListing.create({
+                id_user: userId,
+                id_training: trainingId
+            });
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = TrainingListingRepository;
