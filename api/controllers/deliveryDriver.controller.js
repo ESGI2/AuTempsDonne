@@ -11,6 +11,15 @@ class DeliveryDriverController {
         }
     }
 
+    static async getAllDeliveryDrivers(req, res) {
+        try {
+            const drivers = await DeliveryDriverService.getAllDeliveryDrivers();
+            return res.status(200).json(drivers);
+        } catch (error) {
+            return res.status(500).json({ error: 'Error during get driver' });
+        }
+    }
+
 }
 
 module.exports = DeliveryDriverController;

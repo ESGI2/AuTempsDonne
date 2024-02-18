@@ -17,6 +17,14 @@ class DeliveryDriverRepository {
             throw error;
         }
     }
+
+    static async findAll() {
+        try {
+            return await DeliveryDriver.findAll();
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = DeliveryDriverRepository;

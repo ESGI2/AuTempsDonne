@@ -13,6 +13,14 @@ class DeliveryDriverService {
             throw error;
         }
     }
+
+    static async getAllDeliveryDrivers() {
+        try {
+            return await DeliveryDriverRepository.findAll();
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = DeliveryDriverService;
