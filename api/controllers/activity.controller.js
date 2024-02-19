@@ -34,15 +34,15 @@ class ActivityController {
             const requiredFields = ['activity_name', 'description', 'people_needed'];
             let missingFields = [];
 
-            requiredFields.forEach(field =>{
-                if (!req.body[field]){
+            requiredFields.forEach(field => {
+                if (!req.body[field]) {
                     missingFields.push(field);
                 }
             });
-            if (missingFields.length > 0){
+            if (missingFields.length > 0) {
                 return res.status(400).json({error: "Missing fields :", missingFields});
             }
-            if(activity_name.length > 80 || description.length > 255){
+            if (activity_name.length > 80 || description.length > 255) {
                 return res.status(400).json({error: "Name or description too long"});
             }
             if (!activity_name || people_needed === undefined) {
@@ -76,14 +76,20 @@ class ActivityController {
 
             if (activity_name) updatedData.activity_name = activity_name;
             if (description) updatedData.description = description;
-            if (people_needed <= 0) {
+            if (people_needed !== undefined && people_needed <= 0) {
                 return res.status(400).json({error: "The number of people needed must be greater than 0."});
-            } else {
+            } else if (people_needed !== undefined) {
                 updatedData.people_needed = people_needed;
             }
 
-            await ActivityService.updateActivity(id, updatedData);
-            res.status(200).json({message: "Activity updated successfully", updatedData});
+            if (Object.keys(updatedData).length === 0) {
+
+                return res.status(400).json({message: "Nothing to update"});
+            }else {
+                await ActivityService.updateActivity(id, updatedData);
+                res.status(200).json({message: "Activity updated successfully", updatedData});
+            }
+
         } catch (error) {
             console.error(error);
             res.status(500).json({error: "Error updating activity"});
