@@ -28,7 +28,7 @@ const Event = sequelize.define('Event', {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'activity',
+            model: 'activity' ,
             key: 'id'
         }
     },
