@@ -26,7 +26,11 @@ const Event = sequelize.define('Event', {
     },
     activity_id: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
+        references: {
+            model: 'activity',
+            key: 'id'
+        }
     },
 }, {
     tableName: 'event',
