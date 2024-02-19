@@ -31,7 +31,20 @@ class ActivityController {
     static async addActivity(req, res) {
         try {
             const {activity_name, description, people_needed} = req.body;
+            const requiredFields = ['activity_name', 'description', 'people_needed'];
+            let missingFields = [];
 
+            requiredFields.forEach(field =>{
+                if (!req.body[field]){
+                    missingFields.push(field);
+                }
+            });
+            if (missingFields.length > 0){
+                return res.status(400).json({error: "Missing fields :", missingFields});
+            }
+            if(activity_name.length > 80 || description.length > 255){
+                return res.status(400).json({error: "Name or description too long"});
+            }
             if (!activity_name || people_needed === undefined) {
                 return res.status(400).json({error: "Missing required fields"});
             }
