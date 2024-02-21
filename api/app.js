@@ -69,6 +69,10 @@ app.use('/event', eventRoute);
 const trainingRoute = require('./routes/training.route');
 app.use('/training', trainingRoute);
 
+// TRAINING LISTING ROUTE
+const trainingListingRoute = require('./routes/trainingListing.route');
+app.use('/traininglisting', trainingListingRoute);
+
 // Setup default route
 app.use((req, res) => {
     res.status(404).json({"Error": "Not found"});
