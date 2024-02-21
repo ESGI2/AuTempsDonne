@@ -9,9 +9,38 @@ class TrainingListingRepository {
         }
     }
 
-    static async getListingById(id) {
+    static async getListingById(userId, trainingId) {
         try {
-            return await TrainingListing.findByPk(id);
+            return await TrainingListing.findOne({
+                where: {
+                    id_user: userId,
+                    id_training: trainingId
+                }
+            });
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async getTrainingListingByUserId(userId) {
+        try {
+            return await TrainingListing.findAll({
+                where: {
+                    id_user: userId
+                }
+            });
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async getTrainingListingByTrainingId(trainingId) {
+        try {
+            return await TrainingListing.findAll({
+                where: {
+                    id_training: trainingId
+                }
+            });
         } catch (error) {
             throw error;
         }
@@ -22,6 +51,19 @@ class TrainingListingRepository {
             return await TrainingListing.create({
                 id_user: userId,
                 id_training: trainingId
+            });
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async deleteTrainingParticipation(userId, trainingId) {
+        try {
+            return await TrainingListing.destroy({
+                where: {
+                    id_user: userId,
+                    id_training: trainingId
+                }
             });
         } catch (error) {
             throw error;

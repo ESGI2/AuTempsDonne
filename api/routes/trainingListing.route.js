@@ -4,9 +4,8 @@ const trainingListingController = require('../controllers/trainingListing.contro
 const authMiddleware = require('../middlewares/authMiddleware');
 const idAdmin = require('../middlewares/isAdmin');
 
-router.get('/', authMiddleware, trainingListingController.getAllTrainingListing);
-router.get('/:id', authMiddleware, trainingListingController.getListingById);
+router.get('/', authMiddleware, trainingListingController.getListingByParams);
 router.post('/', authMiddleware, trainingListingController.addTrainingParticipation);
-// router.delete('/:id', authMiddleware, idAdmin, trainingListingController.deleteTrainingParticipation);
+router.delete('/', authMiddleware, trainingListingController.deleteTrainingParticipation);
 
 module.exports = router;
