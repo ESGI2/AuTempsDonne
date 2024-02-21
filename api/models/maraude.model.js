@@ -23,6 +23,10 @@ const Maraude = sequelize.define('Maraude', {
             model: 'truck',
             key: 'id'
         }
+    },
+    people_needed: {
+        type: DataTypes.INTEGER,
+        allowNull: false
     }
 }, {
     tableName: 'maraude',
