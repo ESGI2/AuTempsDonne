@@ -9,12 +9,18 @@ const Maraude = sequelize.define('Maraude', {
         primaryKey: true
     },
     date: {
-        type: DataTypes.DATEONLY,
+        type: DataTypes.DATE,
         allowNull: false
     },
     duration: {
-        type: DataTypes.INTEGER,
-        allowNull: false
+        type: DataTypes.STRING(5),
+        allowNull: false,
+        validate: {
+            is: {
+                args: /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, //to obtain this format HH:mm
+                msg: "Duration must be in the format HH:mm"
+            }
+        }
     },
     id_truck: {
         type: DataTypes.INTEGER,
