@@ -3,7 +3,7 @@ const MaraudeRepository = require('../repositories/maraude.repository');
 class MaraudeService {
     //GET ALL & By ID
     static getAllMaraudes() {
-        return MaraudeRepository.getAllMaraude();
+        return MaraudeRepository.getAllMaraudes();
     }
 
     static getMaraudeById(id) {

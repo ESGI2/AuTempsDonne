@@ -1,10 +1,9 @@
 const Maraude = require('../models/maraude.model');
-const {where} = require("sequelize");
 
 class MaraudeRepository {
 
     //GET ALL & By ID
-    static async getAllMaraude() {
+    static async getAllMaraudes() {
         try {
             return await Maraude.findAll();
         } catch (error) {
