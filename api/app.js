@@ -34,6 +34,14 @@ app.use('/user', userRoutes);
 app.use('/register', registerRoutes);
 app.use('/login', loginRoutes);
 
+// CHILD ROUTE
+const childRoutes = require('./routes/child.route');
+app.use('/child', childRoutes);
+
+// TICKET ROUTE
+const ticketRoutes = require('./routes/ticket.route');
+app.use('/ticket', ticketRoutes);
+
 // TRUCK ROUTE
 const truckRoutes = require('./routes/truck.routes');
 app.use('/truck', truckRoutes);
@@ -65,6 +73,15 @@ app.use('/event', eventRoute);
 // EVENT LISTING ROUTE
 const eventListingRoute = require('./routes/eventListing.route');
 app.use('/eventListing', eventListingRoute);
+
+// TRAINING ROUTE
+const trainingRoute = require('./routes/training.route');
+app.use('/training', trainingRoute);
+
+// TRAINING LISTING ROUTE
+const trainingListingRoute = require('./routes/trainingListing.route');
+app.use('/traininglisting', trainingListingRoute);
+
 // Setup default route
 app.use((req, res) => {
     res.status(404).json({"Error": "Not found"});
