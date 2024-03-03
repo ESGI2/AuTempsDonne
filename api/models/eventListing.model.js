@@ -5,6 +5,7 @@ const EventListing = sequelize.define('EventListing', {
     id_user: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        primaryKey: true,
         references: {
             model: 'user',
             key: 'id',
@@ -13,6 +14,7 @@ const EventListing = sequelize.define('EventListing', {
     id_event: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        primaryKey: true,
         references: {
             model: 'event',
             key: 'id',
@@ -21,7 +23,6 @@ const EventListing = sequelize.define('EventListing', {
 }, {
     tableName: 'event_listing',
     timestamps: false,
-    primaryKey: ['id_user', 'id_event']
 });
 
 module.exports = EventListing;
