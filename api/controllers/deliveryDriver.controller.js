@@ -20,6 +20,16 @@ class DeliveryDriverController {
         }
     }
 
+    static async deleteDeliveryDriver(req, res) {
+        const driverId = req.params.id;
+        try {
+            await DeliveryDriverService.deleteDeliveryDriver(driverId);
+            return res.json("Driver deleted successfully");
+        } catch (error) {
+            return res.status(500).json({ error: 'Error during driver delete' });
+        }
+    }
+
 }
 
 module.exports = DeliveryDriverController;

@@ -25,6 +25,15 @@ class DeliveryDriverRepository {
             throw error;
         }
     }
+
+    static async deleteDeliveryDriver(driverId) {
+        try {
+            const deletedDriver = await DeliveryDriver.destroy({ where: { id: driverId } });
+            return deletedDriver;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = DeliveryDriverRepository;

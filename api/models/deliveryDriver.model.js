@@ -9,12 +9,22 @@ const DeliveryDriver = sequelize.define('delivery_driver', {
     },
     id_user: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
+        references: {
+            model: 'user',
+            key: 'id'
+        }
     },
     id_delivery: {
         type: Sequelize.INTEGER,
-        allowNull: false
-    }
+        allowNull: false,
+        references: {
+            model: 'delivery',
+            key: 'id'
+        }
+    }}, {
+        tableName: 'delivery_driver',
+        timestamps: false
 });
 
 module.exports = DeliveryDriver;

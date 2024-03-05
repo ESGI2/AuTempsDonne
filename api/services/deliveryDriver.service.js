@@ -21,6 +21,14 @@ class DeliveryDriverService {
             throw error;
         }
     }
+
+    static async deleteDeliveryDriver(driverId) {
+        try {
+            return await DeliveryDriverRepository.deleteDeliveryDriver(driverId);
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = DeliveryDriverService;
