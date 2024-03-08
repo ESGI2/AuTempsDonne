@@ -10,6 +10,13 @@ class DeliveryListingRepository {
             throw error;
         }
     }
+    static async findAllDeliveryListings() {
+        try {
+            return await DeliveryListingModel.findAll();
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = DeliveryListingRepository;

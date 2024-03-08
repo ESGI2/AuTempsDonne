@@ -10,6 +10,15 @@ class DeliveryListingController {
             return res.status(500).json({ error: 'Error during delivery listing creation' });
         }
     }
+
+    static async getAllDeliveryListings(req, res) {
+        try {
+            const deliveryListings = await DeliveryListingService.getAllDeliveryListings();
+            return res.status(200).json(deliveryListings);
+        } catch (error) {
+            return res.status(500).json({ error: 'Error fetching delivery listings' });
+        }
+    }
 }
 
 module.exports = DeliveryListingController;
