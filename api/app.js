@@ -73,6 +73,10 @@ app.use('/delivery', deliveryRoutes);
 const deliveryDriverRoutes = require('./routes/deliveryDriver.route');
 app.use('/deliveryDrivers', deliveryDriverRoutes)
 
+// DELIVERY_LISTING ROUTE
+const deliveryListingRoutes = require('./routes/deliveryListing.route');
+app.use('/deliveryListing', deliveryLinstingRoutes)
+
 // Setup default route
 app.use((req, res) => {
     res.status(404).json({"Error": "Not found"});

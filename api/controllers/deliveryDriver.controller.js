@@ -27,9 +27,7 @@ class DeliveryDriverController {
             return res.json("Driver deleted successfully");
         } catch (error) {
             return res.status(500).json({ error: 'Error during driver delete' });
-        }
-    }
-
+        }}
 }
 
 module.exports = DeliveryDriverController;
