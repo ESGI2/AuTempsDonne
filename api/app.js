@@ -75,7 +75,7 @@ app.use('/deliveryDrivers', deliveryDriverRoutes)
 
 // DELIVERY_LISTING ROUTE
 const deliveryListingRoutes = require('./routes/deliveryListing.route');
-app.use('/deliveryListing', deliveryLinstingRoutes)
+app.use('/deliveryListing', deliveryListingRoutes)
 
 // Setup default route
 app.use((req, res) => {
