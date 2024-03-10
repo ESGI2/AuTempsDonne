@@ -16,7 +16,17 @@ class DeliveryListingController {
             const deliveryListings = await DeliveryListingService.getAllDeliveryListings();
             return res.status(200).json(deliveryListings);
         } catch (error) {
-            return res.status(500).json({ error: 'Error fetching delivery listings' });
+            return res.status(500).json({ error: 'Error during delivery listing get' });
+        }
+    }
+
+    static async deleteDeliveryListing(req, res) {
+        const { id_product, id_delivery } = req.query;
+        try {
+            await DeliveryListingService.deleteDeliveryListing(id_product, id_delivery);
+            return res.status(200).json({ message: 'Delivery listing deleted ' });
+        } catch (error) {
+            return res.status(500).json({ error: 'Error during delivery listing delete' });
         }
     }
 }

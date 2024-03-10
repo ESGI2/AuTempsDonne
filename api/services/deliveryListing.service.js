@@ -25,6 +25,14 @@ class DeliveryListingService {
             throw error;
         }
     }
+
+    static async deleteDeliveryListing(id_product, id_delivery) {
+        try {
+            await DeliveryListingRepository.deleteDeliveryListing(id_product, id_delivery);
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = DeliveryListingService;

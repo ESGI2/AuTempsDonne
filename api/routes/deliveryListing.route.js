@@ -5,6 +5,7 @@ const DeliveryListingController = require('../controllers/deliveryListing.contro
 
 router.post('/', authMiddleware, DeliveryListingController.createDeliveryListing);
 router.get('/', authMiddleware, DeliveryListingController.getAllDeliveryListings);
+router.delete('/', authMiddleware, DeliveryListingController.deleteDeliveryListing);
 
 
 module.exports = router;
