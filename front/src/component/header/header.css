@@ -1,0 +1,78 @@
+/* header.css */
+body {
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    z-index: 10;
+    background-color: #5B83A6;
+    width: 100%;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    margin: 0;
+    font-family: 'Courgette', cursive;
+    color: white;
+    flex-wrap: wrap; /* Permet aux éléments de s'enrouler sur des écrans plus petits */
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 75px;
+    margin-right: 10px;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+nav button {
+    color: white;
+    border: none;
+    background: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+nav button:last-child {
+    margin-right: 0;
+}
+
+nav button a {
+    color: white;
+}
+
+.association-btn:hover,
+.missions-btn:hover,
+.contacter-btn:hover,
+.don-btn:hover,
+.rejoindre-btn:hover{
+    background-color: #93BFCF;
+}
+
+@media screen and (max-width: 600px) {
+    .logo img {
+        height: 50px;
+    }
+    nav {
+        flex-grow: 0;
+        margin-top: 0;
+    }
+    nav button {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+}

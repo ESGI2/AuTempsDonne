@@ -1,24 +1,24 @@
+import Homepage from "./pages/Home.page.jsx";
+import Missionpage from "./pages/Mission.page.jsx";
+import './main.css';
+import {RouterProvider} from "react-router";
+import {createBrowserRouter} from "react-router-dom";
 
-import Header from "./component/header.jsx";
-import Footer from "./component/footer.jsx";
+const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <Homepage />,
+    },
+    {
+        path: "/mission",
+        element: <Missionpage />,
+    }
+]);
 
 function App() {
-  return (
-
-      <body>
-      <Header/>
-
-          <main>
-          <div className="container py-4 px-3 mx-auto">
-              <h1>Hello, Bootstrap and Vite!</h1>
-              <button className="btn btn-primary">Primary button</button>
-          </div>
-
-          </main>
-
-      <Footer/>
-      </body>
-  );
+    return (
+        <RouterProvider router={router} />
+    );
 }
 
 export default App;
