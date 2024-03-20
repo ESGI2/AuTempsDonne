@@ -31,9 +31,9 @@ function Home() {
                                 <p>Nous réalisons des <mark>maraudes</mark> sociales à Paris. À cette occasion, nos équipes distribuent café, thé, sandwich et produits d’hygiène.</p>
                                 <p>Les distributions nous permettent de pouvoir amorcer une <mark>conversation</mark> et ainsi créer un <mark>échange convivial</mark>.</p>
                                 <p>L’objectif étant d’être <mark>présent</mark>, d’échanger sur divers sujets mais surtout de <mark>créer un lien de confiance</mark> au fil des maraudes.</p>
-                                <button className="button">
-                                    <p style={{textDecoration:"none"}}><Link to="/mission">NOS MISSIONS</Link></p>
-                                </button>
+                                <Link to="/mission"><button className="button">
+                                   <p>NOS MISSIONS</p>
+                                </button></Link>
                             </div>
                         </div>
                     </div>
