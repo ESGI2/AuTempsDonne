@@ -1,13 +1,15 @@
 import React from 'react';
 import './header.css';
 import logo from '../../assets/img/logo.png';
-import { Link } from "react-router-dom";
+import { Link, useLocation } from 'react-router-dom';
 
-import lang_fr from '../lang/lang_fr.json';
-import lang_en from '../lang/lang_en.json';
+import lang_fr from '../../assets/lang/lang_fr.json';
+import lang_en from '../../assets/lang/lang_en.json';
 
 function Header() {
-    const lang = window.location.pathname.startsWith('/en/') ? lang_en : lang_fr;
+    const { pathname } = useLocation();
+    const lang = pathname.startsWith('/en') ? lang_en : lang_fr;
+    const langParam = pathname.startsWith('/en') ? 'en' : 'fr';
 
     return (
         <header>
@@ -16,9 +18,9 @@ function Header() {
                 <span>AU TEMPS DONNE</span>
             </div>
             <nav>
-                <Link to="/fr/"><button className="association-btn" >{lang.menu.association}</button></Link>
-                <Link to="/fr/mission"><button className="missions-btn">{lang.menu.missions}</button></Link>
-                <Link to="/fr/contact"><button className="contacter-btn">{lang.menu.contacter}</button></Link>
+                <Link to={`/${langParam}`}><button className="association-btn">{lang.menu.association}</button></Link>
+                <Link to={`/${langParam}/mission`}><button className="missions-btn">{lang.menu.missions}</button></Link>
+                <Link to={`/${langParam}/contact`}><button className="contacter-btn">{lang.menu.contacter}</button></Link>
             </nav>
             <nav>
                 <div className="dropdown">
@@ -26,8 +28,8 @@ function Header() {
                         {lang.dropdown.langue}
                     </button>
                     <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <button className="dropdown-item" value="fr">{lang.dropdown.francais}</button>
-                        <button className="dropdown-item" value="en">{lang.dropdown.anglais}</button>
+                        <Link to={`/${langParam}`}><button className="dropdown-item">{lang.dropdown.francais}</button></Link>
+                        <Link to={`/${langParam}`}><button className="dropdown-item">{lang.dropdown.anglais}</button></Link>
                     </div>
                 </div>
                 <button className="rejoindre-btn">{lang.buttons.espace_client}</button>
