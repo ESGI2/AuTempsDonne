@@ -22,14 +22,24 @@ const LoginForm = () => {
         const email = e.target.elements[0].value;
         const password = e.target.elements[1].value;
 
-        const json = await ky.post('http://localhost:3000/login', {
-            json: { email, password }
-        }).json();
+        try {
+            const response = await ky.post('http://localhost:3000/login', {
+                json: {email, password},
+                credentials: 'include'
+            });
 
-        if (json.Role === "admin") {
-            alert("Vous êtes connecté")
-            // window.location.href = "/admin";
-        } else {
+            if (response.status === 200) {
+                const data = await response.json();
+                console.log(data);
+                if (data.Role === "admin") {
+                    window.location.href = "/admin";
+                } else {
+                    setError("Vous n'êtes pas autorisé à accéder à cette page");
+                }
+            } else {
+                setError("Email ou mot de passe incorrect");
+            }
+        } catch (error) {
             setError("Email ou mot de passe incorrect");
         }
 
@@ -37,9 +47,9 @@ const LoginForm = () => {
 
     return (
         <Container className="mt-5" style={{ maxWidth: '600px'}}>
-            <h2 className="text-center mb-5" style={{color: '#5B83A6'}}>Panel administrateur</h2>
+            <h2 className="text-center mb-5" style={{color: '#5B83A6', fontSize: '2rem'}}>Panel administrateur</h2>
             <Form onSubmit={handleSubmit}>
-                {error && <Alert variant="danger" className="mt-4">{error}</Alert>}
+                {error && <Alert variant="danger">{error}</Alert>}
                 <Form.Group controlId="formBasicEmail">
                     <Form.Label>Email</Form.Label>
                     <Form.Control className="mb-4"
@@ -62,7 +72,7 @@ const LoginForm = () => {
                     />
                 </Form.Group>
 
-                <Button variant="primary" type="submit" className="w-100">
+                <Button variant="primary" type="submit" className="w-100" style={{color: '#5B83A6', fontSize: '1.5rem'}}>
                     Login
                 </Button>
             </Form>
