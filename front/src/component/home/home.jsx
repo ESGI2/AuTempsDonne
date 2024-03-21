@@ -6,12 +6,14 @@ import asso2 from "../../assets/img/asso2.png";
 import asso3 from "../../assets/img/asso3.png";
 import asso4 from "../../assets/img/asso4.png";
 import './home.css';
-import { Link } from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import lang_fr from '../../assets/lang/lang_fr.json';
+import lang_en from "../../assets/lang/lang_en.json";
 
 
 function Home() {
-    const lang = lang_fr.home;
+    const { pathname } = useLocation();
+    const lang = pathname.startsWith('/en') ? lang_en : lang_fr;
 
     return (
         <>
@@ -30,20 +32,20 @@ function Home() {
                         </div>
                         <div className="col-md-6">
                             <div id="Nouscoco" className="mt-lg-5">
-                                <h1 className="display-5"><b>{lang.nous_connaitre.titre}</b></h1>
-                                <p>{lang.nous_connaitre.paragraphe1}</p>
-                                <p>{lang.nous_connaitre.paragraphe2}</p>
-                                <p>{lang.nous_connaitre.paragraphe3}</p>
-                                <p>{lang.nous_connaitre.paragraphe4}</p>
-                                <Link to="/mission"><button className="button">
-                                    <p>{lang.nous_connaitre.bouton_missions}</p>
+                                <h1 className="display-5"><b>{lang.home.nous_connaitre.titre}</b></h1>
+                                <p>{lang.home.nous_connaitre.paragraphe1}</p>
+                                <p>{lang.home.nous_connaitre.paragraphe2}</p>
+                                <p>{lang.home.nous_connaitre.paragraphe3}</p>
+                                <p>{lang.home.nous_connaitre.paragraphe4}</p>
+                                <Link to={`/${lang}/mission`}><button className="button">
+                                    <p>{lang.home.nous_connaitre.bouton_missions}</p>
                                 </button></Link>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div className="container text-center mt-lg-5 bg-warning-subtle">
-                    <h1 className="display-5"><b>{lang.nos_partenaires}</b></h1>
+                    <h1 className="display-5"><b>{lang.home.nos_partenaires}</b></h1>
                     <div className="row row-cols-4">
                         <div className="col order-first"><img src={asso1} alt="Association 1" /></div>
                         <div className="col"><img src={asso2} alt="Association 2" /></div>
@@ -52,14 +54,14 @@ function Home() {
                     </div>
                 </div>
                 <div id="Nousreje" className="mt-lg-5 text-center mx-auto">
-                    <h1 className="display-3"><b>{lang.on_recrute.titre}</b></h1>
-                    <p>{lang.on_recrute.paragraphe1}</p>
-                    <p>{lang.on_recrute.paragraphe2}</p>
-                    <p>{lang.on_recrute.paragraphe3}</p>
-                    <p>{lang.on_recrute.paragraphe4}</p>
-                    <p>{lang.on_recrute.paragraphe5}</p>
+                    <h1 className="display-3"><b>{lang.home.on_recrute.titre}</b></h1>
+                    <p>{lang.home.on_recrute.paragraphe1}</p>
+                    <p>{lang.home.on_recrute.paragraphe2}</p>
+                    <p>{lang.home.on_recrute.paragraphe3}</p>
+                    <p>{lang.home.on_recrute.paragraphe4}</p>
+                    <p>{lang.home.on_recrute.paragraphe5}</p>
                     <button className="button">
-                        <p>{lang.on_recrute.bouton_rejoindre}</p>
+                        <p>{lang.home.on_recrute.bouton_rejoindre}</p>
                     </button>
                 </div>
                 <div className="container mt-5 mb-5">
