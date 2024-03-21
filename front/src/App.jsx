@@ -1,24 +1,23 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+import React from "react";
+import {createBrowserRouter} from "react-router-dom";
+import {RouterProvider} from "react-router";
+import LogPage from "./pages/log.jsx";
+import SignPage from "./pages/sign.jsx";
 
-import Header from "./component/header.jsx";
-import Footer from "./component/footer.jsx";
-
+const router = createBrowserRouter([
+    {
+        path: "/login",
+        element: <LogPage/>,
+    },
+    {
+        path: "/signin",
+        element: <SignPage/>
+    }
+]);
 function App() {
   return (
-
-      <body>
-      <Header/>
-
-          <main>
-          <div className="container py-4 px-3 mx-auto">
-              <h1>Hello, Bootstrap and Vite!</h1>
-              <button className="btn btn-primary">Primary button</button>
-          </div>
-
-          </main>
-
-      <Footer/>
-      </body>
+        <RouterProvider router={router} />
   );
 }
-
 export default App;

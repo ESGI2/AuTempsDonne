@@ -1,12 +1,11 @@
 import React from 'react';
-import '../css/header.css';
-import logo from '../img/logo.png'; // Importez l'image
+import './header.css';
+import logo from '../../img/logo.png'; // Importez l'image
 
 function Header() {
     return (
 
         <header>
-
             <div className="logo">
                 <img src={logo} alt="Logo de l'association"/>
             </div>
