@@ -34,7 +34,7 @@ function Header() {
                 <span>AU TEMPS DONNE</span>
             </div>
             <nav>
-                <Link to={`/${langParam}`}><button className="association-btn">{lang.menu.association}</button></Link>
+                <Link to={`/${langParam}/home`}><button className="association-btn">{lang.menu.association}</button></Link>
                 <Link to={`/${langParam}/mission`}><button className="missions-btn">{lang.menu.missions}</button></Link>
                 <Link to={`/${langParam}/contact`}><button className="contacter-btn">{lang.menu.contacter}</button></Link>
             </nav>

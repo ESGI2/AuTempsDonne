@@ -1,4 +1,3 @@
-/* header.css */
 body {
     margin: 0;
     padding: 0;
@@ -14,9 +13,8 @@ header {
     justify-content: space-between;
     padding: 10px 20px;
     margin: 0;
-    font-family: 'Courgette', cursive;
     color: white;
-    flex-wrap: wrap; /* Permet aux éléments de s'enrouler sur des écrans plus petits */
+    flex-wrap: wrap;
 }
 
 .logo {
@@ -91,6 +89,8 @@ nav button a {
 .dropdown-content a:hover {
     background-color: #778895;
 }
+
+
 
 @media screen and (max-width: 600px) {
     .logo img {

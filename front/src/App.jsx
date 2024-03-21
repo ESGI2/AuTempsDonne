@@ -8,11 +8,11 @@ import Contactpage from './pages/Contact.page.jsx';
 
 const router = createBrowserRouter([
     {
-        path: "/fr",
+        path: "/fr/home",
         element: <Homepage />,
     },
     {
-        path: "/en",
+        path: "/en/home",
         element: <Homepage />,
     },
     {

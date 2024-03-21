@@ -17,6 +17,7 @@ function Home() {
 
     const { pathname } = useLocation();
     const lang = pathname.startsWith('/en') ? lang_en : lang_fr;
+    const langParam = pathname.startsWith('/en') ? 'en' : 'fr';
 
     return (
         <>
@@ -40,7 +41,7 @@ function Home() {
                                 <p>{lang.home.nous_connaitre.paragraphe2}</p>
                                 <p>{lang.home.nous_connaitre.paragraphe3}</p>
                                 <p>{lang.home.nous_connaitre.paragraphe4}</p>
-                                <Link to={`/${lang}/mission`}><button className="button">
+                                <Link to={`/${langParam}/mission`}><button className="button">
                                     <p>{lang.home.nous_connaitre.bouton_missions}</p>
                                 </button></Link>
                             </div>
