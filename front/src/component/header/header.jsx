@@ -11,6 +11,22 @@ function Header() {
     const lang = pathname.startsWith('/en') ? lang_en : lang_fr;
     const langParam = pathname.startsWith('/en') ? 'en' : 'fr';
 
+    function buttonLang() {
+        const currentPath = pathname.replace(/^\/(fr|en)\//, '');
+        const frPath = `/fr/${currentPath}`;
+        const enPath = `/en/${currentPath}`;
+
+        return (
+            <div className="dropdown">
+                <button className="btn btn-secondary">{lang.dropdown.langue}</button>
+                <div className="dropdown-content">
+                    <Link to={frPath}><a > {lang.dropdown.francais}</a></Link>
+                    <Link to={enPath}><a > {lang.dropdown.anglais}</a></Link>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <header>
             <div className="logo">
@@ -23,15 +39,7 @@ function Header() {
                 <Link to={`/${langParam}/contact`}><button className="contacter-btn">{lang.menu.contacter}</button></Link>
             </nav>
             <nav>
-                <div className="dropdown">
-                    <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {lang.dropdown.langue}
-                    </button>
-                    <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <Link to={`/${langParam}`}><button className="dropdown-item">{lang.dropdown.francais}</button></Link>
-                        <Link to={`/${langParam}`}><button className="dropdown-item">{lang.dropdown.anglais}</button></Link>
-                    </div>
-                </div>
+                {buttonLang()}
                 <button className="rejoindre-btn">{lang.buttons.espace_client}</button>
                 <button className="don-btn">{lang.buttons.don}</button>
             </nav>

@@ -11,7 +11,10 @@ import lang_fr from '../../assets/lang/lang_fr.json';
 import lang_en from "../../assets/lang/lang_en.json";
 
 
+
+
 function Home() {
+
     const { pathname } = useLocation();
     const lang = pathname.startsWith('/en') ? lang_en : lang_fr;
 
