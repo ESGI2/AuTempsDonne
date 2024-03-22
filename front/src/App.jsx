@@ -4,6 +4,7 @@ import {createBrowserRouter} from "react-router-dom";
 import {RouterProvider} from "react-router";
 import LogPage from "./pages/log.jsx";
 import SignPage from "./pages/sign.jsx";
+import Contact from "./pages/contactForm.jsx";
 
 const router = createBrowserRouter([
     {
@@ -13,11 +14,17 @@ const router = createBrowserRouter([
     {
         path: "/signin",
         element: <SignPage/>
+    },
+    {
+        path: "/contact",
+        element: <Contact/>
     }
 ]);
+
 function App() {
-  return (
-        <RouterProvider router={router} />
-  );
+    return (
+        <RouterProvider router={router}/>
+    );
 }
+
 export default App;
