@@ -41,7 +41,7 @@ function Header() {
             <nav>
                 {buttonLang()}
                 <button className="rejoindre-btn">{lang.buttons.espace_client}</button>
-                <button className="don-btn">{lang.buttons.don}</button>
+                <Link to={`/${langParam}/don`}> <button className="don-btn">{lang.buttons.don}</button></Link>
             </nav>
         </header>
     );

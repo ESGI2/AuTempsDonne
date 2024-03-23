@@ -5,6 +5,7 @@ import Header from './component/header/header.jsx';
 import Homepage from './pages/Home.page.jsx';
 import Missionpage from './pages/Mission.page.jsx';
 import Contactpage from './pages/Contact.page.jsx';
+import Donpage from "./pages/Don.page.jsx";
 
 const router = createBrowserRouter([
     {
@@ -30,8 +31,17 @@ const router = createBrowserRouter([
     {
         path: "/en/contact",
         element: <Contactpage />,
-    }
+    },
+    {
+        path: "/fr/don",
+        element: <Donpage />,
+    },
+    {
+        path: "/en/don",
+        element: <Donpage />,
+    },
 ]);
+
 function App() {
     return (
         <RouterProvider router={router}/>
