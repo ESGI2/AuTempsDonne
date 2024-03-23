@@ -26,8 +26,9 @@
     margin: 0 auto;
 }
 
-.button p {
+a {
     z-index: 1;
+    text-decoration: none;
 }
 
 .button:hover {
