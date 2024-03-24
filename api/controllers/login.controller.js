@@ -19,7 +19,7 @@ class LoginController {
                 }
                 const accessToken = generateAccessToken(user_data);
                 // Création du cookie
-                res.cookie('jwt', accessToken, { httpOnly: true, maxAge: 604800000  });
+                res.cookie('jwt', accessToken, {maxAge: 604800000});
                 res.status(200).json({ "Message": "User successfully logged in",
                                       "Role": user_data.role});
             }
