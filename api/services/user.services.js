@@ -31,6 +31,15 @@ class UserServices {
         }
     }
 
+    static async getMe(id) {
+        try {
+            return await UserRepository.getMe(id)
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
     static async deleteUser(id) {
         try {
             return await UserRepository.deleteUser(id);

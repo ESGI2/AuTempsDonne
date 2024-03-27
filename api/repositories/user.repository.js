@@ -36,6 +36,23 @@ class UserRepository {
         }
     }
 
+    static async getMe(id) {
+        try {
+            const user = await User.findByPk(id);
+            // Renvoit uniquement les données id, email, role, first_name, last_name
+            return {
+                id: user.id,
+                email: user.email,
+                role: user.role,
+                first_name: user.first_name,
+                last_name: user.last_name
+            };
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
     static async deleteUser(id) {
         try {
             const user = await User.findByPk(id);

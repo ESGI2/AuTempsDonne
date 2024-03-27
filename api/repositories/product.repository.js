@@ -1,9 +1,9 @@
 const Product = require('../models/product.model');
 
 class ProductRepository {
-    static async addProduct(name) {
+    static async addProduct(name, type, donation) {
         try {
-            const newProduct = await Product.create({ name });
+            const newProduct = await Product.create({ name, type, donation });
             return newProduct;
         } catch (error) {
             console.error(error);
@@ -22,7 +22,7 @@ class ProductRepository {
 
     static async getAllProducts() {
         try {
-            return await Product.findAll();
+            return await Product.findAll({ attributes: ['id', 'name', 'type', 'donation'] });
         } catch (error) {
             console.error(error);
             throw error;
@@ -43,6 +43,15 @@ class ProductRepository {
         try {
             const deletedRows = await Product.destroy({ where: { name } });
             return deletedRows;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
+    static async getProductsByDonation(donationValue) {
+        try {
+            return await Product.findAll({ where: { donation: donationValue } });
         } catch (error) {
             console.error(error);
             throw error;
