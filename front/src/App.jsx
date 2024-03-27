@@ -1,3 +1,9 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+import React from "react";
+import {createBrowserRouter} from "react-router-dom";
+import {RouterProvider} from "react-router";
+import LogPage from "./pages/log.jsx";
+import SignPage from "./pages/sign.jsx";
 import React from 'react';
 import { RouterProvider } from 'react-router';
 import { createBrowserRouter } from 'react-router-dom';
@@ -40,6 +46,14 @@ const router = createBrowserRouter([
         path: "/en/don",
         element: <Donpage />,
     },
+    {
+        path: "/login",
+        element: <LogPage/>,
+    },
+    {
+        path: "/signin",
+        element: <SignPage/>
+    }
 ]);
 
 function App() {
@@ -47,5 +61,4 @@ function App() {
         <RouterProvider router={router}/>
     );
 }
-
 export default App;
