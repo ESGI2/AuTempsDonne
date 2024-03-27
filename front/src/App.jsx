@@ -4,6 +4,7 @@ import {createBrowserRouter} from "react-router-dom";
 import {RouterProvider} from "react-router";
 import LogPage from "./pages/log.jsx";
 import SignPage from "./pages/sign.jsx";
+import Contact from "./pages/contactForm.jsx";
 import React from 'react';
 import { RouterProvider } from 'react-router';
 import { createBrowserRouter } from 'react-router-dom';
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
     {
         path: "/signin",
         element: <SignPage/>
+    },
+    {
+        path: "/contact",
+        element: <Contact/>
     }
 ]);
 
@@ -61,4 +66,5 @@ function App() {
         <RouterProvider router={router}/>
     );
 }
+
 export default App;
