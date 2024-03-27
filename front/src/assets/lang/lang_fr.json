@@ -1,0 +1,36 @@
+{
+  "menu": {
+    "association": "ASSOCIATION",
+    "missions": "NOS MISSIONS",
+    "contacter": "NOUS CONTACTER"
+  },
+  "dropdown": {
+    "langue": "Langue",
+    "francais": "Français",
+    "anglais": "Anglais"
+  },
+  "buttons": {
+    "espace_client": "ESPACE CLIENT",
+    "don": "DON"
+  },
+  "home": {
+    "nous_connaitre": {
+      "titre": "Nous connaître",
+      "paragraphe1": "AU TEMPS DONNE lutte contre l'isolement des personnes précaires. En ce sens, nous développons un lien social basé sur l’écoute et le dialogue.",
+      "paragraphe2": "Nous réalisons des maraudes sociales à Paris. À cette occasion, nos équipes distribuent café, thé, sandwich et produits d’hygiène.",
+      "paragraphe3": "Les distributions nous permettent de pouvoir amorcer une conversation et ainsi créer un échange convivial.",
+      "paragraphe4": "L’objectif étant d’être présent, d’échanger sur divers sujets mais surtout de créer un lien de confiance au fil des maraudes.",
+      "bouton_missions": "NOS MISSIONS"
+    },
+    "nos_partenaires": "Nos partenaires",
+    "on_recrute": {
+      "titre": "On recrute !",
+      "paragraphe1": "Agissez maintenant",
+      "paragraphe2": "Notre force devient plus importante à travers l’action collective.",
+      "paragraphe3": "Vous aussi, faites la différence avec AU TEMPS DONNE !",
+      "paragraphe4": "Le soutien que nous recevons contribue à renforcer nos efforts pour résoudre les problèmes de société.",
+      "paragraphe5": "Contactez-nous dès aujourd’hui et rejoignez-nous pour agir concrètement.",
+      "bouton_rejoindre": "NOUS REJOINDRE"
+    }
+  }
+}

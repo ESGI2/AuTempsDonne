@@ -1,0 +1,36 @@
+{
+  "menu": {
+    "association": "ASSOCIATION",
+    "missions": "OUR MISSIONS",
+    "contacter": "CONTACT US"
+  },
+  "dropdown": {
+    "langue": "Language",
+    "francais": "French",
+    "anglais": "English"
+  },
+  "buttons": {
+    "espace_client": "CLIENT AREA",
+    "don": "DONATE"
+  },
+  "home": {
+    "nous_connaitre": {
+      "titre": "Get to Know Us",
+      "paragraphe1": "AT YOUR GIVEN TIME fights against isolation among precarious individuals. In this regard, we develop a social bond based on listening and dialogue.",
+      "paragraphe2": "We carry out social outreach in Paris. On this occasion, our teams distribute coffee, tea, sandwiches, and hygiene products.",
+      "paragraphe3": "The distributions allow us to initiate a conversation and thus create a friendly exchange.",
+      "paragraphe4": "The objective is to be present, to exchange on various subjects, but above all to create a relationship of trust over the course of the outreach efforts.",
+      "bouton_missions": "OUR MISSIONS"
+    },
+    "nos_partenaires": "Our Partners",
+    "on_recrute": {
+      "titre": "We're Hiring!",
+      "paragraphe1": "Take action now",
+      "paragraphe2": "Our strength becomes greater through collective action.",
+      "paragraphe3": "You too can make a difference with AT YOUR GIVEN TIME!",
+      "paragraphe4": "The support we receive helps strengthen our efforts to address societal issues.",
+      "paragraphe5": "Contact us today and join us to take concrete action.",
+      "bouton_rejoindre": "JOIN US"
+    }
+  }
+}

@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Courgette&display=swap');
 
-
 body{
     margin: 0;
     padding: 0;
@@ -8,14 +7,12 @@ body{
 
 footer {
     background-color: #93BFCF;
-    position: fixed;
     width: 100%;
+    left: 0;
+    padding: 10px 0;
     bottom: 0;
-    margin: 0;
-    padding: 0;
 }
 
-.txt-footer{
+.txt-footer {
     text-align: center;
-    font-family: 'Courgette', cursive;
 }
