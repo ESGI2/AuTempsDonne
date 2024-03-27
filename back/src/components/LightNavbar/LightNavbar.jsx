@@ -64,12 +64,12 @@ function LightNavbar() {
                 </div>
                 <hr/>
                 <div className="menu">
-                    <a href="/public" className="brand">Menu</a>
+                    <a className="brand">Menu</a>
                     <ul>
                         {menuItems.map((item) => (
                             <li key={item.id}>
                                 <img src={item.logo} alt="logo" className='logo'/>
-                                <a href="/public">{item.name}</a>
+                                <a>{item.name}</a>
                             </li>
                         ))}
                     </ul>
