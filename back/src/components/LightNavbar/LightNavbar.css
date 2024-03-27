@@ -126,3 +126,7 @@ hr {
 .navbar .container .footer .person .userData p:nth-child(2) {
     color: var(--grey-text);
 }
+
+.navbar .container .footer img {
+    cursor: pointer;
+}
