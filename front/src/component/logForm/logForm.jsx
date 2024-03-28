@@ -23,22 +23,24 @@ function LogForm() {
     };
 
     return (
+        <div className="container mt-2">
         <section  className="text-center" style={
             {
-
+                paddingLeft:'200px',
+                paddingRight:'200px',
+                paddingBottom:'100px',
             }
         }>
             <div className="p-5 bg-image" style={{
-                backgroundColor: "#5B83A6",
                 height: '300px',
-                borderRadius: '20px',
-
             }}></div>
 
-            <div id='log' className="card mx-4 mx-md-5 shadow-5-strong" style={{
+            <div id='log' className="mx-4 mx-md-5 shadow-5-strong" style={{
                 marginTop: '-250px',
-                background: 'hsla(0, 0%, 100%, 0.8)',
+                background: 'linear-gradient(rgba(91, 131, 166, 0.5), rgba(209, 209, 209, 0.5))',
                 backdropFilter: 'blur(30px)',
+                borderRadius: '20px',
+                paddingBottom: '50px',
             }}>
                 <div className="card-body py-5 px-md-5">
                     <div className="row d-flex justify-content-center">
@@ -69,6 +71,7 @@ function LogForm() {
                 </div>
             </div>
         </section>
+        </div>
     );
 }
 

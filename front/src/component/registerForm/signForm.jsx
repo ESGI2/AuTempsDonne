@@ -25,22 +25,25 @@ function signForm() {
     };
 
     return (
+        <div className="container mt-5">
         <section  className="text-center" style={
             {
-
+                paddingLeft:'20px',
+                paddingRight:'20px',
+                paddingBottom:'20px',
             }
         }>
             <div className="p-5 bg-image" style={{
-                backgroundColor: "#5B83A6",
-                height: '300px',
-                borderRadius: '20px',
+                height: '250px',
 
             }}></div>
 
-            <div id='reg' className="card mx-4 mx-md-5 shadow-5-strong" style={{
+            <div id='reg' className="mx-4 mx-md-5 shadow-5-strong" style={{
                 marginTop: '-250px',
-                background: 'hsla(0, 0%, 100%, 0.8)',
+                background: 'linear-gradient(rgba(91, 131, 166, 0.5), rgba(209, 209, 209, 0.5))',
                 backdropFilter: 'blur(30px)',
+                borderRadius: '20px',
+                paddingBottom: '50px',
             }}>
                 <div className="card-body py-5 px-md-5">
                     <div className="row d-flex justify-content-center">
@@ -67,6 +70,11 @@ function signForm() {
                                 <div className="form-outline mb-4">
                                     <label className="form-label" htmlFor="form3Example3">Email</label>
                                     <input type="email" id="form3Example3" name="email" className="form-control"
+                                           onChange={handleChange}/>
+                                </div>
+                                <div className="form-outline mb-4">
+                                    <label className="form-label" htmlFor="form3Example3">Phone Number</label>
+                                    <input type="tel" id="form3Example3" name="tel" className="form-control"
                                            onChange={handleChange}/>
                                 </div>
 
@@ -105,6 +113,7 @@ function signForm() {
                 </div>
             </div>
         </section>
+            </div>
     );
 }
 
