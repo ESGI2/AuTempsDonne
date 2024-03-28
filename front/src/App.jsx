@@ -4,15 +4,10 @@ import {createBrowserRouter} from "react-router-dom";
 import {RouterProvider} from "react-router";
 import LogPage from "./pages/log.jsx";
 import SignPage from "./pages/sign.jsx";
-import Contact from "./pages/contactForm.jsx";
-import React from 'react';
-import { RouterProvider } from 'react-router';
-import { createBrowserRouter } from 'react-router-dom';
-import Header from './component/header/header.jsx';
 import Homepage from './pages/Home.page.jsx';
 import Missionpage from './pages/Mission.page.jsx';
-import Contactpage from './pages/Contact.page.jsx';
 import Donpage from "./pages/Don.page.jsx";
+import ContactPage from "./pages/Contact.page.jsx";
 
 const router = createBrowserRouter([
     {
@@ -33,11 +28,11 @@ const router = createBrowserRouter([
     },
     {
         path: "/fr/contact",
-        element: <Contactpage />,
+        element: <ContactPage/>,
     },
     {
         path: "/en/contact",
-        element: <Contactpage />,
+        element: <ContactPage/>,
     },
     {
         path: "/fr/don",
@@ -55,10 +50,7 @@ const router = createBrowserRouter([
         path: "/signin",
         element: <SignPage/>
     },
-    {
-        path: "/contact",
-        element: <Contact/>
-    }
+
 ]);
 
 function App() {
