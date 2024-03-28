@@ -85,5 +85,24 @@
         "Serviette hygiénique"
       ]
     }
+  },
+  "contactForm": {
+    "titre": "Contact",
+    "subtitre": "Pour toutes autres demandes, contactez-nous via le formulaire ci-dessous",
+    "type_request": "Type de demande",
+    "request_options": [
+      "Je veux être un bénéficiaire mais...",
+      "Faire un don",
+      "Besoin d'aide",
+      "Don nature (vêtements, pantalons, ...)",
+      "Partenariat",
+      "Choisir ..."
+    ],
+    "first_name": "Prénom",
+    "last_name": "Nom",
+    "email": "E-mail",
+    "message": "Message",
+    "subscribe_newsletter": "S'abonner à notre newsletter",
+    "submit_button": "Soumettre"
   }
 }

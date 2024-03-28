@@ -85,6 +85,25 @@
         "Sanitary napkin"
       ]
     }
+  },
+  "contactForm": {
+    "titre": "Contact",
+    "subtitre": "For any other inquiries, contact us via the form below",
+    "type_request": "Type of request",
+    "request_options": [
+      "I want to be a Beneficiary but ...",
+      "To do a Donation",
+      "Need Help",
+      "Nature Donation (Clothing, pants, ...)",
+      "Partnership",
+      "Choose ..."
+    ],
+    "first_name": "First name",
+    "last_name": "Last name",
+    "email": "Email",
+    "message": "Message",
+    "subscribe_newsletter": "Subscribe to our newsletter",
+    "submit_button": "Submit"
   }
 }
 
