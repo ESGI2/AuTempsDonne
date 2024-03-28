@@ -40,7 +40,7 @@ function Header() {
             </nav>
             <nav>
                 {buttonLang()}
-                <button className="rejoindre-btn">{lang.buttons.espace_client}</button>
+                <Link to={`/${langParam}/login`}><button className="rejoindre-btn">{lang.buttons.espace_client}</button></Link>
                 <Link to={`/${langParam}/don`}> <button className="don-btn">{lang.buttons.don}</button></Link>
             </nav>
         </header>
