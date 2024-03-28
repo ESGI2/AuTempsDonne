@@ -104,6 +104,27 @@
     "message": "Message",
     "subscribe_newsletter": "Subscribe to our newsletter",
     "submit_button": "Submit"
+  },
+  "logForm": {
+    "log_in": "Log in",
+    "email": "Email",
+    "password": "Password",
+    "first_time_welcome": "First Time, Welcome :",
+    "sign_in": "Sign In"
+  },
+  "signForm": {
+    "sign_up": "Sign Up",
+    "first_name": "First Name",
+    "last_name": "Last Name",
+    "email": "Email",
+    "phone_number": "Phone Number",
+    "password": "Password",
+    "role": "Role",
+    "beneficiary": "I want to be a Beneficiary",
+    "volunteer": "I want to be a Volunteer",
+    "choose": "Choose...",
+    "subscribe_newsletter": "Subscribe to our newsletter",
+    "already_account": "Already have an account ?"
   }
 }
 
