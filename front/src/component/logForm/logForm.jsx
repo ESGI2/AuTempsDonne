@@ -1,6 +1,8 @@
 import { useState } from "react";
 import './logForm.css';
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
+import lang_en from "../../assets/lang/lang_en.json";
+import lang_fr from "../../assets/lang/lang_fr.json";
 
 
 function LogForm() {
@@ -21,6 +23,10 @@ function LogForm() {
         e.preventDefault();
         console.log(formData);
     };
+
+    const { pathname } = useLocation();
+    const lang = pathname.startsWith('/en') ? lang_en : lang_fr;
+    const langParam = pathname.startsWith('/en') ? 'en' : 'fr';
 
     return (
         <div className="container mt-2">
@@ -64,7 +70,7 @@ function LogForm() {
                                     Log in
                                 </button>
                             </form>
-                            <label htmlFor="" className="text-muted">First Time, Welcome : <Link to="/signin" className="link-primary">SignIn</Link>
+                            <label htmlFor="" className="text-muted">First Time, Welcome : <Link to={`/${langParam}/signin`} className="link-primary">SignIn</Link>
                             </label>
                         </div>
                     </div>

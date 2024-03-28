@@ -1,6 +1,8 @@
 import { useState } from "react";
 import './signForm.css'
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
+import lang_en from "../../assets/lang/lang_en.json";
+import lang_fr from "../../assets/lang/lang_fr.json";
 
 function signForm() {
     const [formData, setFormData] = useState({
@@ -23,6 +25,10 @@ function signForm() {
         e.preventDefault();
         console.log(formData);
     };
+
+    const { pathname } = useLocation();
+    const lang = pathname.startsWith('/en') ? lang_en : lang_fr;
+    const langParam = pathname.startsWith('/en') ? 'en' : 'fr';
 
     return (
         <div className="container mt-5">
@@ -106,7 +112,7 @@ function signForm() {
                                     Sign up
                                 </button>
                             </form>
-                            <label htmlFor="" className="text-muted">You already have an account ? <Link to="/login" className="link-primary">LogIn</Link>
+                            <label htmlFor="" className="text-muted">You already have an account ?  <Link to={`/${langParam}/login`} className="link-primary">LogIn</Link>
                             </label>
                         </div>
                     </div>
