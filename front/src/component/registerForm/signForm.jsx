@@ -152,7 +152,7 @@ function SignForm() {
                                         {lang.signForm.sign_up}
                                     </button>
                                 </form>
-                                <label htmlFor="" className="text-muted">{lang.signForm.already_account} ? <Link to={`/${langParam}/login`} className="link-primary">{lang.signForm.log_in}</Link>
+                                <label htmlFor="" className="text-muted">{lang.signForm.already_account} <Link to={`/${langParam}/login`} className="link-primary">{lang.signForm.log_in}</Link>
                                 </label>
                             </div>
                         </div>

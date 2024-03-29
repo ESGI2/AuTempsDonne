@@ -114,6 +114,7 @@
   },
   "signForm": {
     "sign_up": "S'inscrire",
+    "log_in": "Se connecter",
     "first_name": "Prénom",
     "last_name": "Nom",
     "email": "Email",
