@@ -43,11 +43,19 @@ const router = createBrowserRouter([
         element: <Donpage />,
     },
     {
-        path: "/login",
+        path: "/fr/login",
         element: <LogPage/>,
     },
     {
-        path: "/signin",
+        path: "/en/login",
+        element: <LogPage/>,
+    },
+    {
+        path: "/fr/signin",
+        element: <SignPage/>
+    },
+    {
+        path: "/en/signin",
         element: <SignPage/>
     },
 
