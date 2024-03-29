@@ -93,12 +93,13 @@ function LogForm() {
                                         <input type="password" id="form3Example4" name="password"
                                                className="form-control"
                                                onChange={handlePasswordChange}/>
-
+                                    </div>
                                     <button type="submit" className="btn btn-primary btn-block mb-4">
                                         {lang.logForm.log_in}
                                     </button>
+
                                 </form>
-                                <label htmlFor="" className="text-muted">{lang.logForm.first_time_welcome} : <Link to={`/${langParam}/signin`} className="link-primary">{lang.logForm.sign_in}</Link>
+                                <label htmlFor="" className="text-muted">{lang.logForm.first_time_welcome}<Link to={`/${langParam}/signin`} className="link-primary">{lang.logForm.sign_in}</Link>
                                 </label>
                             </div>
                         </div>
