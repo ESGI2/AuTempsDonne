@@ -3,25 +3,54 @@ import { useLocation, Link } from "react-router-dom";
 import lang_en from "../../assets/lang/lang_en.json";
 import lang_fr from "../../assets/lang/lang_fr.json";
 import './logForm.css';
+import {Alert} from "react-bootstrap";
+import ky from "ky";
+
 
 function LogForm() {
-    const [formData, setFormData] = useState({
-        email: '',
-        password: '',
-    });
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prevState => ({
-            ...prevState,
-            [name]: value
-        }));
+
+    const handleEmailChange = (e) => {
+        setEmail(e.target.value);
+    }
+    const handlePasswordChange = (e) => {
+        setPassword(e.target.value);
+    }
+
+    const [error, setError] = useState('');
+
+    const isEmailValid = (email) => {
+        const regex = /\S+@\S+\.\S+/;
+        return regex.test(email);
+
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(formData);
+
+    const handleSubmit = async (e) => {
+        try {
+            e.preventDefault();
+            if (!isEmailValid(email)) {
+                setError('Invalid email format.');
+                return;
+            }
+            const response = await ky.post('http://localhost:3000/login', {
+                json: {email, password},
+                credentials: 'include',
+            });
+
+            if (response.status === 200) {
+                alert('Login successful');
+                //mettre une redirection
+            } else {
+                setError('Login failed');
+            }
+        } catch (error) {
+            setError('Login failed');
+        }
     };
+
 
     const { pathname } = useLocation();
     const lang = pathname.startsWith('/en') ? lang_en : lang_fr;
@@ -29,11 +58,13 @@ function LogForm() {
 
     return (
         <div className="container mt-2">
-            <section className="text-center" style={{
-                paddingLeft: '200px',
-                paddingRight: '200px',
-                paddingBottom: '100px',
-            }}>
+            <section className="text-center" style={
+                {
+                    paddingLeft: '100px',
+                    paddingRight: '100px',
+                    paddingBottom: '100px',
+                }
+            }>
                 <div className="p-5 bg-image" style={{
                     height: '300px',
                 }}></div>
@@ -49,18 +80,19 @@ function LogForm() {
                         <div className="row d-flex justify-content-center">
                             <div className="col-lg-8">
                                 <h1 className="fw-bold mb-5">{lang.logForm.log_in}</h1>
+                                {error && <Alert variant="danger">{error}</Alert>}
                                 <form onSubmit={handleSubmit}>
                                     <div className="form-outline mb-4">
                                         <label className="form-label" htmlFor="form3Example3">{lang.logForm.email}</label>
                                         <input type="email" id="form3Example3" name="email" className="form-control"
-                                               onChange={handleChange} />
+                                               onChange={handleEmailChange}/>
                                     </div>
 
                                     <div className="form-outline mb-4">
                                         <label className="form-label" htmlFor="form3Example4">{lang.logForm.password}</label>
-                                        <input type="password" id="form3Example4" name="password" className="form-control"
-                                               onChange={handleChange} />
-                                    </div>
+                                        <input type="password" id="form3Example4" name="password"
+                                               className="form-control"
+                                               onChange={handlePasswordChange}/>
 
                                     <button type="submit" className="btn btn-primary btn-block mb-4">
                                         {lang.logForm.log_in}

@@ -10,11 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@hyper-ui/core": "^0.18.0",
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.3",
-    "ky": "^1.2.2",
-    "@hyper-ui/core": "^0.18.0",
     "hyper-ui": "^0.9.0",
+    "ky": "^1.2.3",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.2",
     "react-dom": "^18.2.0",
