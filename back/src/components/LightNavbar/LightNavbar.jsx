@@ -8,8 +8,8 @@ import truckLogo from '../../assets/images/truck.svg'
 import warehouseLogo from '../../assets/images/warehouse.svg'
 import logout from '../../assets/images/logout.svg'
 import kiro from '../../assets/images/kirologo.jpg'
-import {useEffect, useState} from "react";
 import ky from "ky";
+import {useEffect, useState} from "react";
 
 const menuItems = [
     { id: 1, name: 'HOME', logo: homeLogo},
@@ -20,28 +20,41 @@ const menuItems = [
     { id: 6, name: 'WAREHOUSE', logo: warehouseLogo},
 ];
 
-const [userData, setUserData] = useState();
+function getUserData() {
+    return ky.get("http://localhost:3000/user/me", {
+        credentials: "include",
+    }).then((response) => {
+        if (response.status !== 200) {
+            window.location.href = "/";
+        } else {
+            return response.json();
+        }
+    });
+}
 
-// eslint-disable-next-line react-hooks/rules-of-hooks
-// useEffect(() => {
-//     const fetchUserData = async () => {
-//         try {
-//             const response = await ky.get('http://localhost:3000/user/me', {
-//                 credentials: 'include'
-//             }).json();
-//             setUserData(response);
-//         } catch (error) {
-//             console.error("Error fetching user data:", error);
-//             setUserData(null);
-//         }
-//     };
-//
-//     fetchUserData();
-// } , []);
+function logoutUser() {
+    return ky.get("http://localhost:3000/user/logout", {
+        credentials: "include",
+    }).then((response) => {
+        if (response.status === 200) {
+            window.location.href = "/";
+        }
+    });
+
+}
 
 
 
 function LightNavbar() {
+
+    const [userData, setUserData] = useState({});
+
+    useEffect(() => {
+        getUserData().then((data) => {
+            setUserData(data.me);
+        });
+    }, []);
+
     return (
         <nav className="navbar">
             <div className="container">
@@ -51,12 +64,12 @@ function LightNavbar() {
                 </div>
                 <hr/>
                 <div className="menu">
-                    <a href="/public" className="brand">Menu</a>
+                    <a className="brand">Menu</a>
                     <ul>
                         {menuItems.map((item) => (
                             <li key={item.id}>
                                 <img src={item.logo} alt="logo" className='logo'/>
-                                <a href="/public">{item.name}</a>
+                                <a>{item.name}</a>
                             </li>
                         ))}
                     </ul>
@@ -67,10 +80,10 @@ function LightNavbar() {
                         <img src={kiro}></img>
                         <div className="userData">
                             <p>{userData.first_name}</p>
-                            <p>{userData.email}</p>
+                            <p>{userData.last_name}</p>
                         </div>
                     </div>
-                    <img src={logout}></img>
+                    <img src={logout} onClick={logoutUser}></img>
                 </div>
             </div>
         </nav>

@@ -51,6 +51,16 @@ class UserController {
         }
     }
 
+    static async logout(req, res) {
+        try {
+            res.clearCookie('jwt');
+            res.status(200).json({ "Message": "User logged out" });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ "Error": "Error logging out user" });
+        }
+    }
+
     static async deleteUser(req, res) {
         try {
             const { id } = req.params;

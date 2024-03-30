@@ -1,4 +1,3 @@
-/* Prepare color var*/
 :root {
     --blue-background: #5B83A6;
     --grey-text: #5B6172;
@@ -8,11 +7,26 @@
     --white-background: #F3F4F7;
 }
 
-.navbar .container {
-    background-color: var(--blue-background);
-    width: 20%;
+.navbar {
+    width: 15%;
     height: 100vh;
+    background-color: #5B83A6;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 0 15px 15px 0;
 }
+
+.navbar .container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
 
 .navbar .container .head {
     display: flex;
@@ -24,7 +38,7 @@
 }
 
 .navbar .container .head h1 {
-    font-size: 2rem;
+    font-size: 1.7rem;
     margin: 0;
     padding: 0;
     font-weight: normal;
@@ -125,4 +139,8 @@ hr {
 
 .navbar .container .footer .person .userData p:nth-child(2) {
     color: var(--grey-text);
+}
+
+.navbar .container .footer img {
+    cursor: pointer;
 }
