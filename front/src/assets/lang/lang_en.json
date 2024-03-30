@@ -2,7 +2,9 @@
   "menu": {
     "association": "ASSOCIATION",
     "missions": "OUR MISSIONS",
-    "contacter": "CONTACT US"
+    "contacter": "CONTACT US",
+    "agenda": "AGENDA",
+    "demande": "BENEFIT"
   },
   "dropdown": {
     "langue": "Language",
@@ -11,7 +13,9 @@
   },
   "buttons": {
     "espace_client": "CLIENT AREA",
-    "don": "DONATE"
+    "deconnection": "unlog",
+    "don": "DONATE",
+    "profil" : "profile"
   },
   "home": {
     "nous_connaitre": {
