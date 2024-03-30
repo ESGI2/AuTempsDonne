@@ -10,14 +10,15 @@ import logout from '../../assets/images/logout.svg'
 import kiro from '../../assets/images/kirologo.jpg'
 import ky from "ky";
 import {useEffect, useState} from "react";
+import {Link} from "react-router-dom";
 
 const menuItems = [
-    { id: 1, name: 'HOME', logo: homeLogo},
-    { id: 2, name: 'MEMBERS', logo: membersLogo},
-    { id: 3, name: 'CALENDAR', logo: calendarLogo},
-    { id: 4, name: 'MARAUDE', logo: maraudeLogo},
-    { id: 5, name: 'TRUCK', logo: truckLogo},
-    { id: 6, name: 'WAREHOUSE', logo: warehouseLogo},
+    { id: 1, name: 'HOME', logo: homeLogo, redirect: '/admin'},
+    { id: 2, name: 'MEMBERS', logo: membersLogo, redirect: '/users'},
+    { id: 3, name: 'CALENDAR', logo: calendarLogo, redirect: '/calendar'},
+    { id: 4, name: 'MARAUDE', logo: maraudeLogo, redirect: '/maraude'},
+    { id: 5, name: 'TRUCK', logo: truckLogo, redirect: '/truck'},
+    { id: 6, name: 'WAREHOUSE', logo: warehouseLogo, redirect: '/warehouse'},
 ];
 
 function getUserData() {
@@ -67,10 +68,12 @@ function LightNavbar() {
                     <a className="brand">Menu</a>
                     <ul>
                         {menuItems.map((item) => (
-                            <li key={item.id}>
-                                <img src={item.logo} alt="logo" className='logo'/>
-                                <a>{item.name}</a>
-                            </li>
+                            <Link to={item.redirect} key={item.id}>
+                                <li key={item.id}>
+                                    <img src={item.logo} alt="logo" className='logo'/>
+                                    <a>{item.name}</a>
+                                </li>
+                            </Link>
                         ))}
                     </ul>
                 </div>

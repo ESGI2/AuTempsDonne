@@ -7,6 +7,10 @@
     --white-background: #F3F4F7;
 }
 
+Link:hover {
+    color: inherit;
+}
+
 .navbar {
     width: 15%;
     height: 100vh;
