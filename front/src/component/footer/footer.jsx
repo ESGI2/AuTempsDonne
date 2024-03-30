@@ -1,5 +1,5 @@
 import React from 'react';
-import '../css/footer.css';
+import './footer.css';
 
 function Footer() {
     return (
@@ -9,10 +9,8 @@ function Footer() {
                 <p className="txt-footer">
                     © Techintegrate
                 </p>
-
             </div>
         </footer>
-
     );
 }
 

@@ -11,6 +11,14 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, x-access-token, x-refresh-token');
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    next();
+});
+  
 sequelize.sync().then(() => {
     console.log('La connexion à la base de données a été établie avec succès.');
     const port = 3000;
@@ -76,6 +84,18 @@ app.use('/deliveryDrivers', deliveryDriverRoutes)
 // DELIVERY_LISTING ROUTE
 const deliveryListingRoutes = require('./routes/deliveryListing.route');
 app.use('/deliveryListing', deliveryListingRoutes)
+
+// EVENT LISTING ROUTE
+const eventListingRoute = require('./routes/eventListing.route');
+app.use('/eventListing', eventListingRoute);
+
+// TRAINING ROUTE
+const trainingRoute = require('./routes/training.route');
+app.use('/training', trainingRoute);
+
+// TRAINING LISTING ROUTE
+const trainingListingRoute = require('./routes/trainingListing.route');
+app.use('/traininglisting', trainingListingRoute);
 
 // Setup default route
 app.use((req, res) => {

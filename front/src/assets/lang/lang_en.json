@@ -1,0 +1,135 @@
+{
+  "menu": {
+    "association": "ASSOCIATION",
+    "missions": "OUR MISSIONS",
+    "contacter": "CONTACT US",
+    "agenda": "AGENDA",
+    "demande": "BENEFIT"
+  },
+  "dropdown": {
+    "langue": "Language",
+    "francais": "French",
+    "anglais": "English"
+  },
+  "buttons": {
+    "espace_client": "CLIENT AREA",
+    "deconnection": "unlog",
+    "don": "DONATE",
+    "profil" : "profile"
+  },
+  "home": {
+    "nous_connaitre": {
+      "titre": "Get to Know Us",
+      "paragraphe1": "AT YOUR GIVEN TIME fights against isolation among precarious individuals. In this regard, we develop a social bond based on listening and dialogue.",
+      "paragraphe2": "We carry out social outreach in Paris. On this occasion, our teams distribute coffee, tea, sandwiches, and hygiene products.",
+      "paragraphe3": "The distributions allow us to initiate a conversation and thus create a friendly exchange.",
+      "paragraphe4": "The objective is to be present, to exchange on various subjects, but above all to create a relationship of trust over the course of the outreach efforts.",
+      "bouton_missions": "OUR MISSIONS"
+    },
+    "nos_partenaires": "Our Partners",
+    "on_recrute": {
+      "titre": "We're Hiring!",
+      "paragraphe1": "Take action now",
+      "paragraphe2": "Our strength becomes greater through collective action.",
+      "paragraphe3": "You too can make a difference with AT YOUR GIVEN TIME!",
+      "paragraphe4": "The support we receive helps strengthen our efforts to address societal issues.",
+      "paragraphe5": "Contact us today and join us to take concrete action.",
+      "bouton_rejoindre": "JOIN US"
+    }
+  },
+  "don": {
+    "titre": "How to Help Us",
+    "paragraphe": "You can firstly share our social networks to promote our actions. Moreover, you can volunteer by joining the big family AT YOUR GIVEN TIME. You can also make donations (financial, food, hygiene, materials). Below is a non-exhaustive list of the products we collect:"
+  },
+  "categories": {
+    "materiels": {
+      "titre": "Materials",
+      "items": [
+        "Aluminum trays",
+        "Plastic cups",
+        "Plastic forks and spoons",
+        "Stirrers",
+        "Paper napkins",
+        "Plastic gloves",
+        "Garbage bags",
+        "Hand sanitizers",
+        "Masks",
+        "Cleaning wipes",
+        "Plastic bags"
+      ]
+    },
+    "aliments": {
+      "titre": "Food",
+      "items": [
+        "Coffee",
+        "Pasta",
+        "Eggs",
+        "Rice",
+        "Chicken",
+        "Orange juice",
+        "Tomato sauce",
+        "Baguette",
+        "Sauce",
+        "Bottled water",
+        "Sugar",
+        "Tuna"
+      ]
+    },
+    "hygiene": {
+      "titre": "Hygiene",
+      "items": [
+        "Razor",
+        "Nail clippers",
+        "Toothbrush",
+        "Soap",
+        "Toothpaste",
+        "Shower gel",
+        "Shampoo",
+        "Tissue",
+        "Sanitary napkin"
+      ]
+    }
+  },
+  "contactForm": {
+    "titre": "Contact",
+    "subtitre": "For any other inquiries, contact us via the form below",
+    "type_request": "Type of request",
+    "request_options": [
+      "I want to be a Beneficiary but ...",
+      "To do a Donation",
+      "Need Help",
+      "Nature Donation (Clothing, pants, ...)",
+      "Partnership",
+      "Choose ..."
+    ],
+    "first_name": "First name",
+    "last_name": "Last name",
+    "email": "Email",
+    "message": "Message",
+    "subscribe_newsletter": "Subscribe to our newsletter",
+    "submit_button": "Submit"
+  },
+  "logForm": {
+    "log_in": "Log in",
+    "email": "Email",
+    "password": "Password",
+    "first_time_welcome": "First Time, Welcome :",
+    "sign_in": "Sign In"
+  },
+  "signForm": {
+    "sign_up": "Sign Up",
+    "log_in": "Log in",
+    "first_name": "First Name",
+    "last_name": "Last Name",
+    "email": "Email",
+    "phone_number": "Phone Number",
+    "password": "Password",
+    "role": "Role",
+    "beneficiary": "I want to be a Beneficiary",
+    "volunteer": "I want to be a Volunteer",
+    "choose": "Choose...",
+    "subscribe_newsletter": "Subscribe to our newsletter",
+    "already_account": "Already have an account ?"
+  }
+}
+

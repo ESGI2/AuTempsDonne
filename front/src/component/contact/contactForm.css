@@ -1,0 +1,10 @@
+.icons-container {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+.icons-container a {
+    font-size: 30px;
+}
+

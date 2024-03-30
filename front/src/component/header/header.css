@@ -1,0 +1,116 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    z-index: 10;
+    background-color: #5B83A6;
+    width: 100%;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    margin: 0;
+    color: white;
+    flex-wrap: wrap;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 75px;
+    margin-right: 10px;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+nav button {
+    color: white;
+    border: none;
+    background: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-right: 10px;
+    cursor: pointer;
+    font-family: 'Courgette', cursive;
+}
+
+nav button a {
+    text-decoration: none;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+nav button:last-child {
+    margin-right: 0;
+}
+
+nav button a {
+    color: white;
+}
+
+.association-btn:hover,
+.missions-btn:hover,
+.rejoindre-btn:hover {
+    background-color: #93BFCF;
+}
+
+.contacter-btn:hover,
+.don-btn:hover,
+.rejoindre-btn:hover{
+    background-color: #93BFCF;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #5B83A6;
+    min-width: 100px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #778895;
+}
+
+@media screen and (max-width: 600px) {
+    .logo img {
+        height: 50px;
+    }
+    nav {
+        flex-grow: 0;
+        margin-top: 0;
+    }
+    nav button {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+}

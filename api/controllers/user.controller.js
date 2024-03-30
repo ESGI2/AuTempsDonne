@@ -32,6 +32,35 @@ class UserController {
         }
     }
 
+    static async getMe(req, res) {
+        try {
+            const { id } = req.user;
+            const user = await UserServices.getUserById(id);
+            const me = {
+                id: user.id,
+                email: user.email,
+                role: user.role,
+                first_name: user.first_name,
+                last_name: user.last_name
+            };
+            if (!user) return res.status(404).json({ "Error": "User not found" });
+            res.status(200).json({ "Message": "User recovered", me });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ "Error": "Error recovering user" });
+        }
+    }
+
+    static async logout(req, res) {
+        try {
+            res.clearCookie('jwt');
+            res.status(200).json({ "Message": "User logged out" });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ "Error": "Error logging out user" });
+        }
+    }
+
     static async deleteUser(req, res) {
         try {
             const { id } = req.params;

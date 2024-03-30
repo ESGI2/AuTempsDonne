@@ -1,0 +1,134 @@
+{
+  "menu": {
+    "association": "ASSOCIATION",
+    "missions": "NOS MISSIONS",
+    "contacter": "NOUS CONTACTER",
+    "agenda": "AGENDA",
+    "demande": "DEMANDE"
+  },
+  "dropdown": {
+    "langue": "Langue",
+    "francais": "Français",
+    "anglais": "Anglais"
+  },
+  "buttons": {
+    "espace_client": "ESPACE CLIENT",
+    "deconnection": "deconnection",
+    "don": "DON",
+    "profil" : "profil"
+  },
+  "home": {
+    "nous_connaitre": {
+      "titre": "Nous connaître",
+      "paragraphe1": "AU TEMPS DONNE lutte contre l'isolement des personnes précaires. En ce sens, nous développons un lien social basé sur l’écoute et le dialogue.",
+      "paragraphe2": "Nous réalisons des maraudes sociales à Paris. À cette occasion, nos équipes distribuent café, thé, sandwich et produits d’hygiène.",
+      "paragraphe3": "Les distributions nous permettent de pouvoir amorcer une conversation et ainsi créer un échange convivial.",
+      "paragraphe4": "L’objectif étant d’être présent, d’échanger sur divers sujets mais surtout de créer un lien de confiance au fil des maraudes.",
+      "bouton_missions": "NOS MISSIONS"
+    },
+    "nos_partenaires": "Nos partenaires",
+    "on_recrute": {
+      "titre": "On recrute !",
+      "paragraphe1": "Agissez maintenant",
+      "paragraphe2": "Notre force devient plus importante à travers l’action collective.",
+      "paragraphe3": "Vous aussi, faites la différence avec AU TEMPS DONNE !",
+      "paragraphe4": "Le soutien que nous recevons contribue à renforcer nos efforts pour résoudre les problèmes de société.",
+      "paragraphe5": "Contactez-nous dès aujourd’hui et rejoignez-nous pour agir concrètement.",
+      "bouton_rejoindre": "NOUS REJOINDRE"
+    }
+  },
+  "don": {
+    "titre": "Comment nous aider",
+    "paragraphe": "Vous pouvez tout d’abord partager nos réseaux sociaux afin de faire connaître nos actions. En outre, vous pouvez faire du bénévolat en rejoignant la grande famille AU TEMPS DONNE. Vous pouvez également réaliser des dons (financiers, alimentaires, hygiènes, matériels). Ci-dessous une liste non-exhaustive des produits que nous collectons :"
+  },
+  "categories": {
+    "materiels": {
+      "titre": "Matériels",
+      "items": [
+        "Barquettes en aluminium",
+        "Gobelets en plastique",
+        "Fourchettes et cuillères en plastique",
+        "Touillettes",
+        "Serviettes en papier",
+        "Gants en plastique",
+        "Sacs poubelle",
+        "Gels Hydro-alcoolique",
+        "Masques",
+        "Lingettes nettoyantes",
+        "Sachet en plastique"
+      ]
+    },
+    "aliments": {
+      "titre": "Aliments",
+      "items": [
+        "Café",
+        "Pâtes",
+        "Oeuf",
+        "Riz",
+        "Poulet",
+        "Jus d’orange",
+        "Sauce tomate",
+        "Baguette",
+        "Sauce",
+        "Bouteille d’eau",
+        "Sucre",
+        "Thon"
+      ]
+    },
+    "hygiene": {
+      "titre": "Hygiène",
+      "items": [
+        "Rasoir",
+        "Coupe-ongles",
+        "Brosse à dent",
+        "Savon",
+        "Dentifrice",
+        "Gel douche",
+        "Shampoing",
+        "Mouchoir",
+        "Serviette hygiénique"
+      ]
+    }
+  },
+  "contactForm": {
+    "titre": "Contact",
+    "subtitre": "Pour toutes autres demandes, contactez-nous via le formulaire ci-dessous",
+    "type_request": "Type de demande",
+    "request_options": [
+      "Je veux être un bénéficiaire mais...",
+      "Faire un don",
+      "Besoin d'aide",
+      "Don nature (vêtements, pantalons, ...)",
+      "Partenariat",
+      "Choisir ..."
+    ],
+    "first_name": "Prénom",
+    "last_name": "Nom",
+    "email": "E-mail",
+    "message": "Message",
+    "subscribe_newsletter": "S'abonner à notre newsletter",
+    "submit_button": "Soumettre"
+  },
+  "logForm": {
+    "log_in": "Se connecter",
+    "email": "Email",
+    "password": "Mot de passe",
+    "first_time_welcome": "Première fois, Bienvenue :",
+    "sign_in": "S'inscrire"
+  },
+  "signForm": {
+    "sign_up": "S'inscrire",
+    "log_in": "Se connecter",
+    "first_name": "Prénom",
+    "last_name": "Nom",
+    "email": "Email",
+    "phone_number": "Numéro de téléphone",
+    "password": "Mot de passe",
+    "role": "Rôle",
+    "beneficiary": "Je veux être un Bénéficiaire",
+    "volunteer": "Je veux être un Volontaire",
+    "choose": "Choisir...",
+    "subscribe_newsletter": "S'abonner à notre newsletter",
+    "already_account": "Vous avez déjà un compte ?"
+  }
+}
