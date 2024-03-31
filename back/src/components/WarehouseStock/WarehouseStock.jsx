@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import ky from "ky";
 
 function getAllProducts() {
@@ -13,19 +13,86 @@ function getAllProducts() {
     });
 }
 
+function getAllStocks() {
+    return ky.get("http://localhost:3000/stock/all", {
+        credentials: "include",
+    }).then((response) => {
+        if (response.status !== 200) {
+            window.location.href = "/";
+        } else {
+            return response.json();
+        }
+    });
+}
+
+function getAllWarehouses() {
+    return ky.get("http://localhost:3000/warehouse", {
+        credentials: "include",
+    }).then((response) => {
+        if (response.status !== 200) {
+            window.location.href = "/";
+        } else {
+            return response.json();
+        }
+    });
+}
+
 const WarehouseStock = () => {
-    const [items, setItems] = useState([]);
+    const [products, setProducts] = useState([]);
+    const [stocks, setStocks] = useState([]);
+    const [warehouses, setWarehouses] = useState([]);
 
     useEffect(() => {
         getAllProducts().then((data) => {
-            setItems(data);
+            setProducts(data);
+        });
+
+        getAllStocks().then((data) =>{
+            setStocks(data)
+        });
+
+        getAllWarehouses().then((data) =>{
+            setWarehouses(data)
         });
     }, []);
 
-    console.log(items.map(items => items.id))
+
+    const dataRows = products.map(product => {
+        const stock = stocks.find(stock => stock.id_product === product.id);
+        const warehouse = stock ? warehouses.find(warehouse => warehouse.id === stock.id_warehouse) : null;
+
+        return {
+            id: product.id,
+            name: product.name,
+            quantity: stock ? stock.quantity : 0,
+            warehouseName: warehouse ? warehouse.name : "Unknown"
+        };
+    });
+
 
     return (
-        <p>{items.map(items => items.id)}</p>
+        <div>
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Warehouse</th>
+                </tr>
+                </thead>
+                <tbody>
+                {dataRows.map(row => (
+                    <tr key={row.id}>
+                        <td>{row.id}</td>
+                        <td>{row.name}</td>
+                        <td>{row.quantity}</td>
+                        <td>{row.warehouseName}</td>
+                    </tr>
+                ))}
+                </tbody>
+            </table>
+        </div>
     );
 };
 
