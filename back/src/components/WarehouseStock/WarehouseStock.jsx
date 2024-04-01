@@ -37,8 +37,8 @@ function getAllWarehouses() {
     });
 }
 
-function deleteProductByName(name) {
-    return ky.delete(`http://localhost:3000/product/${name}`, {
+function patchProductquantity(id, warehouseId, quantity) {
+    return ky.patch(`http://localhost:3000/stock/${id}/${warehouseId}/${quantity}`, {
         credentials: "include",
     }).then((response) => {
         if (response.status !== 200) {
@@ -65,6 +65,7 @@ const WarehouseStock = () => {
     const [stocks, setStocks] = useState([]);
     const [warehouses, setWarehouses] = useState([]);
     const [showModal, setShowModal] = useState(false);
+    const [quantityToAdd, setQuantityToAdd] = useState(0);
 
     useEffect(() => {
         getAllProducts().then((data) => {
@@ -88,6 +89,20 @@ const WarehouseStock = () => {
         setShowModal(false);
     };
 
+    const handleChangeQuantity = (event) => {
+        setQuantityToAdd(event.target.value);
+    };
+
+    const handleModifyQuantity = (id, warehouseId) => {
+        patchProductquantity(id, warehouseId, quantityToAdd)
+            .then(() => {
+                // Mettre à jour les stocks ou rafraîchir la liste des produits
+            })
+            .catch((error) => {
+                console.error('Une erreur s\'est produite :', error);
+            });
+    };
+
     const dataRows = products.map(product => {
         const stock = stocks.find(stock => stock.id_product === product.id);
         const warehouse = stock ? warehouses.find(warehouse => warehouse.id === stock.id_warehouse) : null;
@@ -98,7 +113,8 @@ const WarehouseStock = () => {
             type: product.type,
             donation: product.donation,
             quantity: stock ? stock.quantity : 0,
-            warehouseName: warehouse ? warehouse.name : "Unknown"
+            warehouseName: warehouse ? warehouse.name : "Unknown",
+            warehouseId: warehouse ? warehouse.id : null,
         };
     });
 
@@ -111,14 +127,14 @@ const WarehouseStock = () => {
             <div className="max-w-md mt-5 mx-auto">
                 <table className="w-full">
                     <thead>
-                    <tr style={{ backgroundColor: '#CECFCF' , borderRadius : "5px" }} >
+                    <tr style={{ backgroundColor: '#CECFCF', borderRadius: "5px" }} >
                         <th className="py-2.5 px-3 text-left" >ID</th>
                         <th className="py-2.5 px-3 text-left">Type</th>
                         <th className="py-2.5 px-3 text-left">Product</th>
                         <th className="py-2.5 px-3 text-left">Nombre total (kg)</th>
                         <th className="py-2.5 px-3 text-left">Donation</th>
                         <th className="py-2.5 px-3 text-left">Entrepôt</th>
-                        <th className="py-2.5 px-3 text-left"></th>
+                        <th className="py-2.5 px-3 text-left">Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -130,7 +146,10 @@ const WarehouseStock = () => {
                             <td className="py-2.5 px-3">{row.quantity}</td>
                             <td className="py-2.5 px-3">{row.donation ? "oui" : "non "}</td>
                             <td className="py-2.5 px-3">{row.warehouseName}</td>
-                            <td className="py-2.5 px-3"><button /*onClick={deleteProductByName(row.name)} */>Delete</button></td>
+                            <td className="py-2.5 px-3">
+                                <input type="number" value={quantityToAdd} onChange={handleChangeQuantity} />
+                                <button onClick={() => handleModifyQuantity(row.id, row.warehouseId)}>Modifier</button>
+                            </td>
                         </tr>
                     ))}
                     </tbody>
