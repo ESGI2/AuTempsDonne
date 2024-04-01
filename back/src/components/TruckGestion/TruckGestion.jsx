@@ -72,30 +72,26 @@ const TruckGestion = () => {
                     });
                 }} />}
             </div>
-            <table className="table">
+            <table className="min-w-full">
                 <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nom</th>
-                    <th>Plaque</th>
-                    <th>Localisation</th>
-                    <th>Modifier localisation</th>
+                <tr className="w-full" style={{ backgroundColor: '#CECFCF'}}>
+                    <th className="py-2.5 px-3 text-left">ID</th>
+                    <th className="py-2.5 px-3 text-left">Nom</th>
+                    <th className="py-2.5 px-3 text-left">Plaque</th>
+                    <th className="py-2.5 px-3 text-left">Localisation</th>
+                    <th className="py-2.5 px-3 text-left">Modifier localisation</th>
                 </tr>
                 </thead>
                 <tbody>
                 {trucks.map(truck => (
                     <tr key={truck.id}>
-                        <td>{truck.id}</td>
-                        <td>{truck.name}</td>
-                        <td>{truck.plaque_immatriculation}</td>
-                        <td>{truck.localisation}</td>
-                        <td>
+                        <td className="py-2.5 px-3">{truck.id}</td>
+                        <td className="py-2.5 px-3">{truck.name}</td>
+                        <td className="py-2.5 px-3">{truck.plaque_immatriculation}</td>
+                        <td className="py-2.5 px-3">{truck.localisation}</td>
+                        <td className="py-2.5 px-3">
                             <form onSubmit={(event) => handleSubmit(event, truck.id)}>
-                                <input
-                                    type="text"
-                                    value={newLocalisation}
-                                    onChange={(event) => setNewLocalisation(event.target.value)}
-                                />
+                                <input type="text" className="border border-black rounded-md"  value={newLocalisation} onChange={(event) => setNewLocalisation(event.target.value)}/>
                                 <button type="submit">Modifier</button>
                             </form>
                         </td>

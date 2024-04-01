@@ -136,7 +136,7 @@ const WarehouseStock = () => {
                             <td className="py-2.5 px-3">{row.donation ? "oui" : "non "}</td>
                             <td className="py-2.5 px-3">{row.warehouseName}</td>
                             <td className="py-2.5 px-3">
-                                <input type="number" value={quantityToAdd} onChange={handleChangeQuantity} />
+                                <input className="border border-black rounded-md" type="number" value={quantityToAdd} onChange={handleChangeQuantity} />
                                 <button onClick={() => handleModifyQuantity(row.id, row.warehouseId)}>Modifier</button>
                             </td>
                         </tr>
