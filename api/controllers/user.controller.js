@@ -66,6 +66,7 @@ class UserController {
             const { id } = req.params;
             const user = await UserServices.getUserById(id);
             if (!user) return res.status(404).json({ "Error": "User not found" });
+            if (user.role === 'admin') return res.status(403).json({ "Error": "You can't delete an admin" });
             await UserServices.deleteUser(id);
             res.status(200).json({ "Message": "User deleted" });
         } catch (error) {
@@ -80,8 +81,18 @@ class UserController {
             const user = await UserServices.getUserById(id);
             if (!user) return res.status(404).json({ "Error": "User not found" });
             const data = req.body;
-            await UserServices.editUser(id, data);
-            res.status(200).json({ "Message": "User updated" });
+            const editedData = {};
+            if (data.nbr_child === "") data.nbr_child = 0;
+            for (const key in data) {
+                if (data[key] !== "") {
+                    editedData[key] = data[key];
+                } else {
+                    editedData[key] = null;
+                }
+            }
+
+            await UserServices.editUser(id, editedData);
+            res.status(200).json({ "Message": "User updated", data });
         } catch (error) {
             console.error(error);
             res.status(500).json({ "Error": "Error updating user" });

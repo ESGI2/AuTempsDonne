@@ -4,7 +4,7 @@ import Admin_img from "../../assets/images/Admin2.svg";
 import Responsable_img from "../../assets/images/Responsable.svg";
 import Beneficiary_img from "../../assets/images/Beneficiary.svg";
 import Volunteer_img from "../../assets/images/Volunteer.svg";
-import {Link} from "react-router-dom";
+import EditUserModal from "./EditUserModal.jsx";
 
 const role = {
     admin : Admin_img,
@@ -25,19 +25,6 @@ function getAllUsers() {
     });
 }
 
-function getUser(id) {
-    return ky.get(`http://localhost:3000/user/${id}`, {
-        credentials: "include",
-    }).then((response) => {
-        if (response.status !== 200) {
-            window.location.href = "/";
-        } else {
-            return response.json();
-        }
-    });
-
-}
-
 function deleteUser(id) {
 
     return ky.delete(`http://localhost:3000/user/${id}`, {
@@ -52,6 +39,8 @@ function deleteUser(id) {
 const UsersListing = () => {
 
     const [users, setUsers] = useState([]);
+    const [showModal, setShowModal] = useState(false);
+    const [selectedUser, setSelectedUser] = useState(null);
 
     useEffect(() => {
         getAllUsers().then((data) => {
@@ -59,10 +48,27 @@ const UsersListing = () => {
         });
     }, []);
 
+    const openModal = (user) => {
+        setSelectedUser(user);
+        setShowModal(true);
+    };
+
+    const closeModal = () => {
+        setShowModal(false);
+        updateUserList();
+    };
+
+    const updateUserList = () => {
+        getAllUsers().then((data) => {
+            setUsers(data.users);
+        });
+    };
+
 
     return (
 
         <div className="rounded-lg border border-gray-200">
+            {showModal && <EditUserModal user={selectedUser} onClose={closeModal} onUpdateUser={updateUserList} />}
             <h1 className="text-2xl font-semibold text-gray-900 px-4 py-6 text-center">Users</h1>
             <div className="overflow-x-auto rounded-t-lg">
                 <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
@@ -91,9 +97,9 @@ const UsersListing = () => {
                                 <td className="whitespace nowrap px-4 py-2 text-gray-700">{user.registration_date}</td>
                                 <td className="whitespace nowrap px-4 py-2 text-gray-700">{user.account_status}</td>
                                 <td className="whitespace nowrap px-4 py-2 text-gray-700">
-                                    <Link to={`/users/edit/${user.id}`} className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">
+                                    <button onClick={() => openModal(user)} className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">
                                         Edit
-                                    </Link>
+                                    </button>
 
                                     <button className="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded" onClick={() => deleteUser(user.id)}>
                                         Delete
