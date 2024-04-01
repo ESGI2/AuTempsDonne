@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ky from "ky";
+import Modal from './Modal';
 
 function getAllProducts() {
     return ky.get("http://localhost:3000/product", {
@@ -48,17 +49,6 @@ function patchProductquantity(id, warehouseId, quantity) {
         }
     });
 }
-
-const Modal = ({ onClose }) => {
-    return (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
-            <div className="bg-white p-8 rounded-lg">
-                <p>Ajouter un produit</p>
-                <button onClick={onClose} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg">Fermer</button>
-            </div>
-        </div>
-    );
-};
 
 const WarehouseStock = () => {
     const [products, setProducts] = useState([]);
