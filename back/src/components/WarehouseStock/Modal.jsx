@@ -56,7 +56,7 @@ const Modal = ({ onClose }) => {
             const addedProduct = await AddProduct(productName, productType, productDonation);
             const addedStock = await AddStock(addedProduct.id, selectedWarehouse, quantity);
             console.log('Product and stock added successfully:', addedProduct, addedStock);
-            onClose(); // Fermer le modal après l'ajout
+            onClose();
         } catch (error) {
             console.error('Error adding product and stock:', error);
         }

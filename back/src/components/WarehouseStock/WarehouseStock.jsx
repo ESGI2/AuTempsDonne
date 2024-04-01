@@ -86,7 +86,6 @@ const WarehouseStock = () => {
     const handleModifyQuantity = (id, warehouseId) => {
         patchProductquantity(id, warehouseId, quantityToAdd)
             .then(() => {
-                // Mettre à jour les stocks ou rafraîchir la liste des produits
             })
             .catch((error) => {
                 console.error('Une erreur s\'est produite :', error);

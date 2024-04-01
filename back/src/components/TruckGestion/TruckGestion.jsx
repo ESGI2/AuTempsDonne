@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ky from 'ky';
+import TruckModal from './AddTruckModal.jsx';
 
 const getAllTrucks = () => {
     return ky.get("http://localhost:3000/truck", {
@@ -13,7 +14,7 @@ const getAllTrucks = () => {
     });
 };
 
-const EditTrucksLocalisation = (id , localisation) => {
+const EditTrucksLocalisation = (id, localisation) => {
     return ky.patch(`http://localhost:3000/truck/?id=${id}&localisation=${localisation}`, {
         credentials: "include",
     }).then((response) => {
@@ -28,6 +29,7 @@ const EditTrucksLocalisation = (id , localisation) => {
 const TruckGestion = () => {
     const [trucks, setTrucks] = useState([]);
     const [newLocalisation, setNewLocalisation] = useState('');
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         getAllTrucks().then(data => {
@@ -39,7 +41,6 @@ const TruckGestion = () => {
         event.preventDefault();
         EditTrucksLocalisation(id, newLocalisation)
             .then(() => {
-                // Rafraîchir la liste des camions après modification de la localisation
                 getAllTrucks().then(data => {
                     setTrucks(data);
                 });
@@ -49,9 +50,28 @@ const TruckGestion = () => {
             });
     };
 
+    const openModal = () => {
+        setShowModal(true);
+    };
+
+    const closeModal = () => {
+        setShowModal(false);
+    };
+
+    const handleAddTruck = () => {
+        setShowModal(true);
+    };
+
     return (
         <div>
-            <h2>Liste des camions</h2>
+            <div>
+                <button onClick={handleAddTruck} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg">Ajouter un camion</button>
+                {showModal && <TruckModal onClose={closeModal} onAdd={() => {
+                    getAllTrucks().then(data => {
+                        setTrucks(data);
+                    });
+                }} />}
+            </div>
             <table className="table">
                 <thead>
                 <tr>
