@@ -36,6 +36,15 @@ class TruckServices {
             throw error;
         }
     }
+
+    static async deleteTruckById(id) {
+        try {
+            await TruckRepository.deleteTruckById(id);
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
 }
 
 module.exports = TruckServices;

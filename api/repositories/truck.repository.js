@@ -5,7 +5,8 @@ class TruckRepository {
         try {
             await Truck.create({
                 name: data.name,
-                localisation: data.localisation
+                localisation: data.localisation,
+                plaque_immatriculation: data.plaque_immatriculation
             });
         } catch (error) {
             console.error(error);
@@ -40,6 +41,21 @@ class TruckRepository {
 
             truck.localisation = newLocalisation;
             await truck.save();
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
+    static async deleteTruckById(id) {
+        try {
+            const truck = await Truck.findByPk(id);
+
+            if (!truck) {
+                throw new Error('Camion non trouvé');
+            }
+
+            await truck.destroy();
         } catch (error) {
             console.error(error);
             throw error;
