@@ -107,6 +107,17 @@ const EditUserModal = ({ user, onClose }) => {
         }
     };
 
+    function deleteUser(id) {
+
+        return ky.delete(`http://localhost:3000/user/${id}`, {
+            credentials: "include",
+        }).then((response) => {
+            if (response.status === 200) {
+                onClose();
+            }
+        });
+    }
+
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
             <div className="bg-white p-8 rounded-lg grid grid-cols-3 gap-4">
@@ -235,6 +246,9 @@ const EditUserModal = ({ user, onClose }) => {
                         <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-lg">Update</button>
                         <button type="button" onClick={onClose}
                                 className="ml-4 px-4 py-2 bg-gray-300 text-gray-700 rounded-lg">Cancel
+                        </button>
+                        <button type="button" onClick={() => deleteUser(user.id)}
+                                className="ml-4 px-4 py-2 bg-red-500 text-white rounded-lg">Delete
                         </button>
                     </form>
                 </div>

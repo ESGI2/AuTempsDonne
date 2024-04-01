@@ -25,17 +25,6 @@ function getAllUsers() {
     });
 }
 
-function deleteUser(id) {
-
-    return ky.delete(`http://localhost:3000/user/${id}`, {
-        credentials: "include",
-    }).then((response) => {
-        if (response.status === 200) {
-            window.location.reload();
-        }
-    });
-}
-
 const UsersListing = () => {
 
     const [users, setUsers] = useState([]);
@@ -99,10 +88,6 @@ const UsersListing = () => {
                                 <td className="whitespace nowrap px-4 py-2 text-gray-700">
                                     <button onClick={() => openModal(user)} className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">
                                         Edit
-                                    </button>
-
-                                    <button className="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded" onClick={() => deleteUser(user.id)}>
-                                        Delete
                                     </button>
                                 </td>
                             </tr>
