@@ -18,7 +18,7 @@ const router = createBrowserRouter([
         element: <AuthenticatedRoute element={<Users />} />,
         errorElement: <ErrorPage />,
     },
-
+    {
         path: "/warehouse",
         element: <AuthenticatedRoute element={<WarehouseStockPage />} />,
         errorElement: <ErrorPage />,
