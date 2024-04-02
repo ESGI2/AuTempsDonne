@@ -1,35 +1,110 @@
-const NewUserModal = ({ open, onClose }) => {
+import React, { useEffect, useState } from 'react';
+import ky from 'ky';
+
+const NewUserModal = ({ onClose }) => {
+    const [first_name, setFirstName] = useState('');
+    const [last_name, setLastName] = useState('');
+    const [email, setEmail] = useState(false);
+    const [password, setPassword] = useState('');
+    const [role, setRole] = useState('');
+    const [error, setError] = useState(null);
+
+    const handleFirstNameChange = (event) => {
+        setFirstName(event.target.value);
+    }
+
+    const handleLastNameChange = (event) => {
+        setLastName(event.target.value);
+    }
+
+    const handleEmailChange = (event) => {
+        setEmail(event.target.value);
+    }
+
+    const handlePasswordChange = (event) => {
+        setPassword(event.target.value);
+    }
+
+    const handleRoleChange = (event) => {
+        setRole(event.target.value);
+    }
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const user = {
+            first_name: first_name,
+            last_name: last_name,
+            email: email,
+            password: password,
+            role: role
+        }
+
+        if (!first_name || !last_name || !email || !password || !role) {
+            setError('Please fill in all fields');
+            return;
+        }
+
+        if (role === 'beneficiary') {
+            createBeneficiary(user).then(() => {
+                onClose();
+            });
+        } else {
+            createVolunteer(user).then(() => {
+                onClose();
+            });
+        }
+    }
+
+    const createBeneficiary = async (user) => {
+        const response = await ky.post('http://localhost:3000/register/beneficiary', { json: user });
+        return response.json();
+    }
+
+    const createVolunteer = async (user) => {
+        const response = await ky.post('http://localhost:3000/register/volunteer', { json: user });
+        return response.json();
+    }
+
+
+
     return (
-        <div className={`fixed z-10 inset-0 overflow-y-auto ${open ? "" : "hidden"}`}>
-            <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                <div className="fixed inset-0 transition-opacity" aria-hidden="true">
-                    <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-                </div>
-                <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-                <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
-                    <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                        <div className="sm:flex sm:items-start">
-                            <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                                <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
-                                    Create a new user
-                                </h3>
-                                <div className="mt-2">
-                                    <p className="text-sm text-gray-500">
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur amet labore.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+            <div className="bg-white p-8 rounded-lg">
+                <h2 className="text-lg font-bold mb-4">Nouvel utilisateur</h2>
+                {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+                <form onSubmit={handleSubmit}>
+                    <div className="flex flex-col mb-4">
+                        <label htmlFor="first_name" className="text-sm font-medium text-gray-700">First Name</label>
+                        <input type="text" id="first_name" name="first_name"onChange={handleFirstNameChange} className="border border-gray-300 rounded-md px-3 py-2 mt-1" />
                     </div>
-                    <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                        <button onClick={onClose} type="button" className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
-                            Close
-                        </button>
+                    <div className="flex flex-col mb-4">
+                        <label htmlFor="last_name" className="text-sm font-medium text-gray-700">Last Name</label>
+                        <input type="text" id="last_name" name="last_name" onChange={handleLastNameChange} className="border border-gray-300 rounded-md px-3 py-2 mt-1" />
                     </div>
+                    <div className="flex flex-col mb-4">
+                        <label htmlFor="email" className="text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" id="email" name="email" onChange={handleEmailChange} className="border border-gray-300 rounded-md px-3 py-2 mt-1" />
+                    </div>
+                    <div className="flex flex-col mb-4">
+                        <label htmlFor="password" className="text-sm font-medium text-gray-700">Password</label>
+                        <input type="password" id="password" name="password" onChange={handlePasswordChange} className="border border-gray-300 rounded-md px-3 py-2 mt-1" />
+                    </div>
+                    <div className="flex flex-col mb-4">
+                        <label htmlFor="role" className="text-sm font-medium text-gray-700">Role</label>
+                        <select id="role" name="role"onChange={handleRoleChange} className="border border-gray-300 rounded-md px-3 py-2 mt-1">
+                            <option value="">Select a role</option>
+                            <option value="beneficiary">Beneficiary</option>
+                            <option value="volunteer">Volunteer</option>
+                        </select>
+                    </div>
+                <div className="flex justify-end">
+                    <button onClick={onClose} className="bg-gray-200 text-gray-800 px-4 py-2 rounded-md mr-2">Cancel</button>
+                    <button onClick={handleSubmit} className="bg-blue-500 text-white px-4 py-2 rounded-md">Create</button>
                 </div>
+                </form>
             </div>
         </div>
     );
-}
+};
 
 export default NewUserModal;

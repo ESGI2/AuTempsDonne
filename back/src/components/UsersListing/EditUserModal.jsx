@@ -243,12 +243,12 @@ const EditUserModal = ({ user, onClose }) => {
                 </div>
                 <div className="col-span-2 mt-8 content-center">
                     <form onSubmit={handleSubmit}>
-                        <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-lg">Update</button>
+                        <button type="submit" className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg">Update</button>
                         <button type="button" onClick={onClose}
-                                className="ml-4 px-4 py-2 bg-gray-300 text-gray-700 rounded-lg">Cancel
+                                className="ml-4 px-4 py-2 bg-gray-300 text-gray-700 hover:bg-gray-400 rounded-lg">Cancel
                         </button>
                         <button type="button" onClick={() => deleteUser(user.id)}
-                                className="ml-4 px-4 py-2 bg-red-500 text-white rounded-lg">Delete
+                                className="ml-4 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg">Delete
                         </button>
                     </form>
                 </div>
