@@ -1,12 +1,12 @@
 import React from 'react';
-import './header.css';
+import './headerVolunteer.css';
 import logo from '../../assets/img/logo.png';
 import { Link, useLocation } from 'react-router-dom';
 
 import lang_fr from '../../assets/lang/lang_fr.json';
 import lang_en from '../../assets/lang/lang_en.json';
 
-function Header() {
+function HeaderVolunteer() {
     const { pathname } = useLocation();
     const lang = pathname.startsWith('/en') ? lang_en : lang_fr;
     const langParam = pathname.startsWith('/en') ? 'en' : 'fr';
@@ -37,14 +37,18 @@ function Header() {
                 <Link to={`/${langParam}/home`}><button className="association-btn">{lang.menu.association}</button></Link>
                 <Link to={`/${langParam}/mission`}><button className="missions-btn">{lang.menu.missions}</button></Link>
                 <Link to={`/${langParam}/contact`}><button className="contacter-btn">{lang.menu.contacter}</button></Link>
+                <button className="association-btn">{lang.menu.agenda}</button>
             </nav>
+
             <nav>
                 {buttonLang()}
-                <Link to={`/${langParam}/login`}><button className="rejoindre-btn">{lang.buttons.espace_client}</button></Link>
-                <Link to={`/${langParam}/don`}> <button className="don-btn">{lang.buttons.don}</button></Link>
+                <button className="rejoindre-btn">{lang.buttons.deconnection}</button>
+                {/* Add link to avec la logique de ulog */}
+                <button className="don-btn">{lang.buttons.profil}</button>
+                {/* Future boutton profile */}
             </nav>
         </header>
     );
 }
 
-export default Header;
+export default HeaderVolunteer;

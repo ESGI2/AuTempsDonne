@@ -195,3 +195,7 @@ CREATE TABLE if not exists maraude_content(
     FOREIGN KEY (id_maraude) REFERENCES maraude(id),
     PRIMARY KEY (id_product, id_maraude)
 );
+
+ALTER TABLE product
+    ADD COLUMN type varchar(20),
+    ADD COLUMN donation BOOL;
