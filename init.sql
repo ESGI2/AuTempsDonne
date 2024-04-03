@@ -98,6 +98,9 @@ CREATE TABLE if not exists truck(
     PRIMARY KEY (id)
 );
 
+ALTER TABLE truck
+ADD COLUMN plaque_immatriculation varchar(20) NOT NULL;
+
 CREATE TABLE if not exists maraude(
     id integer NOT NULL AUTO_INCREMENT,
     date date NOT NULL,

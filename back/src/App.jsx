@@ -22,6 +22,11 @@ const router = createBrowserRouter([
         path: "/warehouse",
         element: <AuthenticatedRoute element={<WarehouseStockPage />} />,
         errorElement: <ErrorPage />,
+    },
+    {
+        path: "/truck",
+        element: <AuthenticatedRoute element={<TruckGestionPage />} />,
+        errorElement: <ErrorPage />,
     }
 ]);
 
@@ -31,6 +36,7 @@ import ErrorPage from "./error-pages/404.jsx";
 import Home from "./pages/Home.jsx";
 import Users from "./pages/Users.jsx";
 import WarehouseStockPage from "./pages/WarehouseStockPage.jsx";
+import TruckGestionPage from "./pages/TruckGestionPage.jsx";
 
 function App() {
     return (
