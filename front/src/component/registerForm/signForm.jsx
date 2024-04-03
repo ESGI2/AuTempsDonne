@@ -63,6 +63,7 @@ function SignForm() {
 
             if (response.ok) {
                 setSucessMessage('User successfully registered');
+                return window.location.href = '/fr/main';
             } else {
                 setError('An error occurred. Please try again later.');
             }

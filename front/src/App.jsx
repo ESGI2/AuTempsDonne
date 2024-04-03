@@ -8,6 +8,8 @@ import Homepage from './pages/Home.page.jsx';
 import Missionpage from './pages/Mission.page.jsx';
 import Donpage from "./pages/Don.page.jsx";
 import ContactPage from "./pages/Contact.page.jsx";
+import MainLog from "./logPages/Main.page.jsx";
+import AuthRoute from "./utils/authentification.js";
 
 const router = createBrowserRouter([
     {
@@ -58,6 +60,15 @@ const router = createBrowserRouter([
         path: "/en/signin",
         element: <SignPage/>
     },
+    {
+        path: "/fr/main",
+        element: <AuthRoute element={<MainLog/>}/>
+    },
+    {
+        path: "/en/main",
+        element: <AuthRoute element={<MainLog/>}/>
+    },
+
 
 ]);
 

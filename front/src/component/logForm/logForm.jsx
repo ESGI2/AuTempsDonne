@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import React, {useState} from "react";
+import {useLocation, Link} from "react-router-dom";
 import lang_en from "../../assets/lang/lang_en.json";
 import lang_fr from "../../assets/lang/lang_fr.json";
 import './logForm.css';
@@ -40,9 +40,10 @@ function LogForm() {
                 credentials: 'include',
             });
 
+            const data = await response.json();
             if (response.status === 200) {
-                alert('Login successful');
-                //mettre une redirection
+                console.log(data);
+                window.location.href = '/fr/main';
             } else {
                 setError('Login failed');
             }
@@ -52,7 +53,7 @@ function LogForm() {
     };
 
 
-    const { pathname } = useLocation();
+    const {pathname} = useLocation();
     const lang = pathname.startsWith('/en') ? lang_en : lang_fr;
     const langParam = pathname.startsWith('/en') ? 'en' : 'fr';
 
@@ -83,13 +84,15 @@ function LogForm() {
                                 {error && <Alert variant="danger">{error}</Alert>}
                                 <form onSubmit={handleSubmit}>
                                     <div className="form-outline mb-4">
-                                        <label className="form-label" htmlFor="form3Example3">{lang.logForm.email}</label>
+                                        <label className="form-label"
+                                               htmlFor="form3Example3">{lang.logForm.email}</label>
                                         <input type="email" id="form3Example3" name="email" className="form-control"
                                                onChange={handleEmailChange}/>
                                     </div>
 
                                     <div className="form-outline mb-4">
-                                        <label className="form-label" htmlFor="form3Example4">{lang.logForm.password}</label>
+                                        <label className="form-label"
+                                               htmlFor="form3Example4">{lang.logForm.password}</label>
                                         <input type="password" id="form3Example4" name="password"
                                                className="form-control"
                                                onChange={handlePasswordChange}/>
@@ -99,7 +102,8 @@ function LogForm() {
                                     </button>
 
                                 </form>
-                                <label htmlFor="" className="text-muted">{lang.logForm.first_time_welcome}<Link to={`/${langParam}/signin`} className="link-primary">{lang.logForm.sign_in}</Link>
+                                <label htmlFor="" className="text-muted">{lang.logForm.first_time_welcome}<Link
+                                    to={`/${langParam}/signin`} className="link-primary">{lang.logForm.sign_in}</Link>
                                 </label>
                             </div>
                         </div>
