@@ -73,10 +73,11 @@ CREATE TABLE if not exists activity(
 
 CREATE TABLE if not exists event(
     id integer NOT NULL AUTO_INCREMENT,
-    name varchar(50) NOT NULL,
+    title varchar(50) NOT NULL,
     description varchar(50) NOT NULL,
     start date NOT NULL,
     end date NOT NULL,
+    allDay boolean NOT NULL,
     activity_id integer NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (activity_id) REFERENCES activity(id)

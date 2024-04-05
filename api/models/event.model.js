@@ -8,7 +8,7 @@ const Event = sequelize.define('Event', {
         autoIncrement: true,
         primaryKey: true
     },
-    name: {
+    title: {
         type: DataTypes.STRING(50),
         allowNull: false
     },
@@ -32,6 +32,10 @@ const Event = sequelize.define('Event', {
             key: 'id'
         }
     },
+    allDay: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
+    }
 }, {
     tableName: 'event',
     timestamps: false
