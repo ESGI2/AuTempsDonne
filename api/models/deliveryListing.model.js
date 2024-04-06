@@ -32,7 +32,7 @@ const DeliveryListing = sequelize.define('delivery_listing', {
     }
 }, {
     tableName: 'delivery_listing',
-    timestamps: false
+    timestamps: false,
 });
 
 module.exports = DeliveryListing;
