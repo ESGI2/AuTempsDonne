@@ -82,8 +82,8 @@ const deliveryDriverRoutes = require('./routes/deliveryDriver.route');
 app.use('/deliveryDrivers', deliveryDriverRoutes)
 
 // DELIVERY_LISTING ROUTE
-const deliveryListingRoutes = require('./routes/deliveryListing.route');
-app.use('/deliveryListing', deliveryListingRoutes)
+const deliveryPointRoutes = require('./routes/deliveryPoint.route');
+app.use('/deliveryPoint', deliveryPointRoutes)
 
 // EVENT LISTING ROUTE
 const eventListingRoute = require('./routes/eventListing.route');
