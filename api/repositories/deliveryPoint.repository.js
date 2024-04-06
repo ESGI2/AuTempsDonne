@@ -25,7 +25,7 @@ class DeliveryPointRepository {
         }
     }
 
-    static async delete(pointId) {
+    static async deleteById(pointId) {
         try {
             const pointToDelete = await DeliveryPoint.findByPk(pointId);
             if (!pointToDelete) {

@@ -19,6 +19,16 @@ class DeliveryPointController {
             return res.status(500).json({ error: 'Error during fetching delivery points' });
         }
     }
+
+    static async deleteDeliveryPoint(req, res) {
+        const pointId = req.params.id;
+        try {
+            await DeliveryPointService.deleteDeliveryPoint(pointId);
+            return res.status(200).json({ message: 'Delivery point deleted successfully' });
+        } catch (error) {
+            return res.status(500).json({ error: 'Error during deletion of delivery point' });
+        }
+    }
 }
 
 module.exports = DeliveryPointController;

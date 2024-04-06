@@ -19,7 +19,7 @@ class DeliveryPointService {
 
     static async deleteDeliveryPoint(pointId) {
         try {
-            return await DeliveryPointRepository.delete(pointId);
+            await DeliveryPointRepository.deleteById(pointId);
         } catch (error) {
             throw new Error('Error while deleting delivery point');
         }
