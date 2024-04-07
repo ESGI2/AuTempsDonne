@@ -1,54 +1,48 @@
-import React, { useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import { formatDate } from '@fullcalendar/core'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { INITIAL_EVENTS, createEventId } from './event-utils'
+import ky from "ky";
+import NewEventModal from "./NewEventModal.jsx";
 
-export default function DemoApp() {
-    const [weekendsVisible, setWeekendsVisible] = useState(true)
+export default function Calendar() {
     const [currentEvents, setCurrentEvents] = useState([])
+    const [modal, setModal] = useState(false)
 
-    function handleWeekendsToggle() {
-        setWeekendsVisible(!weekendsVisible)
+    function openModal() {
+        setModal(true);
     }
 
-    function handleDateSelect(selectInfo) {
-        let title = prompt('Please enter a new title for your event')
-        let calendarApi = selectInfo.view.calendar
+    function closeModal() {
+        setModal(false);
+        fetchEvents();
+    }
 
-        calendarApi.unselect() // clear date selection
-
-        if (title) {
-            calendarApi.addEvent({
-                id: createEventId(),
-                title,
-                start: selectInfo.startStr,
-                end: selectInfo.endStr,
-                allDay: selectInfo.allDay
-            })
+    async function fetchEvents(){
+        try {
+            const response = await ky.get('http://localhost:3000/event', {
+                credentials: "include"
+            });
+            const data = await response.json();
+            setCurrentEvents(data);
+        } catch (error) {
+            console.error('Erreur lors de la récupération des événements:', error);
         }
     }
 
-    function handleEventClick(clickInfo) {
-        if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-            clickInfo.event.remove()
-        }
-    }
 
-    function handleEvents(events) {
-        setCurrentEvents(events)
-    }
+
+    useEffect(() => {
+        fetchEvents();
+    }, []);
+
 
     return (
-        <div className='demo-app w-75 m-auto'>
-            <Sidebar
-                weekendsVisible={weekendsVisible}
-                handleWeekendsToggle={handleWeekendsToggle}
-                currentEvents={currentEvents}
-            />
-            <div className='demo-app-main'>
+        <div className='w-75 m-auto'>
+            <div>
+                <NewEventModal show={modal} handleClose={closeModal} handleShow={openModal} />
                 <FullCalendar
                     contentHeight={600}
                     plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -59,23 +53,27 @@ export default function DemoApp() {
                     }}
                     titleFormat={{ year: 'numeric', month: 'long', day: 'numeric' }}
                     initialView='dayGridMonth'
-                    editable={true}
+                    // editable={true}
                     selectable={true}
                     selectMirror={true}
                     dayMaxEvents={true}
-                    weekends={weekendsVisible}
-                    initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
-                    select={handleDateSelect}
+                    events={currentEvents}
+                    // select={}
                     eventContent={renderEventContent} // custom render function
-                    eventClick={handleEventClick}
-                    eventsSet={handleEvents} // called after events are initialized/added/changed/removed
+                    // eventClick={handleEventClick}
+                    // eventsSet={handleEvents} // called after events are initialized/added/changed/removed
                     /* you can update a remote database when these fire:
                     eventAdd={function(){}}
                     eventChange={function(){}}
                     eventRemove={function(){}}
                     */
                 />
+                {/*    New event button*/}
+                <div className="">
+                    <button className="btn btn-primary px-3 py-2 mt-2" onClick={() => openModal()}>New event</button>
+                </div>
             </div>
+
         </div>
     )
 }
@@ -83,42 +81,7 @@ export default function DemoApp() {
 function renderEventContent(eventInfo) {
     return (
         <>
-            <b>{eventInfo.timeText}</b>
             <i>{eventInfo.event.title}</i>
         </>
-    )
-}
-
-function Sidebar({ weekendsVisible, handleWeekendsToggle, currentEvents }) {
-    return (
-        <div className='demo-app-sidebar'>
-            {/*<div className='demo-app-sidebar-section'>*/}
-            {/*    <label>*/}
-            {/*        <input*/}
-            {/*            type='checkbox'*/}
-            {/*            checked={weekendsVisible}*/}
-            {/*            onChange={handleWeekendsToggle}*/}
-            {/*        ></input>*/}
-            {/*        toggle weekends*/}
-            {/*    </label>*/}
-            {/*</div>*/}
-            {/*<div className='demo-app-sidebar-section'>*/}
-            {/*    <h2>All Events ({currentEvents.length})</h2>*/}
-            {/*    <ul>*/}
-            {/*        {currentEvents.map((event) => (*/}
-            {/*            <SidebarEvent key={event.id} event={event} />*/}
-            {/*        ))}*/}
-            {/*    </ul>*/}
-            {/*</div>*/}
-        </div>
-    )
-}
-
-function SidebarEvent({ event }) {
-    return (
-        <li key={event.id}>
-            <b>{formatDate(event.start, {year: 'numeric', month: 'short', day: 'numeric'})}</b>
-            <i>{event.title}</i>
-        </li>
     )
 }

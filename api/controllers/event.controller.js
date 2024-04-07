@@ -34,10 +34,9 @@ class EventController {
     static async addEvent(req, res) {
         try {
             const {title, description, start, end, activity_id, allDay, maraude_id, delivery_id} = req.body;
-            const requiredFields = ['title', 'description', 'start', 'end', 'activity_id', 'allDay'];
+            const requiredFields = ['title', 'description', 'start', 'end', 'activity_id'];
             let missingFields = [];
             const dateFormat = "DD/MM/YYYY HH:mm"; //Verify hh:mm => hours
-
             requiredFields.forEach(field => {
                 if (!req.body[field]) {
                     missingFields.push(field);
@@ -51,21 +50,9 @@ class EventController {
                 return res.status(400).json({error: "Name or description too long."});
             }
 
-            if (!moment(start, dateFormat, true).isValid() || !moment(end, dateFormat, true).isValid()) {
-                return res.status(400).json({error: "Invalid date format. Use DD/MM/YYYY HH:mm."});
-            }
 
-            //Two options :
-            //Save in the BDD, format UTC and convert for the front when we show to clients
-            //or we format directly in Europe/Paris local hours
 
-            //const formattedStart = moment(start, dateFormat,timeZone).format();
-            //const formattedEnd = moment(end, dateFormat,timeZone).format();
-
-            const formattedStartDate = moment.utc(start, dateFormat).local().format('YYYY-MM-DD HH:mm:ss');
-            const formattedEndDate = moment.utc(end, dateFormat).local().format('YYYY-MM-DD HH:mm:ss');
-
-            if (moment(formattedStartDate).isAfter(formattedEndDate)) {
+            if (moment(start).isAfter(end)) {
                 return res.status(400).json({error: "The start date must be before the end date."});
             }
             const activity = await ActivityService.getActivityById(activity_id);
@@ -73,7 +60,7 @@ class EventController {
                 return res.status(400).json({error: "Activity not found."});
             }
 
-            const eventData = {title, description, start: formattedStartDate, end: formattedEndDate, activity_id, allDay, maraude_id, delivery_id};
+            const eventData = {title, description, start, end, activity_id, allDay, maraude_id, delivery_id};
 
             const newEvent = await EventService.addEvent(eventData);
             res.status(201).json(newEvent);
