@@ -16,11 +16,10 @@ function LogHeader() {
         const fetchUserRole = async () => {
             try {
                 const response = await ky.get('http://localhost:3000/user/me', {
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                    },
+                    credentials: 'include',
                 }).json();
-                setUserRole(response.role);
+                const { role } = response.me;
+                setUserRole(role);
             } catch (error) {
                 console.error(error);
                 setUserRole(null);
@@ -29,6 +28,8 @@ function LogHeader() {
 
         fetchUserRole();
     }, []);
+
+
 
     function Signout() {
         return ky.get("http://localhost:3000/user/logout", {
@@ -42,6 +43,15 @@ function LogHeader() {
         }).catch((error) => {
             console.error("Problème de déconnexion:", error.message);
         });
+    }
+
+    function roleBasedButton(userRole, langParam, lang) {
+        const roleButtons = {
+            volunteer: <Link to={`/${langParam}/contact`}><button className="association-btn">{lang.menu.agenda}</button></Link>,
+            beneficiary: <Link to={`/${langParam}/contact`}><button className="association-btn">{lang.menu.demande}</button></Link>,
+        };
+
+        return roleButtons[userRole] || null;
     }
 
     function buttonLang() {
@@ -67,11 +77,10 @@ function LogHeader() {
                 <span>AU TEMPS DONNE</span>
             </div>
             <nav>
-                <Link to={`/${langParam}/home`}><button className="association-btn">{lang.menu.association}</button></Link>
-                <Link to={`/${langParam}/mission`}><button className="missions-btn">{lang.menu.missions}</button></Link>
-                <Link to={`/${langParam}/contact`}><button className="contacter-btn">{lang.menu.contacter}</button></Link>
-                {userRole === 'volunteer' && <button className="association-btn">{lang.menu.agenda}</button>}
-                {userRole === 'beneficiary' && <button className="association-btn">{lang.menu.demande}</button>}
+                <Link to={`/${langParam}/main`}><button className="association-btn">{lang.menu.association}</button></Link>
+                <Link to={`/${langParam}/`}><button className="missions-btn">{lang.menu.missions}</button></Link>
+                <Link to={`/${langParam}/`}><button className="contacter-btn">{lang.menu.contacter}</button></Link>
+                {roleBasedButton(userRole, langParam, lang)}
             </nav>
             <nav>
                 {buttonLang()}
