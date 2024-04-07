@@ -1,9 +1,9 @@
 const DeliveryRepository = require('../repositories/delivery.repository');
 
 class DeliveryService {
-    static async createDelivery(departure, theoricalArrival, idTruck,status) {
+    static async createDelivery(departure, theoretical_arrival, id_truck,status) {
         try {
-            return await DeliveryRepository.createDelivery(departure, theoricalArrival, idTruck,status);
+            return await DeliveryRepository.createDelivery(departure, theoretical_arrival, id_truck,status);
         } catch (error) {
             throw error;
         }
@@ -11,7 +11,7 @@ class DeliveryService {
 
     static async getAllDeliveries() {
         try {
-            const deliveries = await Delivery.findAll();
+            const deliveries = await DeliveryRepository.getAllDeliveries();
             return deliveries;
         } catch (error) {
             throw error;

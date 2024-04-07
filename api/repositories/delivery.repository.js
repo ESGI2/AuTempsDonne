@@ -1,12 +1,12 @@
 const Delivery = require('../models/delivery.model');
 
 class DeliveryRepository {
-    static async createDelivery(departure, theoricalArrival, idTruck,status) {
-        console.log(departure, theoricalArrival, idTruck,status);
+    static async createDelivery(departure, theoretical_arrival, id_truck,status) {
+        console.log(theoretical_arrival);
         try {
-            return await Delivery.create({ departure, theoricalArrival, idTruck,status });
+            return await Delivery.create({ departure, theoretical_arrival, id_truck,status });
         } catch (error) {
-            throw error;
+            console.log(error);
         }
     }
 

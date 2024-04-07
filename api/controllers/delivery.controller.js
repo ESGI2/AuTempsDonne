@@ -3,16 +3,17 @@ const DeliveryService = require('../services/delivery.service');
 class DeliveryController {
     static async createDelivery(req, res) {
         try {
-            const { departure, theoricalArrival, idTruck } = req.query;
+            const { departure, theoretical_arrival, id_truck } = req.query;
 
-            if (!departure || !theoricalArrival || !idTruck) {
-                return res.status(400).json({ error: 'Give all parameters' });
+            if (!departure || !theoretical_arrival || !id_truck) {
+                return res.status(400).json({ error: 'Provide all parameters' });
             }
+
             const status = 0;
-            const newDelivery = await DeliveryService.createDelivery(departure, theoricalArrival, idTruck, status);
+            const newDelivery = await DeliveryService.createDelivery(departure, theoretical_arrival, id_truck, status);
             return res.status(201).json(newDelivery);
         } catch (error) {
-            return res.status(500).json({ error: 'Error during delivery post' });
+            return res.status(500).json({ error: 'Error during delivery post', details: error });
         }
     }
 

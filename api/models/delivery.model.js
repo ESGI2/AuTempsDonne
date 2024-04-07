@@ -13,7 +13,7 @@ const Delivery = sequelize.define('delivery', {
         type: Sequelize.DATE,
         allowNull: false
     },
-    theorical_arrival: {
+    theoretical_arrival: {
         type: Sequelize.DATE,
         allowNull: false
     },
