@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../config/db');
 
-const DeliveryDriver = sequelize.define('delivery_driver', {
+const DeliveryDriver = sequelize.define('delivery_drivers', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -23,7 +23,7 @@ const DeliveryDriver = sequelize.define('delivery_driver', {
             key: 'id'
         }
     }}, {
-        tableName: 'delivery_driver',
+        tableName: 'delivery_drivers',
         timestamps: false
 });
 
