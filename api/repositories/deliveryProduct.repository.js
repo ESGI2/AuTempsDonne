@@ -1,4 +1,5 @@
 const DeliveryProduct = require('../models/deliveryProduct.model');
+const Delivery = require('../models/delivery.model');
 
 class DeliveryProductRepository {
     static async addDeliveryProduct(id_product, id_delivery, quantity) {
@@ -9,12 +10,26 @@ class DeliveryProductRepository {
         }
     }
 
-    static async getDeliveryProductsByDeliveryId(id_delivery) {
-        console.log(id_delivery)
+    static async getDeliveryProductsByDeliveryId(deliveryId) {
         try {
-            return await DeliveryProduct.findAll({where:{id_delivery}});
+            const delivery = await Delivery.findByPk(deliveryId);
+            if (!delivery) {
+                throw new Error('Delivery not found');
+            }
+
+            const status = delivery.status;
+            if (status === 2) {
+                throw new Error('Delivery status is 2');
+            }
+
+            const deliveryProducts = await DeliveryProduct.findAll({
+                where: {
+                    id_delivery: deliveryId
+                }
+            });
+            return deliveryProducts;
         } catch (error) {
-            console.log(error);
+            throw error;
         }
     }
 }
