@@ -46,7 +46,7 @@ function LogHeader() {
 
     function roleBasedButton(userRole, langParam, lang) {
         const roleButtons = {
-            volunteer: <Link to={`/${langParam}/`}>
+            volunteer: <Link to={`/${langParam}/agenda`}>
                 <button className="association-btn">{lang.menu.agenda}</button>
             </Link>,
             beneficiary: <Link to={`/${langParam}/`}>
@@ -86,10 +86,12 @@ function LogHeader() {
                 <Link to={`/${langParam}/`}>
                     <button className="missions-btn">{lang.menu.missions}</button>
                 </Link>
-                {roleBasedButton(userRole, langParam, lang)}
+
                 <Link to={`/${langParam}/`}>
                     <button className="contacter-btn">{lang.menu.contacter}</button>
                 </Link>
+
+                {roleBasedButton(userRole, langParam, lang)}
             </nav>
             <nav>
                 {buttonLang()}

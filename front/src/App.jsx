@@ -11,6 +11,7 @@ import ContactPage from "./pages/Contact.page.jsx";
 import MainLog from "./logPages/Main.page.jsx";
 import AuthRoute from "./utils/authentification.js";
 import Profil from "./logPages/Profil.page.jsx";
+import AgendaPage from "./logPages/Agenda.page.jsx";
 
 const router = createBrowserRouter([
     {
@@ -74,6 +75,12 @@ const router = createBrowserRouter([
     }, {
         path: "/en/profil",
         element: <AuthRoute element={<Profil/>}/>
+    },{
+        path: "/fr/agenda",
+        element: <AuthRoute element={<AgendaPage/>}/>
+    },{
+        path: "/en/agenda",
+        element: <AuthRoute element={<AgendaPage/>}/>
     },
 
 
