@@ -17,8 +17,13 @@ const Activity = sequelize.define('Activity', {
         allowNull: true
     },
     people_needed: {
-        type: DataTypes.INTEGER
-    }
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    color: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
 }, {
     tableName: 'activity',
     timestamps: false

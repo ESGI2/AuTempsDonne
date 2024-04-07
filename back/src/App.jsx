@@ -1,41 +1,6 @@
 import './main.css';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import AdminLogin from "./pages/AdminLogin.jsx";
-import ErrorPage from "./error-pages/404.jsx";
-import Home from "./pages/Home.jsx";
-import {useEffect, useState} from "react";
-import ky from "ky";
-
-const isAuthenticated = () => {
-    return document.cookie.includes("jwt");
-};
-
-// eslint-disable-next-line react/prop-types
-const AuthenticatedRoute = ({ element }) => {
-    const [userData, setUserData] = useState(null);
-
-    useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const response = await ky.get('http://localhost:3000/user/me', {
-                    credentials: 'include'
-                }).json();
-                setUserData(response);
-            } catch (error) {
-                console.error("Error fetching user data:", error);
-                setUserData(null);
-            }
-        };
-
-        if (isAuthenticated()) {
-            fetchUserData();
-        } else {
-            window.location.href = "/";
-        }
-    }, []);
-
-    return isAuthenticated() && userData ? element : null;
-};
+import AuthenticatedRoute from "./utils/authentication.js";
 
 const router = createBrowserRouter([
     {
@@ -47,12 +12,41 @@ const router = createBrowserRouter([
         path: "/admin",
         element: <AuthenticatedRoute element={<Home />} />,
         errorElement: <ErrorPage />,
+    },
+    {
+        path: "/users",
+        element: <AuthenticatedRoute element={<Users />} />,
+        errorElement: <ErrorPage />,
+    },
+    {
+        path: "/warehouse",
+        element: <AuthenticatedRoute element={<WarehouseStockPage />} />,
+        errorElement: <ErrorPage />,
+    },
+    {
+        path: "/truck",
+        element: <AuthenticatedRoute element={<TruckGestionPage />} />,
+        errorElement: <ErrorPage />,
+    },
+    {
+        path: "/calendar",
+        element: <AuthenticatedRoute element={<CalendarPage />} />,
     }
 ]);
+
+
+import AdminLogin from "./pages/AdminLogin.jsx";
+import ErrorPage from "./error-pages/404.jsx";
+import Home from "./pages/Home.jsx";
+import Users from "./pages/Users.jsx";
+import WarehouseStockPage from "./pages/WarehouseStockPage.jsx";
+import TruckGestionPage from "./pages/TruckGestionPage.jsx";
+import CalendarPage from "./pages/CalendarPage.jsx";
 
 function App() {
     return (
         <RouterProvider router={router} />
     );
 }
+
 export default App;

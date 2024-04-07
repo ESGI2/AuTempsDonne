@@ -6,7 +6,7 @@ import Footer from "../component/footer/footer.jsx";
 function Homepage() {
     return (
         <>
-            <Header />
+            <Header/>
                 <Home />
             <Footer />
         </>

@@ -2,13 +2,9 @@ const ProductRepository = require('../repositories/product.repository');
 const StockService = require('../services/stock.service');
 
 class ProductService {
-    static async addProduct(name) {
+    static async addProduct(name, type, donation) {
         try {
-            const existingProduct = await ProductRepository.getProductByName(name);
-            if (existingProduct) {
-                throw new Error('the product already exists');
-            }
-            const newProduct = await ProductRepository.addProduct(name);
+            const newProduct = await ProductRepository.addProduct(name, type, donation);
             return newProduct;
         } catch (error) {
             console.error(error);
@@ -40,6 +36,16 @@ class ProductService {
             throw error;
         }
     }
+
+    static async getProductsByDonation(donationValue) {
+        try {
+            return await ProductRepository.getProductsByDonation(donationValue);
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
 }
 
 module.exports = ProductService;

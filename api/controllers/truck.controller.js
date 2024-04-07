@@ -3,12 +3,12 @@ const TruckServices = require('../services/truck.services');
 class TruckController {
     static async truckAdded(req, res) {
         try {
-            const { name, localisation } = req.query;
-            await TruckServices.addTruck({ name, localisation });
-            res.status(201).json({ Message: "Truck added" });
+            const { name, localisation, plaque_immatriculation } = req.query;
+            await TruckServices.addTruck({ name, localisation, plaque_immatriculation });
+            res.status(201).json({ Message: "Camion ajouté" });
         } catch (error) {
             console.error(error);
-            res.status(500).json({ Error: "Error during Truck add" });
+            res.status(500).json({ Error: "Erreur lors de l'ajout du camion" });
         }
     }
 
@@ -50,6 +50,18 @@ class TruckController {
             res.status(500).json({ error: 'Error during truck patch localisation' });
         }
     }
+
+    static async deleteTruckById(req, res) {
+        try {
+            const truckId = req.params.id;
+            await TruckServices.deleteTruckById(truckId);
+            res.status(200).json({ message: 'Camion supprimé avec succès' });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Erreur lors de la suppression du camion' });
+        }
+    }
+
 }
 
 module.exports = TruckController;

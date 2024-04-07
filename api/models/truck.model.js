@@ -14,6 +14,10 @@ const Truck = sequelize.define('truck', {
     localisation: {
         type: Sequelize.STRING,
         allowNull: false
+    },
+    plaque_immatriculation: {
+        type: Sequelize.STRING,
+        allowNull: false
     }
 }, {
     tableName: 'truck',
