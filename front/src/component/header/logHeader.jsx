@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, {useState, useEffect} from 'react';
+import {Link, useLocation} from 'react-router-dom';
 import ky from 'ky';
 import logo from '../../assets/img/logo.png';
 import lang_fr from '../../assets/lang/lang_fr.json';
 import lang_en from '../../assets/lang/lang_en.json';
 
 function LogHeader() {
-    const { pathname } = useLocation();
+    const {pathname} = useLocation();
     const lang = pathname.startsWith('/en') ? lang_en : lang_fr;
     const langParam = pathname.startsWith('/en') ? 'en' : 'fr';
 
@@ -18,7 +18,7 @@ function LogHeader() {
                 const response = await ky.get('http://localhost:3000/user/me', {
                     credentials: 'include',
                 }).json();
-                const { role } = response.me;
+                const {role} = response.me;
                 setUserRole(role);
             } catch (error) {
                 console.error(error);
@@ -28,7 +28,6 @@ function LogHeader() {
 
         fetchUserRole();
     }, []);
-
 
 
     function Signout() {
@@ -47,8 +46,12 @@ function LogHeader() {
 
     function roleBasedButton(userRole, langParam, lang) {
         const roleButtons = {
-            volunteer: <Link to={`/${langParam}/contact`}><button className="association-btn">{lang.menu.agenda}</button></Link>,
-            beneficiary: <Link to={`/${langParam}/contact`}><button className="association-btn">{lang.menu.demande}</button></Link>,
+            volunteer: <Link to={`/${langParam}/`}>
+                <button className="association-btn">{lang.menu.agenda}</button>
+            </Link>,
+            beneficiary: <Link to={`/${langParam}/`}>
+                <button className="association-btn">{lang.menu.demande}</button>
+            </Link>,
         };
 
         return roleButtons[userRole] || null;
@@ -73,19 +76,29 @@ function LogHeader() {
     return (
         <header>
             <div className="logo">
-                <img src={logo} alt="Logo de l'association" />
+                <img src={logo} alt="Logo de l'association"/>
                 <span>AU TEMPS DONNE</span>
             </div>
             <nav>
-                <Link to={`/${langParam}/main`}><button className="association-btn">{lang.menu.association}</button></Link>
-                <Link to={`/${langParam}/`}><button className="missions-btn">{lang.menu.missions}</button></Link>
-                <Link to={`/${langParam}/`}><button className="contacter-btn">{lang.menu.contacter}</button></Link>
+                <Link to={`/${langParam}/main`}>
+                    <button className="association-btn">{lang.menu.association}</button>
+                </Link>
+                <Link to={`/${langParam}/`}>
+                    <button className="missions-btn">{lang.menu.missions}</button>
+                </Link>
                 {roleBasedButton(userRole, langParam, lang)}
+                <Link to={`/${langParam}/`}>
+                    <button className="contacter-btn">{lang.menu.contacter}</button>
+                </Link>
             </nav>
             <nav>
                 {buttonLang()}
+                <Link to={`/${langParam}/profil`}>
+                    <button className="don-btn">{lang.buttons.profil}</button>
+                </Link>
                 <button className="rejoindre-btn" onClick={Signout}>{lang.buttons.deconnexion}</button>
-                <button className="don-btn">{lang.buttons.profil}</button>
+
+
             </nav>
         </header>
     );
