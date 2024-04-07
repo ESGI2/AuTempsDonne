@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Modal, Form } from 'react-bootstrap'
 import ky from "ky";
 
-export default function NewEventModal({ show, handleClose, handleShow }) {
+export default function NewEventModal({ show, handleClose }) {
     const [currentEvents, setCurrentEvents] = useState([])
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')

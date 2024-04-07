@@ -1,18 +1,29 @@
-import React, {useEffect, useState} from 'react'
-import { formatDate } from '@fullcalendar/core'
-import FullCalendar from '@fullcalendar/react'
-import dayGridPlugin from '@fullcalendar/daygrid'
-import timeGridPlugin from '@fullcalendar/timegrid'
-import interactionPlugin from '@fullcalendar/interaction'
+import React, { useEffect, useState } from 'react';
+import { formatDate } from '@fullcalendar/core';
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
 import ky from "ky";
 import NewEventModal from "./NewEventModal.jsx";
+import ShowEventModal from "./ShowEventModal.jsx"; // Import du ShowEventModal
 
 export default function Calendar() {
-    const [currentEvents, setCurrentEvents] = useState([])
-    const [modal, setModal] = useState(false)
+    const [currentEvents, setCurrentEvents] = useState([]);
+    const [modal, setModal] = useState("");
+    const [selectedEvent, setSelectedEvent] = useState(null);
 
-    function openModal() {
-        setModal(true);
+    function openModal(modalType) {
+        switch (modalType) {
+            case 'new':
+                setModal('new');
+                break;
+            case 'show':
+                setModal('show');
+                break;
+            default:
+                setModal("");
+        }
     }
 
     function closeModal() {
@@ -26,23 +37,30 @@ export default function Calendar() {
                 credentials: "include"
             });
             const data = await response.json();
+            console.log(data)
             setCurrentEvents(data);
         } catch (error) {
             console.error('Erreur lors de la récupération des événements:', error);
         }
     }
 
-
+    function handleEventClick(info) {
+        // Récupérer les informations de l'événement sélectionné
+        const clickedEvent = info.event;
+        console.log(info.event)
+        setSelectedEvent(clickedEvent);
+        openModal("show");
+    }
 
     useEffect(() => {
         fetchEvents();
     }, []);
 
-
     return (
         <div className='w-75 m-auto'>
             <div>
-                <NewEventModal show={modal} handleClose={closeModal} handleShow={openModal} />
+                {modal === 'new' && <NewEventModal show={true} handleClose={closeModal} />}
+                {modal === 'show' && <ShowEventModal show={true} handleClose={closeModal} event={selectedEvent} />}
                 <FullCalendar
                     contentHeight={600}
                     plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -53,29 +71,20 @@ export default function Calendar() {
                     }}
                     titleFormat={{ year: 'numeric', month: 'long', day: 'numeric' }}
                     initialView='dayGridMonth'
-                    // editable={true}
                     selectable={true}
                     selectMirror={true}
                     dayMaxEvents={true}
                     events={currentEvents}
-                    // select={}
-                    eventContent={renderEventContent} // custom render function
-                    // eventClick={handleEventClick}
-                    // eventsSet={handleEvents} // called after events are initialized/added/changed/removed
-                    /* you can update a remote database when these fire:
-                    eventAdd={function(){}}
-                    eventChange={function(){}}
-                    eventRemove={function(){}}
-                    */
+                    eventContent={renderEventContent}
+                    eventClick={handleEventClick}
                 />
-                {/*    New event button*/}
                 <div className="">
-                    <button className="btn btn-primary px-3 py-2 mt-2" onClick={() => openModal()}>New event</button>
+                    <button className="btn btn-primary px-3 py-2 mt-2" onClick={() => openModal("new")}>New event</button>
                 </div>
             </div>
 
         </div>
-    )
+    );
 }
 
 function renderEventContent(eventInfo) {
@@ -83,5 +92,5 @@ function renderEventContent(eventInfo) {
         <>
             <i>{eventInfo.event.title}</i>
         </>
-    )
+    );
 }
