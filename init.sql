@@ -66,8 +66,9 @@ CREATE TABLE if not exists ticket(
 CREATE TABLE if not exists activity(
     id integer NOT NULL AUTO_INCREMENT,
     activity_name varchar(50) NOT NULL,
-    description varchar(50) NOT NULL,
+    description varchar(255) NOT NULL,
     people_needed integer NOT NULL,
+    color varchar(30) NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -79,8 +80,12 @@ CREATE TABLE if not exists event(
     end date NOT NULL,
     allDay boolean NOT NULL,
     activity_id integer NOT NULL,
+    maraude_id integer,
+    delivery_id integer,
     PRIMARY KEY (id),
-    FOREIGN KEY (activity_id) REFERENCES activity(id)
+    FOREIGN KEY (activity_id) REFERENCES activity(id),
+    FOREIGN KEY (maraude_id) REFERENCES maraude(id),
+    FOREIGN KEY (delivery_id) REFERENCES delivery(id)
 );
 
 CREATE TABLE if not exists event_listing(

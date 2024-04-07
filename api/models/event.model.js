@@ -35,6 +35,23 @@ const Event = sequelize.define('Event', {
     allDay: {
         type: DataTypes.BOOLEAN,
         allowNull: false
+    },
+    maraude_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+            model: 'maraude' ,
+            key: 'id'
+        }
+    },
+    delivery_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+            model: 'delivery' ,
+            key: 'id'
+        }
+
     }
 }, {
     tableName: 'event',
