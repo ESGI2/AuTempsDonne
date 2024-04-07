@@ -13,7 +13,7 @@
   },
   "buttons": {
     "espace_client": "ESPACE CLIENT",
-    "deconnection": "deconnection",
+    "deconnexion": "Deconnexion",
     "don": "DON",
     "profil" : "profil"
   },
@@ -130,5 +130,9 @@
     "choose": "Choisir...",
     "subscribe_newsletter": "S'abonner à notre newsletter",
     "already_account": "Vous avez déjà un compte ?"
+  },
+  "main": {
+    "title": "Bienvenue Au Temps Donné",
+    "subtitle": "L'association Au Temps Donné lutte contre l'isolement des personnes précaires. En ce sens, nous développons un lien social basé sur l’écoute et le dialogue."
   }
 }
