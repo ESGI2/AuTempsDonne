@@ -24,7 +24,8 @@
       "paragraphe2": "We carry out social outreach in Paris. On this occasion, our teams distribute coffee, tea, sandwiches, and hygiene products.",
       "paragraphe3": "The distributions allow us to initiate a conversation and thus create a friendly exchange.",
       "paragraphe4": "The objective is to be present, to exchange on various subjects, but above all to create a relationship of trust over the course of the outreach efforts.",
-      "bouton_missions": "OUR MISSIONS"
+      "bouton_missions": "OUR MISSIONS",
+      "bienvenue": "Welcome to AT YOUR AU TEMPS DONNÉ"
     },
     "nos_partenaires": "Our Partners",
     "on_recrute": {
@@ -130,6 +131,11 @@
     "choose": "Choose...",
     "subscribe_newsletter": "Subscribe to our newsletter",
     "already_account": "Already have an account ?"
+  },
+  "main": {
+    "title": "WELCOME BACK AU TEMPS DONNE",
+    "description": "AU TEMPS DONNE fights against isolation among precarious individuals. In this regard, we develop a social bond based on listening and dialogue.",
+    "button": "Learn more"
   }
 }
 
