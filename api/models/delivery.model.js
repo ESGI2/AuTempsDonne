@@ -24,6 +24,10 @@ const Delivery = sequelize.define('delivery', {
             model: 'truck',
             key: 'id'
         }
+    },
+    status:{
+        type: Sequelize.INTEGER,
+        allowNull:false
     }
 }, {
     tableName: 'delivery',

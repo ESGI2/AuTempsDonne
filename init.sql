@@ -143,6 +143,7 @@ CREATE TABLE if not exists delivery(
     departure date NOT NULL,
     theorical_arrival date NOT NULL,
     id_truck integer NOT NULL,
+    status integer NOT NULL,
     FOREIGN KEY (id_truck) REFERENCES truck(id),
     PRIMARY KEY (id)
 );
