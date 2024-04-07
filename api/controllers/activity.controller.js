@@ -30,8 +30,8 @@ class ActivityController {
     // ADD
     static async addActivity(req, res) {
         try {
-            const {activity_name, description, people_needed} = req.body;
-            const requiredFields = ['activity_name', 'description', 'people_needed'];
+            const {activity_name, description, people_needed, color} = req.body;
+            const requiredFields = ['activity_name', 'description', 'people_needed', 'color'];
             let missingFields = [];
 
             requiredFields.forEach(field => {
@@ -52,7 +52,7 @@ class ActivityController {
             if (people_needed <= 0) {
                 return res.status(400).json({error: "People needed must be greater than 0."});
             } else {
-                const activity = await ActivityService.addActivity({activity_name, description, people_needed});
+                const activity = await ActivityService.addActivity({activity_name, description, people_needed, color});
                 res.status(201).json(activity);
             }
 
