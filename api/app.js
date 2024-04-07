@@ -89,6 +89,10 @@ app.use('/deliveryPoint', deliveryPointRoutes)
 const deliveryListingRoutes = require('./routes/deliveryListing.route');
 app.use('/deliveryListing', deliveryListingRoutes)
 
+// DELIVERY_PRODUCT ROUTE
+const deliveryProductRoutes = require('./routes/deliveryProduct.route');
+app.use('/deliveryProduct', deliveryProductRoutes)
+
 // EVENT LISTING ROUTE
 const eventListingRoute = require('./routes/eventListing.route');
 app.use('/eventListing', eventListingRoute);
