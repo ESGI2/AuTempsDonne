@@ -30,9 +30,10 @@ class ActivityController {
     // ADD
     static async addActivity(req, res) {
         try {
-            const {activity_name, description, people_needed, color} = req.body;
-            const requiredFields = ['activity_name', 'description', 'people_needed', 'color'];
+            let {activity_name, description, people_needed, color} = req.body;
+            const requiredFields = ['activity_name', 'description', 'people_needed'];
             let missingFields = [];
+            color = color || "#000000";
 
             requiredFields.forEach(field => {
                 if (!req.body[field]) {
