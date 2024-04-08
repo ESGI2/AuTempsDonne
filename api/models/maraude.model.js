@@ -8,20 +8,6 @@ const Maraude = sequelize.define('Maraude', {
         autoIncrement: true,
         primaryKey: true
     },
-    date: {
-        type: DataTypes.DATE,
-        allowNull: false
-    },
-    duration: {
-        type: DataTypes.STRING(5),
-        allowNull: false,
-        validate: {
-            is: {
-                args: /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, //to obtain this format HH:mm
-                msg: "Duration must be in the format HH:mm"
-            }
-        }
-    },
     id_truck: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -30,10 +16,14 @@ const Maraude = sequelize.define('Maraude', {
             key: 'id'
         }
     },
-    people_needed: {
+    id_event: {
         type: DataTypes.INTEGER,
-        allowNull: false
-    }
+        allowNull: false,
+        references: {
+            model: 'event',
+            key: 'id'
+        }
+    },
 }, {
     tableName: 'maraude',
     timestamps: false
