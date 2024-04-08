@@ -65,6 +65,10 @@ app.use('/activity', activityRoute);
 const maraudeRoute = require('./routes/maraude.route');
 app.use('/maraude', maraudeRoute);
 
+// MARAUDE POINT ROUTE
+const maraudePointRoute = require('./routes/maraudePoint.route');
+app.use('/maraudePoint', maraudePointRoute);
+
 // STOCK ROUTE
 const stockRoutes = require('./routes/stock.routes');
 app.use('/stock', stockRoutes);

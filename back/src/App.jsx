@@ -31,6 +31,10 @@ const router = createBrowserRouter([
     {
         path: "/calendar",
         element: <AuthenticatedRoute element={<CalendarPage />} />,
+    },
+    {
+        path: "/maraude",
+        element: <AuthenticatedRoute element={<MaraudePage />} />,
     }
 ]);
 
@@ -42,6 +46,7 @@ import Users from "./pages/Users.jsx";
 import WarehouseStockPage from "./pages/WarehouseStockPage.jsx";
 import TruckGestionPage from "./pages/TruckGestionPage.jsx";
 import CalendarPage from "./pages/CalendarPage.jsx";
+import MaraudePage from "./pages/MaraudePage.jsx";
 
 function App() {
     return (
