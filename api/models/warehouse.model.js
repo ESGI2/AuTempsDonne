@@ -28,13 +28,9 @@ const Warehouse = sequelize.define('warehouse', {
         type: Sequelize.STRING,
         allowNull: false
     },
-    road_number: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-    },
     id_delivery_point: {
     type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
             model: DeliveryPoint,
             key: 'id'

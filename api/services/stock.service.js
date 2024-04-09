@@ -59,6 +59,15 @@ class StockService {
             throw error;
         }
     }
+
+    static async getAllStockWarehouse(warehouseId){
+        try{
+            return await StockRepository.getAllStockWarehouse(warehouseId);
+        } catch (error) {
+        throw error;
+    }
+
+    }
 }
 
 module.exports = StockService;

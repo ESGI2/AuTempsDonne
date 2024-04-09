@@ -1,9 +1,9 @@
 const WarehouseRepository = require('../repositories/warehouse.repository');
 
 class WarehouseService {
-    static async addWarehouse(name, country, city, postal_code, road, road_number) {
+    static async addWarehouse(name, country, city, postal_code, road) {
         try {
-            const newWarehouse = await WarehouseRepository.addWarehouse(name, country, city, postal_code, road, road_number);
+            const newWarehouse = await WarehouseRepository.addWarehouse(name, country, city, postal_code, road);
             return newWarehouse;
         } catch (error) {
             console.error(error);

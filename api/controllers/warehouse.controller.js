@@ -3,13 +3,13 @@ const WarehouseService = require('../services/warehouse.service');
 class WarehouseController {
     static async addWarehouse(req, res) {
         try {
-            const { name, country, city, postal_code, road, road_number } = req.query;
+            const { name, country, city, postal_code, road } = req.query;
 
-            if (!name || !country || !city || !postal_code || !road || !road_number) {
+            if (!name || !country || !city || !postal_code || !road ) {
                 return res.status(400).json({ error: 'Give all parameter' });
             }
 
-            const newWarehouse = await WarehouseService.addWarehouse(name, country, city, postal_code, road, road_number);
+            const newWarehouse = await WarehouseService.addWarehouse(name, country, city, postal_code, road);
             res.status(201).json(newWarehouse);
         } catch (error) {
             console.error(error);

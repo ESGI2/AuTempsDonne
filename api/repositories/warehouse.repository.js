@@ -2,9 +2,9 @@ const Warehouse = require('../models/warehouse.model');
 const Stock = require('../models/stock.model');
 
 class WarehouseRepository {
-    static async addWarehouse(name, country, city, postal_code, road, road_number) {
+    static async addWarehouse(name, country, city, postal_code, road) {
         try {
-            const newWarehouse = await Warehouse.create({ name, country, city, postal_code, road, road_number });
+            const newWarehouse = await Warehouse.create({ name, country, city, postal_code, road });
             return newWarehouse;
         } catch (error) {
             console.error(error);
