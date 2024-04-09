@@ -63,7 +63,7 @@ class StockRepository {
 
     static async getAllStockWarehouse(warehouseId){
         try {
-            const stock = await Stock.findByPk({where: {warehouseId : warehouseId }})
+            const stock = await Stock.findAll({where : { id_warehouse : warehouseId  }});
             return stock;
         } catch (error) {
             console.error(error);
