@@ -18,13 +18,13 @@ class DeliveryController {
     }
 
     static async UpdateStatus(req,res){
-        const { id_delivery } = req.params;
+        const { id_delivery , id_product , quantity} = req.params;
 
-        if (!id_delivery){
+        if ( !id_delivery || !id_product || !quantity){
             return res.status(400).json({ error: 'Provide all parameters' });
         }
         try {
-            const updateStatusDelivery = await DeliveryService.updateStatus(id_delivery);
+            const updateStatusDelivery = await DeliveryService.updateStatus( id_delivery , id_product , quantity);
             return res.status(201).json(updateStatusDelivery);
         } catch (error) {
             return res.status(500).json({ error: 'Error during delivery post' });

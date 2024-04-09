@@ -5,7 +5,7 @@ const DeliveryController = require('../controllers/delivery.controller');
 
 router.post('/',authMiddleware, DeliveryController.createDelivery);
 router.get('/',authMiddleware, DeliveryController.getAllDeliveries);
-router.patch('/:id_delivery', authMiddleware, DeliveryController.UpdateStatus);
+router.patch('/:id_delivery/:id_product/:quantity', authMiddleware, DeliveryController.UpdateStatus);
 
 
 module.exports = router;

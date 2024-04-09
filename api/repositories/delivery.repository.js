@@ -2,6 +2,7 @@ const Delivery = require('../models/delivery.model');
 const DeliveryProduct = require('../models/deliveryProduct.model');
 const DeliveryListing = require('../models/deliveryListing.model');
 const Warehouse = require('../models/warehouse.model');
+const Stock = require('../models/Stock.model');
 
 class DeliveryRepository {
     static async createDelivery(departure, theoretical_arrival, id_truck,status) {
@@ -12,7 +13,7 @@ class DeliveryRepository {
         }
     }
 
-    static async updateStatus(id_delivery){
+    static async updateStatus( id_delivery , id_product , quantity){
         try {
             const delivery = await Delivery.findByPk(id_delivery);
             if (!delivery) {
@@ -21,12 +22,24 @@ class DeliveryRepository {
 
             if (delivery.status == 0 ) {
                 const product = await DeliveryProduct.findByPk(id_delivery)
-                const point = await  DeliveryListing.findAll({where : { id_delivery : id_delivery , isDeparture : true  }})
+                const point = await  DeliveryListing.findOne({where : { id_delivery : id_delivery , isDeparture : true  }})
+                const id_point = point.id_point;
+                const warehouse = await  Warehouse.findOne({where : { id_delivery_point : id_point}})
+                const stock = await Stock.findOne({where : { id_warehouse : warehouse.id , id_product : id_product }})
+                //////////////////////////////////////////////////////////////////////
+                stock.quantity = stock.quantity - quantity
+                stock.save()
+            }
 
-                const id_point = point.id_point
-                const warehouse = await  Warehouse.findAll({where : { id_delivery_point : id_point}})
-
-
+            if (delivery.status == 1 ) {
+                const product = await DeliveryProduct.findByPk(id_delivery)
+                const point = await  DeliveryListing.findOne({where : { id_delivery : id_delivery , isArrival : true  }})
+                const id_point = point.id_point;
+                const warehouse = await  Warehouse.findOne({where : { id_delivery_point : id_point}})
+                const stock = await Stock.findOne({where : { id_warehouse : warehouse.id , id_product : id_product }})
+                //////////////////////////////////////////////////////////////////////
+                stock.quantity = stock.quantity + quantity
+                await stock.save()
             }
 
             delivery.status = delivery.status + 1
