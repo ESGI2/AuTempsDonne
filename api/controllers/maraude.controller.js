@@ -139,6 +139,98 @@ class MaraudeController{
             res.status(500).json({"Error":"Error deleting maraude"})
         }
     }
+
+    static async bestpath(req, res){
+        // Fonction pour calculer la distance entre deux points géographiques
+        function distance(lat1, lon1, lat2, lon2) {
+            const R = 6371; // Rayon de la Terre en kilomètres
+            const dLat = deg2rad(lat2 - lat1);
+            const dLon = deg2rad(lon2 - lon1);
+            const a =
+                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            const d = R * c; // Distance en kilomètres
+            return d;
+        }
+
+// Convertir degrés en radians
+        function deg2rad(deg) {
+            return deg * (Math.PI / 180);
+        }
+
+// Fonction pour générer toutes les permutations possibles
+        function generatePermutations(arr) {
+            const permutations = [];
+
+            function permute(arr, start = 0) {
+                if (start === arr.length - 1) {
+                    permutations.push(arr.slice());
+                } else {
+                    for (let i = start; i < arr.length; i++) {
+                        [arr[start], arr[i]] = [arr[i], arr[start]];
+                        permute(arr, start + 1);
+                        [arr[start], arr[i]] = [arr[i], arr[start]]; // backtrack
+                    }
+                }
+            }
+
+            permute(arr);
+            return permutations;
+        }
+
+// Fonction principale pour résoudre le problème du voyageur de commerce
+        function solveTSPWithFixedEndpoints(locations, startPointIndex, endPointIndex) {
+            const n = locations.length;
+            const indices = Array.from(Array(n).keys()); // [0, 1, 2, ..., n-1]
+            const permutations = generatePermutations(indices);
+            let minDistance = Infinity;
+            let optimalPath = [];
+
+            permutations.forEach(perm => {
+                if (perm[0] !== startPointIndex || perm[n - 1] !== endPointIndex) {
+                    return; // Ignorer les permutations qui ne commencent pas par le point de départ fixe ou ne se terminent pas par le point d'arrivée fixe
+                }
+
+                let totalDistance = 0;
+                for (let i = 0; i < perm.length - 1; i++) {
+                    const fromIndex = perm[i];
+                    const toIndex = perm[i + 1];
+                    const from = locations[fromIndex];
+                    const to = locations[toIndex];
+                    totalDistance += distance(from.lat, from.lon, to.lat, to.lon);
+                }
+                // Ajouter la distance du dernier au premier point
+                const lastToFirstDistance = distance(locations[perm[n - 1]].lat, locations[perm[n - 1]].lon, locations[perm[0]].lat, locations[perm[0]].lon);
+                totalDistance += lastToFirstDistance;
+
+                if (totalDistance < minDistance) {
+                    minDistance = totalDistance;
+                    optimalPath = perm.slice(); // Copie du tableau pour éviter les effets de bord
+                }
+            });
+
+            return { path: optimalPath, distance: minDistance };
+        }
+
+// Exemple d'utilisation
+        const locations = [
+            { name: "A", lat: 49.047598, lon: 3.391474 }, // Chateau-Thierry
+            { name: "B", lat: 48.845825, lon: 2.385113 }, // Erard
+            { name: "C", lat: 48.979516, lon: 3.286314 }, // Saulchery
+            { name: "D", lat: 43.614017, lon: 1.425850 }, // Toulouse
+            { name: "E", lat: 45.755700, lon: 4.833016 }, // Lyon
+            { name: "F", lat: 47.327422, lon: 5.038355 }, // Dijon
+
+            // Ajouter plus de villes si nécessaire
+        ];
+
+        const result = solveTSP(locations);
+        console.log("Chemin optimal:", result.path.map(index => locations[index].name).join(" -> "));
+        console.log("Distance totale:", result.distance.toFixed(2), "kilomètres");
+        res.status(200).json(result);
+    }
 }
 module.exports = MaraudeController;
 

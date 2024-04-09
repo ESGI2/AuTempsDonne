@@ -28,6 +28,14 @@ const MaraudePoint = sequelize.define('MaraudePoint', {
         type: DataTypes.STRING,
         allowNull: false
     },
+    latitude: {
+        type: DataTypes.DECIMAL,
+        allowNull: false
+    },
+    longitude: {
+        type: DataTypes.DECIMAL,
+        allowNull: false
+    }
 }, {
     tableName: 'maraude_point',
     timestamps: false
