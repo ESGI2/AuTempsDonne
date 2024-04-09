@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Form, Button } from 'react-bootstrap';
+import {Modal, Form, Button, Alert} from 'react-bootstrap';
 import ky from 'ky';
 
 export default function PointDistributionModal({ show, handleClose }) {
+    const [error, setError] = useState(null);
     const [points, setPoints] = useState([]);
     const [newPointName, setNewPointName] = useState('');
     const [newPointCountry, setNewPointCountry] = useState('');
@@ -28,19 +29,25 @@ export default function PointDistributionModal({ show, handleClose }) {
     }
 
     const handleAddPoint = async () => {
+        const data = {
+            name: newPointName,
+            country: newPointCountry,
+            city: newPointCity,
+            postal_code: newPointPostalCode,
+            road: newPointRoad
+        };
+
+        if (data.name === '' || data.country === '' || data.city === '' || data.postal_code === '' || data.road === '') {
+            setError('Veuillez remplir tous les champs');
+            return;
+        }
         try {
-            const response = await ky.post('http://localhost:3000/points', {
+            const response = await ky.post('http://localhost:3000/maraudePoint', {
                 credentials: 'include',
-                json: {
-                    name: newPointName,
-                    country: newPointCountry,
-                    city: newPointCity,
-                    postal_code: newPointPostalCode,
-                    road: newPointRoad
-                }
+                json: data
             });
-            const newPoint = await response.json();
-            setPoints([...points, newPoint]);
+            await response.json();
+            fetchPoints();
             setNewPointName('');
             setNewPointCountry('');
             setNewPointCity('');
@@ -54,7 +61,7 @@ export default function PointDistributionModal({ show, handleClose }) {
 
     const handleDeletePoint = async (id) => {
         try {
-            await ky.delete(`http://localhost:3000/points/${id}`, {
+            await ky.delete(`http://localhost:3000/maraudePoint/${id}`, {
                 credentials: 'include'
             });
             setPoints(points.filter(point => point.id !== id));
@@ -75,6 +82,7 @@ export default function PointDistributionModal({ show, handleClose }) {
                     <Modal.Title>Points de distribution</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    {points.length === 0 && <Alert variant="info">Aucun point de distribution</Alert>}
                     <ul>
                         {points.map(point => (
                             <li key={point.id}>
@@ -83,14 +91,14 @@ export default function PointDistributionModal({ show, handleClose }) {
                                 <span>Ville: {point.city}</span><br />
                                 <span>Code postal: {point.postal_code}</span><br />
                                 <span>Adresse: {point.road}</span><br />
-                                <Button variant="danger" onClick={() => handleDeletePoint(point.id)}>Supprimer</Button>
+                                <Button variant="ml-4 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg" onClick={() => handleDeletePoint(point.id)}>Supprimer</Button>
                             </li>
                         ))}
                     </ul>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="primary" onClick={() => setShowNewPointModal(true)}>Nouveau point</Button>
-                    <Button variant="secondary" onClick={handleClose}>Fermer</Button>
+                    <Button variant="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg" onClick={() => setShowNewPointModal(true)}>Nouveau point</Button>
+                    <Button variant="ml-4 px-4 py-2 bg-gray-300 text-gray-700 hover:bg-gray-400 rounded-lg" onClick={handleClose}>Fermer</Button>
                 </Modal.Footer>
             </Modal>
 
@@ -100,6 +108,7 @@ export default function PointDistributionModal({ show, handleClose }) {
                     <Modal.Title>Nouveau point de distribution</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    {error && <Alert variant="danger">{error}</Alert>}
                     <Form>
                         <Form.Group controlId="formPointName">
                             <Form.Label>Nom du point:</Form.Label>
@@ -124,8 +133,8 @@ export default function PointDistributionModal({ show, handleClose }) {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="primary" onClick={handleAddPoint}>Ajouter</Button>
-                    <Button variant="secondary" onClick={handleCloseNewPointModal}>Annuler</Button>
+                    <Button variant="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg" onClick={handleAddPoint}>Ajouter</Button>
+                    <Button variant="ml-4 px-4 py-2 bg-gray-300 text-gray-700 hover:bg-gray-400 rounded-lg" onClick={handleCloseNewPointModal}>Annuler</Button>
                 </Modal.Footer>
             </Modal>
         </>

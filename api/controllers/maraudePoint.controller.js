@@ -30,6 +30,10 @@ class MaraudePointController {
     static async addMaraudePoint(req, res) {
         try {
             const maraudePointData = req.body;
+            if (!maraudePointData.name || !maraudePointData.country || !maraudePointData.city || !maraudePointData.postal_code || !maraudePointData.road) {
+                res.status(400).json({ "Error": "Missing parameters" });
+                return;
+            }
             const newMaraudePoint = await MaraudePointService.addMaraudePoint(maraudePointData);
             res.status(201).json({"Message" : "Maraude point added", newMaraudePoint});
         } catch (error) {
