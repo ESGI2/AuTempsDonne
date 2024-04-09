@@ -9,6 +9,14 @@ class DeliveryService {
         }
     }
 
+    static async updateStatus(id_delivery){
+        try {
+            return await DeliveryRepository.updateStatus(id_delivery);
+        } catch (error) {
+            throw error;
+        }
+    }
+
     static async getAllDeliveries() {
         try {
             const deliveries = await DeliveryRepository.getAllDeliveries();

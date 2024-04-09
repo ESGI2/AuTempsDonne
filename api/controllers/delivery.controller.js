@@ -17,6 +17,21 @@ class DeliveryController {
         }
     }
 
+    static async UpdateStatus(req,res){
+        const { id_delivery } = req.params;
+
+        if (!id_delivery){
+            return res.status(400).json({ error: 'Provide all parameters' });
+        }
+        try {
+            const updateStatusDelivery = await DeliveryService.updateStatus(id_delivery);
+            return res.status(201).json(updateStatusDelivery);
+        } catch (error) {
+            return res.status(500).json({ error: 'Error during delivery post' });
+        }
+    }
+
+
     static async getAllDeliveries(req, res) {
         try {
             const deliveries = await DeliveryService.getAllDeliveries();

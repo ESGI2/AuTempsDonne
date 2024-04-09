@@ -2,7 +2,6 @@ const DeliveryListing = require('../models/deliveryListing.model');
 
 class DeliveryListingRepository {
     static async create(id_delivery, id_point, isDeparture, isArrival) {
-        console.log(DeliveryListing.create({ id_delivery, id_point, isDeparture, isArrival }))
         try {
             return await DeliveryListing.create({ id_delivery, id_point, isDeparture, isArrival });
         } catch (error) {
