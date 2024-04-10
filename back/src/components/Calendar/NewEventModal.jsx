@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Modal, Form } from 'react-bootstrap'
+import {Modal, Form, Alert} from 'react-bootstrap'
 import ky from "ky";
 
 export default function NewEventModal({ show, handleClose }) {
+    const [error, setError] = useState(null)
     const [currentEvents, setCurrentEvents] = useState([])
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
@@ -12,18 +13,23 @@ export default function NewEventModal({ show, handleClose }) {
     const [allDay, setAllDay] = useState(false)
 
     const handleSubmit = async () => {
+        const data = {
+            title,
+            description,
+            start,
+            end,
+            activity_id: activity,
+            allDay
+        };
+
+        if (data.title === '' || data.description === '' || data.start === '' || data.end === '' || data.activity_id === '') {
+            setError('Veuillez remplir tous les champs');
+            return;
+        }
         try {
-            console.log("allDay = " + allDay)
             await ky.post('http://localhost:3000/event', {
                 credentials: "include",
-                json: {
-                    title,
-                    description,
-                    start,
-                    end,
-                    activity_id: activity,
-                    allDay
-                },
+                json: data,
             });
             handleClose();
         } catch (error) {
@@ -53,6 +59,7 @@ export default function NewEventModal({ show, handleClose }) {
                 <Modal.Title>Créer un événement</Modal.Title>
             </Modal.Header>
             <Modal.Body>
+                {error && <Alert variant="danger">{error}</Alert>}
                 <Form>
                     <Form.Group className="pb-3">
                         <Form.Label>Titre</Form.Label>

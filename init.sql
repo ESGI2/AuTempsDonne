@@ -109,11 +109,10 @@ ADD COLUMN plaque_immatriculation varchar(20) NOT NULL;
 
 CREATE TABLE if not exists maraude(
     id integer NOT NULL AUTO_INCREMENT,
-    date date NOT NULL,
-    duration integer NOT NULL,
     id_truck integer NOT NULL,
-    people_needed integer NOT NULL,
+    id_event integer NOT NULL,
     FOREIGN KEY (id_truck) REFERENCES truck(id),
+    FOREIGN KEY (id_event) REFERENCES event(id),
     PRIMARY KEY (id)
 );
 

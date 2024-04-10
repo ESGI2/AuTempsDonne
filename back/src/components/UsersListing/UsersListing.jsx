@@ -61,7 +61,7 @@ const UsersListing = () => {
 
     return (
 
-        <div className="rounded-lg border border-gray-200">
+        <div className="rounded-lg border border-gray-200 w-100">
             {(showModal === "edit") && <EditUserModal user={selectedUser} onClose={closeModal} />}
             {(showModal === "new") && <NewUserModal onClose={closeModal} />}
             <h1 className="text-2xl font-semibold text-gray-900 px-4 py-6 text-center">Users</h1>
