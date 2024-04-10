@@ -1,5 +1,6 @@
 const MaraudeService = require('../services/maraude.service');
 const TruckService =  require ('../services/truck.services');
+const MaraudePointService = require('../services/maraudePoint.service');
 const moment = require('moment');
 
 
@@ -141,9 +142,9 @@ class MaraudeController{
     }
 
     static async bestpath(req, res){
-        // Fonction pour calculer la distance entre deux points géographiques
+        // Calcul distance en km entre les deux points
         function distance(lat1, lon1, lat2, lon2) {
-            const R = 6371; // Rayon de la Terre en kilomètres
+            const R = 6371;
             const dLat = deg2rad(lat2 - lat1);
             const dLon = deg2rad(lon2 - lon1);
             const a =
@@ -151,7 +152,7 @@ class MaraudeController{
                 Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
                 Math.sin(dLon / 2) * Math.sin(dLon / 2);
             const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-            const d = R * c; // Distance en kilomètres
+            const d = R * c;
             return d;
         }
 
@@ -180,7 +181,6 @@ class MaraudeController{
             return permutations;
         }
 
-// Fonction principale pour résoudre le problème du voyageur de commerce
         function solveTSPWithFixedEndpoints(locations, startPointIndex, endPointIndex) {
             const n = locations.length;
             const indices = Array.from(Array(n).keys()); // [0, 1, 2, ..., n-1]
@@ -214,7 +214,23 @@ class MaraudeController{
             return { path: optimalPath, distance: minDistance };
         }
 
-// Exemple d'utilisation
+        // const data = req.body;
+        // const locations = []
+        //
+        // const start = await MaraudePointService.getMaraudePointById(data.start);
+        // const end = await MaraudePointService.getMaraudePointById(data.end);
+        // const interPoints = data.inter.split(',');
+        //
+        // locations.push(start);
+        // locations.push(end);
+        //
+        // for (let i = 0; i < interPoints.length; i++) {
+        //     const point = await MaraudePointService.getMaraudePointById(interPoints[i]);
+        //     locations.push(point);
+        // }
+
+
+
         const locations = [
             { name: "A", lat: 49.047598, lon: 3.391474 }, // Chateau-Thierry
             { name: "B", lat: 48.845825, lon: 2.385113 }, // Erard
@@ -222,14 +238,17 @@ class MaraudeController{
             { name: "D", lat: 43.614017, lon: 1.425850 }, // Toulouse
             { name: "E", lat: 45.755700, lon: 4.833016 }, // Lyon
             { name: "F", lat: 47.327422, lon: 5.038355 }, // Dijon
-
-            // Ajouter plus de villes si nécessaire
+            { name: "G", lat: 49.047598, lon: 3.391474 }, // Chateau-Thierry
         ];
 
-        const result = solveTSP(locations);
-        console.log("Chemin optimal:", result.path.map(index => locations[index].name).join(" -> "));
-        console.log("Distance totale:", result.distance.toFixed(2), "kilomètres");
-        res.status(200).json(result);
+        const startPointIndex = 0; // Index départ
+        const endPointIndex = 6; // Index arrivé
+        const resultWithFixedEndpoints = solveTSPWithFixedEndpoints(locations, startPointIndex, endPointIndex);
+        console.log("Chemin optimal avec points de départ et d'arrivée fixés:", resultWithFixedEndpoints.path.map(index => locations[index].name).join(" -> "));
+        console.log("Distance totale avec points de départ et d'arrivée fixés:", resultWithFixedEndpoints.distance.toFixed(2), "kilomètres");
+
+        res.status(200).json(resultWithFixedEndpoints);
+
     }
 }
 module.exports = MaraudeController;

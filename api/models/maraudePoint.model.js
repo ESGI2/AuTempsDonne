@@ -28,11 +28,11 @@ const MaraudePoint = sequelize.define('MaraudePoint', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    latitude: {
+    lat: {
         type: DataTypes.DECIMAL,
         allowNull: false
     },
-    longitude: {
+    lon: {
         type: DataTypes.DECIMAL,
         allowNull: false
     }
