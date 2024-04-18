@@ -64,6 +64,20 @@ class EventRepository {
             throw error;
         }
     }
+
+    //GET AVAILABLE USERS
+    static async getAvailableUsers(activity_id){
+        try {
+            const event = await Event.findByPk(activity_id);
+            if(!event){
+                return {"Message": "No event found"}
+            }
+
+        }catch (error){
+            console.error("Available Users error :", error);
+            throw error;
+        }
+    }
 }
 
 
