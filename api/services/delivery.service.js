@@ -9,9 +9,18 @@ class DeliveryService {
         }
     }
 
-    static async updateStatus( id_delivery , id_product , quantity){
+    static async updateStatus(id_delivery) {
         try {
-            return await DeliveryRepository.updateStatus( id_delivery , id_product , quantity);
+            return await DeliveryRepository.updateStatus(id_delivery);
+        } catch (error) {
+            throw error;
+        }
+    }
+
+
+    static async UpdateStatusFinish( id_delivery , id_product , quantity){
+        try {
+            return await DeliveryRepository.UpdateStatusFinish( id_delivery , id_product , quantity);
         } catch (error) {
             throw error;
         }
