@@ -85,9 +85,17 @@ app.use('/delivery', deliveryRoutes);
 const deliveryDriverRoutes = require('./routes/deliveryDriver.route');
 app.use('/deliveryDrivers', deliveryDriverRoutes)
 
+// DELIVERY_POINT ROUTE
+const deliveryPointRoutes = require('./routes/deliveryPoint.route');
+app.use('/deliveryPoint', deliveryPointRoutes)
+
 // DELIVERY_LISTING ROUTE
 const deliveryListingRoutes = require('./routes/deliveryListing.route');
 app.use('/deliveryListing', deliveryListingRoutes)
+
+// DELIVERY_PRODUCT ROUTE
+const deliveryProductRoutes = require('./routes/deliveryProduct.route');
+app.use('/deliveryProduct', deliveryProductRoutes)
 
 // EVENT LISTING ROUTE
 const eventListingRoute = require('./routes/eventListing.route');

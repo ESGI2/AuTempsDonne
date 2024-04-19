@@ -148,8 +148,28 @@ CREATE TABLE if not exists delivery(
     departure date NOT NULL,
     theorical_arrival date NOT NULL,
     id_truck integer NOT NULL,
+    status integer NOT NULL,
     FOREIGN KEY (id_truck) REFERENCES truck(id),
     PRIMARY KEY (id)
+);
+
+CREATE TABLE if not exists Delivery_point (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    type VARCHAR(255),
+    name VARCHAR(255),
+    country VARCHAR(255),
+    city VARCHAR(255),
+    postal_code VARCHAR(20),
+    road VARCHAR(255)
+);
+
+CREATE TABLE Delivery_listing (
+    id_delivery INT,
+    id_point INT,
+    isDeparture BOOLEAN,
+    isArrival BOOLEAN,
+    FOREIGN KEY (id_delivery) REFERENCES delivery(id),
+    FOREIGN KEY (id_point) REFERENCES Delivery_point(id)
 );
 
 CREATE TABLE if not exists product(

@@ -57,6 +57,22 @@ class StockController {
         }
     }
 
+    static async getStockQuantityByWarehouseId(req, res) {
+        const { warehouseId } = req.params;
+
+        if (!warehouseId) {
+            return res.status(400).json({ error: 'Give warehouse id' });
+        }
+        try {
+            const allStockWarehouse = await StockService.getAllStockWarehouse(warehouseId);
+
+            return res.json(allStockWarehouse);
+        } catch (error) {
+            return res.status(500).json({ error: 'Error during stock get' });
+        }
+    }
+
+
 }
 
 module.exports = StockController;

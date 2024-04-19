@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../config/db');
+const DeliveryPoint = require("./deliveryPoint.model");
 
 const Warehouse = sequelize.define('warehouse', {
     id: {
@@ -27,10 +28,14 @@ const Warehouse = sequelize.define('warehouse', {
         type: Sequelize.STRING,
         allowNull: false
     },
-    road_number: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-    }
+    id_delivery_point: {
+    type: Sequelize.INTEGER,
+        allowNull: true,
+        references: {
+            model: DeliveryPoint,
+            key: 'id'
+        }
+}
 }, {
     tableName: 'warehouse',
     timestamps: false

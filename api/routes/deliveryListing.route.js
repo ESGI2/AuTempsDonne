@@ -1,11 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const authMiddleware = require("../middlewares/authMiddleware");
 const DeliveryListingController = require('../controllers/deliveryListing.controller');
 
-router.post('/', authMiddleware, DeliveryListingController.createDeliveryListing);
-router.get('/', authMiddleware, DeliveryListingController.getAllDeliveryListings);
-router.delete('/', authMiddleware, DeliveryListingController.deleteDeliveryListing);
-
+router.post('/', DeliveryListingController.createDeliveryListing);
+router.get('/:id', DeliveryListingController.findByDeliveryId);
+router.get('/Departure', DeliveryListingController.findByDeparture);
+router.get('/Arrival', DeliveryListingController.findByArrival);
 
 module.exports = router;

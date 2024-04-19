@@ -13,7 +13,7 @@ const Delivery = sequelize.define('delivery', {
         type: Sequelize.DATE,
         allowNull: false
     },
-    theorical_arrival: {
+    theoretical_arrival: {
         type: Sequelize.DATE,
         allowNull: false
     },
@@ -24,6 +24,10 @@ const Delivery = sequelize.define('delivery', {
             model: 'truck',
             key: 'id'
         }
+    },
+    status:{
+        type: Sequelize.INTEGER,
+        allowNull:false
     }
 }, {
     tableName: 'delivery',

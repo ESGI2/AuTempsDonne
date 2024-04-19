@@ -96,6 +96,8 @@ const WarehouseStock = () => {
         const stock = stocks.find(stock => stock.id_product === product.id);
         const warehouse = stock ? warehouses.find(warehouse => warehouse.id === stock.id_warehouse) : null;
 
+        console.log(stock)
+
         return {
             id: product.id,
             name: product.name,
