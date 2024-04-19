@@ -34,14 +34,15 @@ class DeliveryController {
     }
 
 
-    static async UpdateStatusFinish(req,res){
-        const { id_delivery , id_product , quantity} = req.params;
+    static async UpdateStatusFinish(req, res) {
+        const { id_delivery } = req.params;
 
-        if ( !id_delivery || !id_product || !quantity){
-            return res.status(400).json({ error: 'Provide all parameters' });
+        if (!id_delivery) {
+            return res.status(400).json({ error: 'Provide delivery ID' });
         }
+
         try {
-            const updateStatusDelivery = await DeliveryService.UpdateStatusFinish( id_delivery , id_product , quantity);
+            const updateStatusDelivery = await DeliveryService.UpdateStatusFinish(id_delivery);
             return res.status(201).json(updateStatusDelivery);
         } catch (error) {
             return res.status(500).json({ error: 'Error during delivery post' });
@@ -50,23 +51,6 @@ class DeliveryController {
 
 
 
-
-    static async UpdateStatusAdd1(req,res){
-        const { id_delivery } = req.params;
-
-        if ( !id_delivery ){
-            return res.status(400).json({ error: 'Provide all parameters' });
-        }
-
-        try {
-            const delivery = await Delivery.findByPk(id_delivery);
-            delivery.status = delivery.status + 1
-            await delivery.save();
-            return res.status(201).json(delivery.status);
-        } catch (error) {
-            return res.status(500).json({ error: 'Error during delivery post' });
-        }
-    }
 
 
     static async getAllDeliveries(req, res) {

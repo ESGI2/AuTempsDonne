@@ -32,6 +32,9 @@ class DeliveryRepository {
 
                     stock.quantity -= quantity;
                     await stock.save();
+
+                    delivery.status = 1;
+                    await delivery.save();
                 }
             }
         } catch (error) {
@@ -40,8 +43,7 @@ class DeliveryRepository {
     }
 
 
-
-    static async UpdateStatusFinish(id_delivery, id_product, quantity) {
+    static async UpdateStatusFinish(id_delivery) {
         try {
             const delivery = await Delivery.findByPk(id_delivery);
             if (!delivery) {
@@ -58,19 +60,28 @@ class DeliveryRepository {
                 if (!warehouse) {
                     throw new Error('Warehouse not found');
                 }
-                let stock = await Stock.findOne({ where: { id_warehouse: warehouse.id, id_product: id_product } });
-                if (!stock) {
-                    stock = await Stock.create({ id_warehouse: warehouse.id, id_product: id_product, quantity: 0 });
+
+                const deliveryProducts = await DeliveryProduct.findAll({ where: { id_delivery: id_delivery } });
+
+                for (const deliveryProduct of deliveryProducts) {
+                    const { id_product, quantity } = deliveryProduct;
+                    let stock = await Stock.findOne({ where: { id_warehouse: warehouse.id, id_product: id_product } });
+                    if (!stock) {
+                        stock = await Stock.create({ id_warehouse: warehouse.id, id_product: id_product, quantity: 0 });
+                    }
+                    stock.quantity += quantity;
+                    await stock.save();
+
+                    delivery.status = 2;
+                    await delivery.save();
                 }
-                stock.quantity += quantity;
-                await stock.save();
-                return stock
             }
         } catch (error) {
             console.log(error);
             throw error;
         }
     }
+
 
 
     static async getAllDeliveries() {

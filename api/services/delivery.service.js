@@ -18,13 +18,14 @@ class DeliveryService {
     }
 
 
-    static async UpdateStatusFinish( id_delivery , id_product , quantity){
+    static async UpdateStatusFinish(id_delivery) {
         try {
-            return await DeliveryRepository.UpdateStatusFinish( id_delivery , id_product , quantity);
+            return await DeliveryRepository.UpdateStatusFinish(id_delivery);
         } catch (error) {
             throw error;
         }
     }
+
 
     static async getAllDeliveries() {
         try {
