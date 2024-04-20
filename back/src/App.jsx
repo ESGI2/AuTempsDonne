@@ -35,7 +35,12 @@ const router = createBrowserRouter([
     {
         path: "/maraude",
         element: <AuthenticatedRoute element={<MaraudePage />} />,
-    }
+    },
+    {
+        path: "/delivery",
+        element: <AuthenticatedRoute element={<DeliveryPage />} />,
+        errorElement: <ErrorPage />,
+    },
 ]);
 
 
@@ -47,6 +52,7 @@ import WarehouseStockPage from "./pages/WarehouseStockPage.jsx";
 import TruckGestionPage from "./pages/TruckGestionPage.jsx";
 import CalendarPage from "./pages/CalendarPage.jsx";
 import MaraudePage from "./pages/MaraudePage.jsx";
+import DeliveryPage from "./pages/DeliveryPage.jsx";
 
 function App() {
     return (
