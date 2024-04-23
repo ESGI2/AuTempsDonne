@@ -1,7 +1,7 @@
 from tkinter import *
 from ...base_page import BasePage
 import requests
-
+import pickle
 class LoginPage(BasePage):
 
     def __init__(self, parent, *args, **kwargs):
@@ -9,6 +9,9 @@ class LoginPage(BasePage):
         self.setup_ui()
 
     def setup_ui(self):
+        self.labelTitle = Label(self, text="Panel administrateur ")
+        self.labelTitle.pack()
+
         self.label1 = Label(self, text="EMAIL")
         self.label1.pack()
 
@@ -26,6 +29,7 @@ class LoginPage(BasePage):
 
         self.error_label = Label(self, fg="red")
         self.error_label.pack()
+
     def connecter(self):
         email = self.Email.get()
         password = self.Password.get()
@@ -33,15 +37,17 @@ class LoginPage(BasePage):
         if email and password:
             try:
                 response = requests.post("http://localhost:3000/login", json={"email": email, "password": password})
-                if response.status_code == 200:
-                    self.parent.show_page("home")
+                if response.status_code == 200 and 'jwt' in response.cookies:
+                    with open('cookie_file.pkl', 'wb') as f:
+                        pickle.dump(response.cookies['jwt'], f)
+                    data = response.json()
+                    if data.get("Role") == "admin":
+                        self.parent.show_page("home")
+                    else:
+                        self.error_label.config(text="Erreur: Vous n'avez pas les permissions nécessaires.")
                 else:
                     self.error_label.config(text="Erreur: Connexion échouée")
             except requests.exceptions.RequestException as e:
                 self.error_label.config(text="Erreur: Impossible de se connecter au serveur")
         else:
             self.error_label.config(text="Erreur: Veuillez remplir tous les champs")
-
-
-def test():
-    return 5

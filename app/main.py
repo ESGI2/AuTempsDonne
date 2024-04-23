@@ -5,7 +5,7 @@ from src.page.home.home import HomePage
 class Application(Tk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.title("AU TEMPS DONNE TICKETING")
+        self.title("AU TEMPS DONNÉ")
         self.geometry("600x400")
         self.minsize(400, 200)
         self.maxsize(800, 400)
