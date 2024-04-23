@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ky from 'ky';
 import DeliveryModal1 from './DeliveryModal1';
+import CreateWaypointModal from './CreateWaypointModal.jsx';
 
 const getAllDelivery = () => {
     return ky.get("http://localhost:3000/delivery", {
@@ -148,12 +149,24 @@ const Delivery = () => {
         setModalOpen(false);
     };
 
+    const [createWaypointModalOpen, setCreateWaypointModalOpen] = useState(false); // État pour le nouveau modal
+
+    const openCreateWaypointModal = () => {
+        setCreateWaypointModalOpen(true);
+    };
+
+    const closeCreateWaypointModal = () => {
+        setCreateWaypointModalOpen(false);
+    };
+
     return (
 
         <div>
             {modalOpen && <DeliveryModal1 onClose={closeModal}/>}
+            {createWaypointModalOpen && <CreateWaypointModal onClose={closeCreateWaypointModal}/>} {/* Nouveau modal */}
             <div>
                 <button className="btn btn-primary" onClick={openModal}>Ouvrir le Modal</button>
+                <button className="btn btn-primary" onClick={openCreateWaypointModal}>Créer un point de passage</button> {/* Bouton pour ouvrir le nouveau modal */}
             </div>
 
             <table className="min-w-full">
