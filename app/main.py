@@ -13,11 +13,9 @@ class Application(Tk):
         self.pages = {}
         self.current_page = None
 
-        # Ajouter toutes les pages disponibles
         self.add_page("login", LoginPage)
         self.add_page("home", HomePage)
 
-        # Afficher la page de connexion par défaut lors du lancement
         self.show_page("login")
 
     def add_page(self, name, page_class):
@@ -28,6 +26,7 @@ class Application(Tk):
         if self.current_page:
             self.current_page.pack_forget()
         self.current_page = self.pages[name]
+        self.current_page.setup_ui()
         self.current_page.pack()
 
 if __name__ == "__main__":

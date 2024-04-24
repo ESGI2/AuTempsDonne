@@ -7,3 +7,7 @@ class BasePage(Frame):
 
     def setup_ui(self):
         raise NotImplementedError("setup_ui method must be implemented in subclasses")
+
+    def clear_widgets(self):
+        for widget in self.winfo_children():
+            widget.pack_forget()

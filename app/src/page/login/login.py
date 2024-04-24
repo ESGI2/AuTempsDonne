@@ -2,30 +2,27 @@ from tkinter import *
 from ...base_page import BasePage
 import requests
 import pickle
+from customtkinter import *
 
 class LoginPage(BasePage):
-
-    def __init__(self, parent, *args, **kwargs):
-        super().__init__(parent, *args, **kwargs)
-        self.setup_ui()
-
     def setup_ui(self):
-        self.labelTitle = Label(self, text="Panel administrateur ")
+        self.clear_widgets()
+        self.labelTitle = CTkLabel(self, text="Panel administrateur ")
         self.labelTitle.pack()
 
-        self.label1 = Label(self, text="EMAIL")
+        self.label1 = CTkLabel(self, text="EMAIL")
         self.label1.pack()
 
-        self.Email = Entry(self)
+        self.Email = CTkEntry(self)
         self.Email.pack()
 
-        self.label2 = Label(self, text="PASSWORD")
+        self.label2 = CTkLabel(self, text="PASSWORD")
         self.label2.pack()
 
-        self.Password = Entry(self, show="*")
+        self.Password = CTkEntry(self, show="*")
         self.Password.pack()
 
-        self.Submit = Button(self, text="Connecter", command=self.connecter)
+        self.Submit = CTkButton(self, text="Connecter", command=self.connecter)
         self.Submit.pack()
 
         self.error_label = Label(self, fg="red")
