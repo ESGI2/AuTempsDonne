@@ -2,6 +2,7 @@ from tkinter import *
 from ...base_page import BasePage
 import requests
 import pickle
+
 class LoginPage(BasePage):
 
     def __init__(self, parent, *args, **kwargs):
@@ -37,6 +38,7 @@ class LoginPage(BasePage):
         if email and password:
             try:
                 response = requests.post("http://localhost:3000/login", json={"email": email, "password": password})
+
                 if response.status_code == 200 and 'jwt' in response.cookies:
                     with open('cookie_file.pkl', 'wb') as f:
                         pickle.dump(response.cookies['jwt'], f)
@@ -45,8 +47,8 @@ class LoginPage(BasePage):
                         self.parent.show_page("home")
                     else:
                         self.error_label.config(text="Erreur: Vous n'avez pas les permissions nécessaires.")
-                else:
-                    self.error_label.config(text="Erreur: Connexion échouée")
+                elif response.status_code == 404:
+                    self.error_label.config(text="Erreur: Email ou mot de passe incorrect")
             except requests.exceptions.RequestException as e:
                 self.error_label.config(text="Erreur: Impossible de se connecter au serveur")
         else:
