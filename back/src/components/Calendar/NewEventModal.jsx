@@ -125,14 +125,6 @@ export default function NewEventModal({ show, handleClose }) {
                                 </Form.Group>
                             </>
                         )}
-                        {/*<Form.Group className="pb-3">*/}
-                        {/*    <Form.Label>Date de début</Form.Label>*/}
-                        {/*    <Form.Control type="datetime-local" value={start} onChange={e => setStart(e.target.value)} />*/}
-                        {/*</Form.Group>*/}
-                        {/*<Form.Group className="pb-3">*/}
-                        {/*    <Form.Label>Date de fin</Form.Label>*/}
-                        {/*    <Form.Control type="datetime-local" value={end} onChange={e => setEnd(e.target.value)} />*/}
-                        {/*</Form.Group>*/}
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>

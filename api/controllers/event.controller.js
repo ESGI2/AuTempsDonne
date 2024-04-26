@@ -127,7 +127,7 @@ class EventController {
     //GET AVAILABLE USERS
     static async getAvailableUsers(req, res) {
         try {
-            const {idNewEvent} = req.body;
+            const {idNewEvent} = req.query;
 
             // Dans un premier temps on récupère les volontaires
             const volunteers = await UserServices.getVolunteers();
@@ -142,25 +142,35 @@ class EventController {
 
             // Pour chaque utilisateur on vérifie si il est disponible
             for (let i = 0; i < volunteers.length; i++) {
-                const user = volunteers[i];
-                const listing = await EventListingServices.getListingById(user.id);
-                // Pour chaque évènement de l'utilisateur on récupère les dates de début et de fin
-                for (let j = 0; j < listing.length; j++) {
-                    const event = await EventService.getEventById(listing[j].id_event);
-                    const eventStart = moment(event.start);
-                    const eventEnd = moment(event.end);
-                    // On vérifie si les dates se chevauchent
-                    if ((moment(newEventStart).isBetween(eventStart, eventEnd) || moment(newEventEnd).isBetween(eventStart, eventEnd)) ||
-                        (moment(newEventStart).isSameOrBefore(eventStart) && moment(newEventEnd).isSameOrAfter(eventEnd))) {
-                        volunteers.splice(i, 1);
-                        i--;
-                        break;
+
+                // On vérifie si l'utilisateur participe déja à cet évènement
+                const listing = await EventListingServices.getListingByParam(volunteers[i].id, idNewEvent);
+                if (listing.length > 0) {
+                    volunteers[i].participate = true;
+                    volunteers[i].occupied = true;
+                } else {
+                    volunteers[i].participate = false;
+                    const user = volunteers[i];
+                    const listing = await EventListingServices.getListingById(user.id);
+                    volunteers[i].occupied = false;
+                    // Pour chaque évènement de l'utilisateur on récupère les dates de début et de fin
+                    for (let j = 0; j < listing.length; j++) {
+                        const event = await EventService.getEventById(listing[j].id_event);
+                        const eventStart = moment(event.start);
+                        const eventEnd = moment(event.end);
+                        // On vérifie si les dates se chevauchent
+                        if ((moment(newEventStart).isBetween(eventStart, eventEnd) || moment(newEventEnd).isBetween(eventStart, eventEnd)) ||
+                            (moment(newEventStart).isSameOrBefore(eventStart) && moment(newEventEnd).isSameOrAfter(eventEnd))) {
+                            // On rajoute le paramètre occupied à l'utilisateur
+                            volunteers[i].occupied = true;
+                        }
                     }
                 }
 
-                if (volunteers.length === 0) {
-                    return res.status(404).json({error: "No one is available for this event."});
-                }
+            }
+
+            if (volunteers.length === 0) {
+                return res.status(404).json({error: "No volunteers availaible for this event."});
             }
 
             for (let i = 0; i < volunteers.length; i++) {
@@ -169,7 +179,9 @@ class EventController {
                     email: volunteers[i].email,
                     role: volunteers[i].role,
                     first_name: volunteers[i].first_name,
-                    last_name: volunteers[i].last_name
+                    last_name: volunteers[i].last_name,
+                    occupied: volunteers[i].occupied,
+                    participate: volunteers[i].participate
                 };
 
                 volunteers[i] = me;

@@ -1,4 +1,5 @@
 import './main.css';
+import "primereact/resources/themes/lara-light-cyan/theme.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AuthenticatedRoute from "./utils/authentication.js";
 
@@ -47,10 +48,13 @@ import WarehouseStockPage from "./pages/WarehouseStockPage.jsx";
 import TruckGestionPage from "./pages/TruckGestionPage.jsx";
 import CalendarPage from "./pages/CalendarPage.jsx";
 import MaraudePage from "./pages/MaraudePage.jsx";
+import {PrimeReactProvider} from "primereact/api";
 
 function App() {
     return (
-        <RouterProvider router={router} />
+        <PrimeReactProvider>
+            <RouterProvider router={router} />
+        </PrimeReactProvider>
     );
 }
 

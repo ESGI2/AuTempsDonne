@@ -7,7 +7,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import ky from "ky";
 import NewEventModal from "./NewEventModal.jsx";
 import ShowEventModal from "./ShowEventModal.jsx";
-import ActivityModal from "./ActivityModal.jsx"; // Import du ShowEventModal
+import ActivityModal from "./ActivityModal.jsx";
 
 export default function Calendar() {
     const [currentEvents, setCurrentEvents] = useState([]);
