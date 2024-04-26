@@ -29,7 +29,7 @@ class HomePage(QtWidgets.QWidget):
         self.layout.addWidget(self.logout_button, alignment=QtCore.Qt.AlignLeft | QtCore.Qt.AlignBottom)
 
     def logout(self):
-        with open("token.txt", "w") as file:
-            file.write("")
+        #with open("token.txt", "w") as file:
+        #    file.write("")
         self.close()
         sys.exit()
