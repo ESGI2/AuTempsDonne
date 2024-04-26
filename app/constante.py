@@ -1,0 +1,3 @@
+WIDTH = 900
+HEIGHT = 600
+NAME = "ATD Tickets"

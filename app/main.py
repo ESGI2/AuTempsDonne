@@ -1,34 +1,28 @@
-from tkinter import Tk
-from src.page.login.login import LoginPage
-from src.page.home.home import HomePage
+import sys
+from PySide6 import QtWidgets
+from connection import ConnectionPage
+from home import HomePage
+from constante import WIDTH, HEIGHT, NAME
 
-class Application(Tk):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.title("AU TEMPS DONNÉ")
-        self.geometry("600x400")
-        self.minsize(400, 200)
-        self.maxsize(800, 400)
+class App:
+    app: QtWidgets.QApplication
+    windowConnection: ConnectionPage
+    windowsHome: HomePage
 
-        self.pages = {}
-        self.current_page = None
+    def __init__(self):
+        self.app = QtWidgets.QApplication([])
+        self.windowConnection = ConnectionPage()
+        self.windowConnection.setWindowTitle(NAME)
+        self.windowConnection.resize(WIDTH / 3, HEIGHT / 2)
+        self.windowConnection.show()
+        sys.exit(self.app.exec())
 
-        self.add_page("login", LoginPage)
-        self.add_page("home", HomePage)
-
-        self.show_page("login")
-
-    def add_page(self, name, page_class):
-        page = page_class(self)
-        self.pages[name] = page
-
-    def show_page(self, name):
-        if self.current_page:
-            self.current_page.pack_forget()
-        self.current_page = self.pages[name]
-        self.current_page.setup_ui()
-        self.current_page.pack()
+    def login_success(self):
+        self.windowsHome = HomePage()
+        self.windowsHome.setWindowTitle(NAME)
+        self.windowsHome.resize(WIDTH, HEIGHT)
+        self.windowsHome.show()
+        self.windowConnection.close()
 
 if __name__ == "__main__":
-    app = Application()
-    app.mainloop()
+    App()
