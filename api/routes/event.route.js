@@ -7,6 +7,7 @@ const isAdmin = require('../middlewares/isAdmin');
 router.get('/availableUser' ,[authMiddleware, isAdmin], eventController.getAvailableUsers);
 router.get('/',[authMiddleware, isAdmin], eventController.getAllEvents);
 router.get('/:id',[authMiddleware, isAdmin], eventController.getEventById);
+router.get('/user/:id',[authMiddleware, isAdmin], eventController.getEventByUserId);
 router.post('/',[authMiddleware, isAdmin], eventController.addEvent);
 router.put('/:id',[authMiddleware, isAdmin], eventController.updateEvent);
 router.delete('/:id',[authMiddleware, isAdmin], eventController.deleteEvent);

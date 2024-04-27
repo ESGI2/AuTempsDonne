@@ -22,6 +22,16 @@ class EventService {
 
     }
 
+    static async getEventByUserId(id){
+        try{
+            const event = await EventRepository.getEventByUserId(id);
+            return event;
+        }catch (error){
+            console.error(error);
+            throw error;
+        }
+    }
+
     //ADD
     static async addEvent(eventData){
         return EventRepository.addEvent(eventData);
