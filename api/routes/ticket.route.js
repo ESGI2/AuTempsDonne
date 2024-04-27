@@ -5,7 +5,7 @@ const isAdmin = require('../middlewares/isAdmin');
 
 const router = express.Router();
 
-router.put('/increment-status', [authMiddleware], TicketController.incrementTicketStatus);
+router.put('/increment-status/:id', [authMiddleware], TicketController.incrementTicketStatus);
 router.post('/add-answer', [authMiddleware], TicketController.addAnswerToTicket);
 router.get('/',[authMiddleware], TicketController.getAllTickets);
 router.get('/me', [authMiddleware], TicketController.getSelfTickets);

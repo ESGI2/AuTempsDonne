@@ -1,5 +1,5 @@
-import requests
 import sys
+import requests
 from PySide6 import QtCore, QtWidgets, QtGui
 from app.get_token import get_token
 from constante import WIDTH, HEIGHT
@@ -10,6 +10,7 @@ class HomePage(QtWidgets.QWidget):
 
     def __init__(self):
         super().__init__()
+        self.attribute_button = None
         self.create_components()
         self.display_element()
         self.setFixedSize(WIDTH, HEIGHT)
@@ -19,21 +20,27 @@ class HomePage(QtWidgets.QWidget):
         token = get_token()
         if token:
             self.cookies = {"jwt": token}
-            response = requests.get('http://localhost:3000/ticket' , cookies=self.cookies)
-            if response.status_code == 200:
-                ticket_data = response.json()
-                self.display_ticket_table(ticket_data)
+            response_user = requests.get('http://localhost:3000/user/me', cookies=self.cookies)
+            if response_user.status_code == 200:
+                user_data = response_user.json()
+                self.user_id = user_data['me']['id']
+                response = requests.get('http://localhost:3000/ticket', cookies=self.cookies)
+                if response.status_code == 200:
+                    ticket_data = response.json()
+                    self.display_ticket_table(ticket_data)
+                else:
+                    print("Erreur.", response.status_code)
             else:
-                print("Erreur.", response.status_code)
+                print("Erreur lors de la récupération des informations de l'utilisateur.")
         else:
             print("Aucun token trouvé.")
 
     def create_components(self):
         self.table = QtWidgets.QTableWidget()
-        self.table.setColumnCount(5)  # 5 columns: id, title, date_creation, status, action
+        self.table.setColumnCount(5)
         self.table.setHorizontalHeaderLabels(["ID", "Titre", "Date de création", "Statut", "Action"])
-        self.table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)  # Make table non-editable
-        self.table.verticalHeader().setVisible(False)  # Hide vertical header
+        self.table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.table.verticalHeader().setVisible(False)
 
         self.logout_button = QtWidgets.QPushButton("Logout")
         self.logout_button.clicked.connect(self.logout)
@@ -47,6 +54,10 @@ class HomePage(QtWidgets.QWidget):
         self.ticket_detail_label = QtWidgets.QLabel()
         self.ticket_detail_label.setAlignment(QtCore.Qt.AlignCenter)
 
+        self.attribute_button = QtWidgets.QPushButton("S'attribué le ticket")
+        self.attribute_button.clicked.connect(self.attribute_ticket)
+        self.attribute_button.hide()
+
         self.back_button = QtWidgets.QPushButton("Retour à la liste")
         self.back_button.clicked.connect(self.back_to_list)
         self.back_button.hide()
@@ -57,20 +68,26 @@ class HomePage(QtWidgets.QWidget):
         self.layout.addWidget(self.table)
         self.layout.addWidget(self.logout_button, alignment=QtCore.Qt.AlignLeft | QtCore.Qt.AlignBottom)
         self.layout.addWidget(self.ticket_detail_label)
+        self.layout.addWidget(self.attribute_button)
         self.layout.addWidget(self.back_button)
 
     def display_ticket_table(self, ticket_data):
-        # Filter ticket data to exclude tickets with existing answers
-        filtered_data = [ticket for ticket in ticket_data if ticket.get("id_answer") is None]
+        # Filtrer les données pour exclure les tickets avec un statut de 2
+        filtered_data = [ticket for ticket in ticket_data if
+                         ticket.get("id_answer") is None or str(ticket.get("id_answer")) == str(
+                             self.user_id) and ticket.get("status") != 2]
 
-        self.table.setRowCount(len(filtered_data))
-        for row, ticket in enumerate(filtered_data):
+        # Trier les données pour mettre en premier les tickets avec un statut de 1
+        sorted_data = sorted(filtered_data, key=lambda x: x.get("status") == 1, reverse=True)
+
+        self.table.setRowCount(len(sorted_data))
+        for row, ticket in enumerate(sorted_data):
             id_item = QtWidgets.QTableWidgetItem(str(ticket["id"]))
             title_item = QtWidgets.QTableWidgetItem(ticket["title"])
             date_item = QtWidgets.QTableWidgetItem(ticket["date_creation"])
             status_item = QtWidgets.QTableWidgetItem()
 
-            id_item.setFlags(QtCore.Qt.ItemIsEnabled)  # Make items non-editable
+            id_item.setFlags(QtCore.Qt.ItemIsEnabled)
             title_item.setFlags(QtCore.Qt.ItemIsEnabled)
             date_item.setFlags(QtCore.Qt.ItemIsEnabled)
             status_item.setFlags(QtCore.Qt.ItemIsEnabled)
@@ -92,7 +109,7 @@ class HomePage(QtWidgets.QWidget):
 
             # Add "Examiner" button in the "Action" column
             examine_button = QtWidgets.QPushButton("Examiner")
-            examine_button.clicked.connect(lambda _, r=row: self.examine_ticket(filtered_data[r]["id"]))  # Pass ticket ID to the slot
+            examine_button.clicked.connect(lambda _, r=row: self.examine_ticket(sorted_data[r]["id"]))
             self.table.setCellWidget(row, 4, examine_button)
 
     def examine_ticket(self, ticket_id):
@@ -108,12 +125,18 @@ class HomePage(QtWidgets.QWidget):
                 ticket_info += f"<p><strong>Date de création :</strong> {ticket_data.get('date_creation', '')}</p>"
                 ticket_info += f"<p><strong>Nom de l'utilisateur :</strong> {user_data.get('first_name', '')} {user_data.get('last_name', '')}</p>"
                 ticket_info += f"<p><strong>Email de l'utilisateur :</strong> {user_data.get('email', '')}</p>"
+
                 self.ticket_detail_label.setText(ticket_info)
+
                 self.table.hide()
                 self.ticket_detail_label.show()
                 self.back_button.show()
 
-                # Apply styles to ticket details label
+                if ticket_data.get("status") == 0:
+                    self.attribute_button.show()
+                else:
+                    self.attribute_button.hide()
+
                 self.ticket_detail_label.setStyleSheet("""
                     QLabel {
                         font-size: 16px;
@@ -131,14 +154,39 @@ class HomePage(QtWidgets.QWidget):
         else:
             print("Erreur.", response_ticket.status_code)
 
+    def attribute_ticket(self):
+        # Récupérer l'ID du ticket
+        selected_row = self.table.currentRow()
+        ticket_id_item = self.table.item(selected_row, 0)
+        ticket_id = int(ticket_id_item.text())
+
+        user_id = self.user_id
+        add_answer_url = 'http://localhost:3000/ticket/add-answer'
+        add_answer_payload = {"ticketId": ticket_id, "userId": user_id}
+        add_answer_response = requests.post(add_answer_url, json=add_answer_payload, cookies=self.cookies)
+
+        if add_answer_response.status_code == 200:
+            print("Réponse ajoutée avec succès.")
+            increment_status_url = f'http://localhost:3000/ticket/increment-status/{ticket_id}'
+            increment_status_response = requests.put(increment_status_url, cookies=self.cookies)
+
+            if increment_status_response.status_code == 200:
+                print("Statut du ticket incrementé avec succès.")
+            else:
+                print("Erreur lors de l'incrémentation du statut du ticket.")
+        else:
+            print("Erreur lors de l'ajout de la réponse au ticket.")
+
+
     def back_to_list(self):
         self.table.clearContents()
         self.table.setRowCount(0)
         self.table.show()
         self.ticket_detail_label.clear()
         self.ticket_detail_label.hide()
+        self.attribute_button.hide()
         self.back_button.hide()
-        self.initialize_home()  # Refresh the table
+        self.initialize_home() # Refresh the table
 
     def logout(self):
         with open("token.txt", "w") as file:

@@ -93,7 +93,7 @@ class TicketController {
 
     static async incrementTicketStatus(req, res) {
         try {
-            const { id } = req.body;
+            const { id } = req.params;
             console.log(id)
             const updatedTicket = await TicketService.incrementTicketStatus(id);
             res.status(200).json(updatedTicket);

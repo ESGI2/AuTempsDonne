@@ -75,7 +75,7 @@ class ConnectionPage(QtWidgets.QWidget):
 
         response = requests.post("http://localhost:3000/login", json={"email": self.input_email.text(), "password": self.input_password.text()})
 
-        if response.status_code == 200:
+        if response.status_code == 200  :
 
             cookie = response.cookies.get('jwt')
             with open('token.txt', 'w') as file:
