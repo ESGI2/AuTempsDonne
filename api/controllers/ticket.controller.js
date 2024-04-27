@@ -90,6 +90,30 @@ class TicketController {
             res.status(500).json({"Error": 'Error during ticket delete'});
         }
     }
+
+    static async incrementTicketStatus(req, res) {
+        try {
+            const { id } = req.body;
+            console.log(id)
+            const updatedTicket = await TicketService.incrementTicketStatus(id);
+            res.status(200).json(updatedTicket);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({"Error": 'Error during ticket status increment'});
+        }
+    }
+
+    static async addAnswerToTicket(req, res) {
+        try {
+            const { ticketId, userId } = req.body;
+            console.log({ ticketId, userId })
+            const updatedTicket = await TicketService.addAnswerToTicket(ticketId, userId);
+            res.status(200).json(updatedTicket);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({"Error": 'Error during adding answer to ticket'});
+        }
+    }
 }
 
 module.exports = TicketController;

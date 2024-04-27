@@ -1,5 +1,6 @@
 const Ticket = require('../models/ticket.model');
 const moment = require("moment-timezone");
+const Stock = require("../models/stock.model");
 class TicketRepository {
     static async getAllTickets() {
         try {
@@ -35,7 +36,9 @@ class TicketRepository {
                 title: user_data.title,
                 message: user_data.message,
                 date_creation: moment().tz('Europe/Paris').format('YYYY-MM-DD HH:mm:ss'),
-                id_user: user_data.user_id
+                id_user: user_data.user_id,
+                id_answer: null,
+                status: 0
             });
         } catch (error) {
             console.error(error);
@@ -69,6 +72,16 @@ class TicketRepository {
             console.error(error);
             throw error;
         }
+    }
+
+    static async incrementTicketStatus(id) {
+        try {
+            return Ticket.increment("status", {where : {id : id}});
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+
     }
 }
 

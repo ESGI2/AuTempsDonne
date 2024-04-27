@@ -77,9 +77,9 @@ class ConnectionPage(QtWidgets.QWidget):
 
         if response.status_code == 200:
 
-            #cookie = response.cookies.get('jwt')
-            #with open('token.txt', 'w') as file:
-            #    file.write(cookie)
+            cookie = response.cookies.get('jwt')
+            with open('token.txt', 'w') as file:
+                file.write(cookie)
             home = HomePage()
             self.title.hide()
             self.label_email.hide()

@@ -85,6 +85,32 @@ class TicketService {
             throw error;
         }
     }
+
+    static async incrementTicketStatus(id) {
+        try {
+            const ticket = await TicketRepository.incrementTicketStatus(id);
+            return ticket;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
+
+static async addAnswerToTicket(ticketId, userId) {
+    try {
+        const ticket = await TicketRepository.getTicketById(ticketId);
+        if (!ticket) {
+            throw new Error('Ticket not found');
+        }
+        ticket.id_answer = userId;
+        await ticket.save();
+        return ticket;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
 }
 
 module.exports = TicketService;
