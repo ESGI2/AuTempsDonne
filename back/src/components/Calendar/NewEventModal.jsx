@@ -34,7 +34,7 @@ export default function NewEventModal({ show, handleClose }) {
                 credentials: "include",
                 json: data,
             });
-            setShowPersonSelectionModal(true);
+            handleClose();
         } catch (error) {
             console.error('Erreur lors de la création de l\'événement:', error);
         }
