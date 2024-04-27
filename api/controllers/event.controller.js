@@ -1,5 +1,7 @@
 const EventService = require('../services/event.service');
 const ActivityService = require('../services/activity.service');
+const UserServices = require("../services/user.services");
+const EventListingServices = require("../services/eventListing.service");
 const moment = require('moment-timezone');
 
 
@@ -122,6 +124,75 @@ class EventController {
         }
     }
 
+    //GET AVAILABLE USERS
+    static async getAvailableUsers(req, res) {
+        try {
+            const {idNewEvent} = req.query;
+
+            // Dans un premier temps on récupère les volontaires
+            const volunteers = await UserServices.getVolunteers();
+            if (volunteers.length === 0) {
+                return res.status(404).json({error: "No volunteers found."});
+            }
+
+            // On récupère les dates de début et de fin du nouvel évènement
+            const newEvent = await EventService.getEventById(idNewEvent);
+            const newEventStart = moment(newEvent.start);
+            const newEventEnd = moment(newEvent.end);
+
+            // Pour chaque utilisateur on vérifie si il est disponible
+            for (let i = 0; i < volunteers.length; i++) {
+
+                // On vérifie si l'utilisateur participe déja à cet évènement
+                const listing = await EventListingServices.getListingByParam(volunteers[i].id, idNewEvent);
+                if (listing.length > 0) {
+                    volunteers[i].participate = true;
+                    volunteers[i].occupied = true;
+                } else {
+                    volunteers[i].participate = false;
+                    const user = volunteers[i];
+                    const listing = await EventListingServices.getListingById(user.id);
+                    volunteers[i].occupied = false;
+                    // Pour chaque évènement de l'utilisateur on récupère les dates de début et de fin
+                    for (let j = 0; j < listing.length; j++) {
+                        const event = await EventService.getEventById(listing[j].id_event);
+                        const eventStart = moment(event.start);
+                        const eventEnd = moment(event.end);
+                        // On vérifie si les dates se chevauchent
+                        if ((moment(newEventStart).isBetween(eventStart, eventEnd) || moment(newEventEnd).isBetween(eventStart, eventEnd)) ||
+                            (moment(newEventStart).isSameOrBefore(eventStart) && moment(newEventEnd).isSameOrAfter(eventEnd))) {
+                            // On rajoute le paramètre occupied à l'utilisateur
+                            volunteers[i].occupied = true;
+                        }
+                    }
+                }
+
+            }
+
+            if (volunteers.length === 0) {
+                return res.status(404).json({error: "No volunteers availaible for this event."});
+            }
+
+            for (let i = 0; i < volunteers.length; i++) {
+                const me = {
+                    id: volunteers[i].id,
+                    email: volunteers[i].email,
+                    role: volunteers[i].role,
+                    first_name: volunteers[i].first_name,
+                    last_name: volunteers[i].last_name,
+                    occupied: volunteers[i].occupied,
+                    participate: volunteers[i].participate
+                };
+
+                volunteers[i] = me;
+            }
+
+            res.status(200).json(volunteers);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({error: "Error recovering available users"});
+        }
+    }
 
 }
 

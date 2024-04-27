@@ -37,6 +37,11 @@ class EventService {
         return EventRepository.deleteEvent(id);
     }
 
+    //GET AVAILABLE USERS
+    static async getAvailableUsers(activity_id){
+        return EventRepository.getAvailableUsers(activity_id);
+    }
+
 }
 
 module.exports = EventService;
