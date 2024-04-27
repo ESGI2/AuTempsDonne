@@ -32,6 +32,25 @@ class EventController {
         }
     }
 
+    static async getEventByUserId(req, res) {
+        try {
+            const {id} = req.params;
+            const eventListing = await EventListingServices.getListingById(id);
+            if (eventListing.length === 0) {
+                return res.status(404).json({error: "No events found for this user."});
+            }
+            const events = [];
+            for (let i = 0; i < eventListing.length; i++) {
+                const event = await EventService.getEventById(eventListing[i].id_event);
+                events.push(event);
+            }
+            res.status(200).json(events);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({"Error": "Error recovering event"});
+        }
+    }
+
     //ADD
     static async addEvent(req, res) {
         try {

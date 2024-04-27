@@ -26,6 +26,20 @@ class EventRepository {
             throw error;
         }
     }
+
+    static async getEventByUserId(id){
+        try {
+            const event = await Event.findAll({
+                where: {
+                    id: id
+                }
+            });
+            return event;
+        }catch (error){
+            console.error("Event error :", error);
+            throw error;
+        }
+    }
     //ADD
     static async addEvent(eventData){
         try{
