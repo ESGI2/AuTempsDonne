@@ -31,23 +31,26 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun authenticateUser(email: String, password: String) {
-        val call = ApiClient.loginApi.login(email, password)
-        call.enqueue(object : Callback<LoginResponse> {
-            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
-                if (response.isSuccessful && response.body()?.success == true) {
-                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                } else {
-                    Toast.makeText(this@LoginActivity, "Erreur d'authentification", Toast.LENGTH_SHORT).show()
+        try {
+            val call = ApiClient.loginApi.login(email, password)
+            call.enqueue(object : Callback<LoginResponse> {
+                override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                    if (response.isSuccessful && response.body()?.success == true) {
+                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        Toast.makeText(this@LoginActivity, "Erreur d'authentification", Toast.LENGTH_SHORT).show()
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                Toast.makeText(this@LoginActivity, "Erreur", Toast.LENGTH_SHORT).show()
-            }
-        })
+                override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                    Toast.makeText(this@LoginActivity, "Erreur", Toast.LENGTH_SHORT).show()
+                }
+            })
+        } catch (e: Exception) {
+            Toast.makeText(this@LoginActivity, "Erreur réseau", Toast.LENGTH_SHORT).show()
+        }
     }
-
 
 }
