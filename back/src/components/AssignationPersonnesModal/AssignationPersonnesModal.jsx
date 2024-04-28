@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Modal } from 'react-bootstrap';
 import ky from "ky";
 import AssignInput from "./AssignInput.jsx";
+import DeleteButton from "../Button/DeleteButton.jsx";
+import CancelButton from "../Button/CancelButton.jsx";
 const AssignationPersonnesModal = ({ show, handleClose, onAssign, eventId }) => {
     const [volunteer, setVolunteer] = useState([]);
     const [available, setAvailable] = useState([]);
@@ -103,7 +105,7 @@ const AssignationPersonnesModal = ({ show, handleClose, onAssign, eventId }) => 
                             person && person.id && (
                                 <li key={person.id} className="list-group-item d-flex justify-content-between align-items-center">
                                     {person.first_name} {person.last_name}
-                                    <button className="btn btn-outline-danger" onClick={() => removeParticipant(person.id)}>X</button>
+                                    <DeleteButton onClick={() => removeParticipant(person.id)}>X</DeleteButton>
                                 </li>
                             )
                         ))}
@@ -111,7 +113,7 @@ const AssignationPersonnesModal = ({ show, handleClose, onAssign, eventId }) => 
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                <button onClick={handleClose} className="btn btn-secondary">Fermer</button>
+                <CancelButton onClick={handleClose}>Fermer</CancelButton>
             </Modal.Footer>
         </Modal>
     );

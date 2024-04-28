@@ -23,9 +23,10 @@ const TruckInformations = ({information}) => {
             <div className="card-body">
                 <h5 className="card-title text-center">Informations sur le camion</h5>
                 <div className="card-text">
-                    <p><strong>Id :</strong> {maraude.event?.id}</p>
-                    <p><strong>Titre :</strong> {maraude.event?.title}</p>
-                    <p><strong>Description :</strong> {maraude.event?.description}</p>
+                    <p><strong>Id :</strong> {maraude.truck?.id}</p>
+                    <p><strong>Titre :</strong> {maraude.truck?.name}</p>
+                    <p><strong>Description :</strong> {maraude.truck?.plaque_immatriculation}</p>
+                    <p><strong>Position :</strong> {maraude.truck?.localisation}</p>
                 </div>
             </div>
         </div>

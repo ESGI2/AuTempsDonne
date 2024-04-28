@@ -3,7 +3,8 @@ import ky from 'ky';
 import PointDistributionModal from "./PointDistributionModal.jsx";
 import NewMaraudeModal from "./NewMaraudeModal.jsx";
 import {Link} from "react-router-dom";
-// import NewMaraudeModal from './NewMaraudeModal.jsx';
+import {Button} from "react-bootstrap";
+import ClassicButton from "../Button/ClassicButton.jsx";
 // import EditMaraudeModal from './EditMaraudeModal.jsx';
 
 function getUpcomingMaraudes() {
@@ -51,14 +52,10 @@ const Maraude = () => {
         });
     };
 
-    const handleEdit = (id) => {
-      window.location.href = `/maraude/${id}`;
-    }
-
     return (
         <div className="rounded-lg border border-gray-200">
             {/*{(showModal === 'edit') && <EditMaraudeModal maraude={selectedMaraude} onClose={closeModal} />}*/}
-            {(showModal === 'new') && <NewMaraudeModal onClose={closeModal} />}
+            {(showModal === 'new') && <NewMaraudeModal closeModal={closeModal} />}
             {(showModal === 'point') && <PointDistributionModal show={true} handleClose={closeModal} />}
             <h1 className="text-2xl font-semibold text-gray-900 px-4 py-6 text-center">Prochaines maraudes</h1>
             <div className="overflow-x-auto rounded-t-lg">
@@ -78,9 +75,9 @@ const Maraude = () => {
                             <td className="whitespace-nowrap px-4 py-2 text-gray-700">{maraude.truck}</td>
                             <td className="whitespace-nowrap px-4 py-2 text-gray-700">{maraude.event}</td>
                             <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                                <button className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">
-                                    <Link to={`/maraude/${maraude.id}`}> Voir </Link>
-                                </button>
+                                <Link to={`/maraude/${maraude.id}`}>
+                                    <ClassicButton>Voir</ClassicButton>
+                                </Link>
                             </td>
                         </tr>
                     ))}
@@ -88,12 +85,12 @@ const Maraude = () => {
                 </table>
             </div>
             <div className="rounded-b-lg border-t border-gray-200 px-4 py-2 d-f flex-column">
-                <button onClick={() => openModal(null, 'new')} className="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded">
+                <ClassicButton onClick={() => openModal(null, 'new')}>
                     Nouvelle maraude
-                </button>
-                <button onClick={() => openModal(null, 'point')} className="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded">
+                </ClassicButton>
+                <ClassicButton onClick={() => openModal(null, 'point')}>
                     Points de distribution
-                </button>
+                </ClassicButton>
 
             </div>
         </div>

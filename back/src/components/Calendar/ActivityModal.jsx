@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Form } from 'react-bootstrap';
 import ky from 'ky';
+import DeleteButton from "../Button/DeleteButton.jsx";
+import ClassicButton from "../Button/ClassicButton.jsx";
+import CancelButton from "../Button/CancelButton.jsx";
+import ValidateButton from "../Button/ValidateButton.jsx";
 
 export default function ActivityModal({ show, handleClose }) {
     const [error, setError] = useState(null);
@@ -77,16 +81,14 @@ export default function ActivityModal({ show, handleClose }) {
                                     <strong>{activity.activity_name}</strong><br/>
                                     <span>Description: {activity.description}</span><br/>
                                     <span>Personnes nécessaires: {activity.people_needed}</span><br/>
-                                    <button onClick={() => handleDeleteActivity(activity.id)}>Supprimer</button>
+                                    <DeleteButton onClick={() => handleDeleteActivity(activity.id)}>Supprimer</DeleteButton>
                                 </li>
                             ))}
                         </ul>
                     </Modal.Body>
                     <Modal.Footer>
-                        <button onClick={() => setShowNewActivityModal(true)} className="btn btn-primary">Nouvelle
-                            activité
-                        </button>
-                        <button onClick={handleClose} className="btn btn-secondary">Fermer</button>
+                        <ClassicButton onClick={() => setShowNewActivityModal(true)}>Ajouter une activité</ClassicButton>
+                        <CancelButton onClick={handleClose}>Fermer</CancelButton>
                     </Modal.Footer>
                 </Modal>
 
@@ -127,9 +129,8 @@ export default function ActivityModal({ show, handleClose }) {
                         </Form.Group>
                     </Modal.Body>
                     <Modal.Footer>
-                        <button onClick={handleAddActivity} className="btn btn-primary">Ajouter</button>
-                        <button onClick={() => setShowNewActivityModal(false)} className="btn btn-secondary">Annuler
-                        </button>
+                        <ValidateButton onClick={handleAddActivity}>Ajouter</ValidateButton>
+                        <CancelButton onClick={() => setShowNewActivityModal(false)}>Annuler</CancelButton>
                     </Modal.Footer>
                 </Modal>
             </>
