@@ -27,6 +27,18 @@ const Ticket = sequelize.define('ticket', {
             key: 'id'
         },
     },
+    id_answer: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        references: {
+            model: 'user',
+            key: 'id'
+        },
+    },
+    status: {
+        type: Sequelize.INTEGER,
+        allowNull: true
+    },
 },{
     tableName: 'ticket',
     timestamps: false
