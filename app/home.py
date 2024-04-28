@@ -18,7 +18,8 @@ class HomePage(QtWidgets.QWidget):
         self.response_text = None
         self.send_button = None
         self.complete_button = None
-        self.create_components()  # Move the creation of components here
+        self.reload_button = None  # Ajout du bouton Reload
+        self.create_components()  # Déplacez la création des composants ici
         self.display_element()
 
         self.initialize_home()
@@ -55,6 +56,12 @@ class HomePage(QtWidgets.QWidget):
         self.logout_button.setFont(QtGui.QFont("Arial", 15))
         self.logout_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
 
+        self.reload_button = QtWidgets.QPushButton("Reload")
+        self.reload_button.clicked.connect(self.reload_page)
+        self.reload_button.setFont(QtGui.QFont("Arial", 15))
+        self.reload_button.setFixedWidth(self.logout_button.width() / 8)
+        self.reload_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+
         self.ticket_detail_label = QtWidgets.QLabel()
         self.ticket_detail_label.setAlignment(QtCore.Qt.AlignCenter)
 
@@ -81,9 +88,6 @@ class HomePage(QtWidgets.QWidget):
     def display_element(self):
         self.layout = QtWidgets.QVBoxLayout(self)
 
-        # Ajouter le bouton "Ticket terminé" en haut de la page
-        self.layout.addWidget(self.complete_button)
-
         # Ajouter l'en-tête à la mise en page
         self.layout.addWidget(self.header_label)
 
@@ -95,12 +99,17 @@ class HomePage(QtWidgets.QWidget):
         # Vérifier si self.response_text n'est pas None avant de l'ajouter à la mise en page
         if self.response_text is not None:
             self.layout.addWidget(self.response_text)  # Ajout du champ de réponse
+            self.layout.addWidget(self.send_button)    # Ajout du bouton d'envoi
 
-        # Vérifier si self.send_button n'est pas None avant de l'ajouter à la mise en page
-        if self.send_button is not None:
-            self.layout.addWidget(self.send_button)  # Ajout du bouton d'envoi
+        # Ajouter le bouton "Ticket terminé" à un emplacement spécifique
+        self.layout.addWidget(self.complete_button)
 
         self.layout.addWidget(self.back_button)  # Mettre le bouton "Retour à la liste" en dernier
+
+        # Ajouter le bouton Reload avant le bouton Logout
+        self.layout.addWidget(self.reload_button)
+
+        # Ajouter le bouton Logout
         self.layout.addWidget(self.logout_button, alignment=QtCore.Qt.AlignLeft | QtCore.Qt.AlignBottom)
 
     def display_ticket_table(self, ticket_data):
@@ -155,6 +164,9 @@ class HomePage(QtWidgets.QWidget):
         # Cacher l'en-tête
         self.header_label.hide()
 
+        # Cacher le bouton "Reload"
+        self.reload_button.hide()
+
         response_ticket = requests.get(f'http://localhost:3000/ticket/{ticket_id}', cookies=self.cookies)
         if response_ticket.status_code == 200:
             ticket_data = response_ticket.json()
@@ -199,6 +211,8 @@ class HomePage(QtWidgets.QWidget):
                     self.layout.addWidget(self.send_button)
 
                     self.complete_button.show()
+                else:
+                    self.complete_button.hide()
         else:
             print("Erreur.", response_ticket.status_code)
 
@@ -286,13 +300,10 @@ class HomePage(QtWidgets.QWidget):
         self.complete_button.hide()
         self.remove_response_elements()
         self.hide_response_label()
-
-        self.initialize_home()
-        # Afficher le bouton "Logout"
         self.show_logout_button()
-
-        # Afficher l'en-tête
         self.header_label.show()
+        self.reload_button.show()
+        self.initialize_home()
 
     def hide_response_label(self):
         for i in reversed(range(self.layout.count())):
@@ -336,3 +347,12 @@ class HomePage(QtWidgets.QWidget):
     def resizeEvent(self, event):
         super().resizeEvent(event)
         self.center_widgets()
+
+    def reload_page(self):
+        print("reload")
+        self.table.clearContents()
+        self.table.setRowCount(0)
+        self.ticket_detail_label.clear()
+        self.remove_response_elements()
+        self.hide_response_label()
+        self.initialize_home()
