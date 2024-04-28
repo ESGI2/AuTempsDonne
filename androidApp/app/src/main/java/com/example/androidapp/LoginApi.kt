@@ -1,18 +1,15 @@
 package com.example.androidapp
+import com.example.androidapp.ApiClient
+import com.example.androidapp.LoginApi
 
-import okhttp3.FormBody
-import okhttp3.RequestBody
-import okhttp3.Response
 
-object LoginApi {
-    private const val LOGIN_ENDPOINT = "http://localhost:3000/login"
+import retrofit2.Call
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
+import retrofit2.http.POST
 
-    fun login(email: String, password: String): Response {
-        val requestBody: RequestBody = FormBody.Builder()
-            .add("email", email)
-            .add("password", password)
-            .build()
-
-        return ApiClient.makeRequest(LOGIN_ENDPOINT, requestBody)
-    }
+interface LoginApi {
+    @FormUrlEncoded
+    @POST("login")
+    fun login(@Field("email") email: String, @Field("password") password: String): Call<LoginResponse>
 }

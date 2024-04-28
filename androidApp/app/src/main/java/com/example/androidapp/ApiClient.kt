@@ -1,23 +1,18 @@
 package com.example.androidapp
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody
-import okhttp3.Response
+
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
+
+
 
 object ApiClient {
-    private const val BASE_URL = "http://localhost:3000/login"
+    private const val BASE_URL = "http://localhost:3000/"
 
-    private val client = OkHttpClient()
-    fun makeRequest(endpoint: String, requestBody: RequestBody? = null): Response {
-        val request = Request.Builder()
-            .url("$BASE_URL/$endpoint")
-            .apply {
-                if (requestBody != null) {
-                    post(requestBody)
-                }
-            }
-            .build()
+    private val retrofit = Retrofit.Builder()
+        .baseUrl(BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
 
-        return client.newCall(request).execute()
-    }
+    val loginApi: LoginApi = retrofit.create(LoginApi::class.java)
 }
