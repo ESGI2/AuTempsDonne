@@ -26,6 +26,20 @@ class EventRepository {
             throw error;
         }
     }
+
+    static async getEventByUserId(id){
+        try {
+            const event = await Event.findAll({
+                where: {
+                    id: id
+                }
+            });
+            return event;
+        }catch (error){
+            console.error("Event error :", error);
+            throw error;
+        }
+    }
     //ADD
     static async addEvent(eventData){
         try{
@@ -61,6 +75,20 @@ class EventRepository {
             return await event.destroy();
         }catch (error){
             console.error("Event error", error);
+            throw error;
+        }
+    }
+
+    //GET AVAILABLE USERS
+    static async getAvailableUsers(activity_id){
+        try {
+            const event = await Event.findByPk(activity_id);
+            if(!event){
+                return {"Message": "No event found"}
+            }
+
+        }catch (error){
+            console.error("Available Users error :", error);
             throw error;
         }
     }

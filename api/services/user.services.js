@@ -67,6 +67,15 @@ class UserServices {
             throw error;
         }
     }
+
+    static async getVolunteers() {
+        try {
+            return await UserRepository.getVolunteers();
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
 }
 
 module.exports = UserServices;
