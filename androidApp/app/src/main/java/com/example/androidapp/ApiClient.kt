@@ -8,7 +8,6 @@ object ApiClient {
     private const val BASE_URL = "http://localhost:3000/login"
 
     private val client = OkHttpClient()
-
     fun makeRequest(endpoint: String, requestBody: RequestBody? = null): Response {
         val request = Request.Builder()
             .url("$BASE_URL/$endpoint")

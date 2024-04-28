@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 
 class LoginActivity : AppCompatActivity() {
 
+    private val loginApi = LoginApi
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -27,13 +29,17 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun authenticateUser(email: String, password: String) {
-        // Appel API à faire
-        if (email == "example@example.com" && password == "password") {
+        val response = loginApi.login(email, password)
+
+        if (response.isSuccessful) {
+            val accessToken = response.headers["jwt"]?.get(0)
             val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("ACCESS_TOKEN", accessToken)
             startActivity(intent)
             finish()
         } else {
-            Toast.makeText(this, "Identifiants invalides", Toast.LENGTH_SHORT).show()
+            val errorBody = response.body?.string()
+            Toast.makeText(this, "Erreur d'authentification : $errorBody", Toast.LENGTH_SHORT).show()
         }
     }
 }
