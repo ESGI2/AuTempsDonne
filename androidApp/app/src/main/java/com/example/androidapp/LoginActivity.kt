@@ -30,16 +30,15 @@ class LoginActivity : AppCompatActivity() {
 
     private fun authenticateUser(email: String, password: String) {
         val response = loginApi.login(email, password)
-
+//Ne marche pas
         if (response.isSuccessful) {
-            val accessToken = response.headers["jwt"]?.get(0)
             val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("ACCESS_TOKEN", accessToken)
             startActivity(intent)
             finish()
         } else {
             val errorBody = response.body?.string()
-            Toast.makeText(this, "Erreur d'authentification : $errorBody", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Erreur d'authentification : $errorBody", Toast.LENGTH_SHORT)
+                .show()
         }
     }
 }

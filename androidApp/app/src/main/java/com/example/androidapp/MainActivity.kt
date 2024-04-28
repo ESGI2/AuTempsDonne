@@ -18,7 +18,6 @@ class MainActivity : AppCompatActivity() {
         val logoutButton = findViewById<Button>(R.id.logoutButton)
 
         logoutButton.setOnClickListener {
-            // Déconnexion de l'utilisateur
             logoutUser()
         }
     }

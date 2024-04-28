@@ -13,6 +13,6 @@ object LoginApi {
             .add("password", password)
             .build()
 
-        return ApiClient.makePostRequest(LOGIN_ENDPOINT, requestBody)
+        return ApiClient.makeRequest(LOGIN_ENDPOINT, requestBody)
     }
 }
