@@ -131,7 +131,8 @@ CREATE TABLE if not exists maraude_point(
     city varchar(50) NOT NULL,
     postal_code varchar(50) NOT NULL,
     road varchar(50) NOT NULL,
-    road_number integer NOT NULL,
+    lat varchar(10) NOT NULL,
+    lon varchar(10) NOT NULL,
     PRIMARY KEY (id)
 );
 

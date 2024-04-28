@@ -39,8 +39,8 @@ class MaraudePointService {
                 city: maraudePoint.city,
                 postal_code: maraudePoint.postal_code,
                 road: maraudePoint.road,
-                latitude: map_response[0].lat,
-                longitude: map_response[0].lon
+                lat: map_response[0].lat,
+                lon: map_response[0].lon
             }
 
             return await MaraudePointRepository.addMaraudePoint(data);
