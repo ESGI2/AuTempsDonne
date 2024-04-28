@@ -1,6 +1,6 @@
 const MaraudeService = require('../services/maraude.service');
 const TruckService =  require ('../services/truck.services');
-const MaraudePointService = require('../services/maraudePoint.service');
+const EventService = require('../services/event.service');
 const moment = require('moment');
 
 
@@ -18,19 +18,29 @@ class MaraudeController{
     }
     static async getMaraudeById(req, res){
         try {
-
             const {id} = req.params;
             const maraude = await MaraudeService.getMaraudeById(id);
-            if(!maraude){
-                return res.status(404).json({"Error": "Maraude not found"})
-            }else{
-                return res.status(200).json(maraude);
+
+            if (!maraude){
+                return res.status(404).json({"Error":"Maraude not found"});
             }
-        }catch (error){
+
+            let data = maraude;
+            data.event = await EventService.getEventById(maraude.id_event);
+            data.truck = await TruckService.getTruckById(maraude.id_truck);
+
+            return res.status(200).json({
+                "maraude": data,
+                "event": data.event,
+                "truck": data.truck
+            });
+
+        } catch (error) {
             console.error(error);
-            res.status(500).json({"Error": "Error recovering maraude"})
+            return res.status(500).json({"Error": "Error recovering maraude"})
         }
     }
+
 
     //ADD
     static async addMaraude(req, res) {

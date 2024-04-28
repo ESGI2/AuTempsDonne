@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import ky from 'ky';
 import PointDistributionModal from "./PointDistributionModal.jsx";
+import NewMaraudeModal from "./NewMaraudeModal.jsx";
+import {Link} from "react-router-dom";
 // import NewMaraudeModal from './NewMaraudeModal.jsx';
 // import EditMaraudeModal from './EditMaraudeModal.jsx';
 
@@ -49,10 +51,14 @@ const Maraude = () => {
         });
     };
 
+    const handleEdit = (id) => {
+      window.location.href = `/maraude/${id}`;
+    }
+
     return (
         <div className="rounded-lg border border-gray-200">
             {/*{(showModal === 'edit') && <EditMaraudeModal maraude={selectedMaraude} onClose={closeModal} />}*/}
-            {/*{(showModal === 'new') && <NewMaraudeModal onClose={closeModal} />}*/}
+            {(showModal === 'new') && <NewMaraudeModal onClose={closeModal} />}
             {(showModal === 'point') && <PointDistributionModal show={true} handleClose={closeModal} />}
             <h1 className="text-2xl font-semibold text-gray-900 px-4 py-6 text-center">Prochaines maraudes</h1>
             <div className="overflow-x-auto rounded-t-lg">
@@ -72,8 +78,8 @@ const Maraude = () => {
                             <td className="whitespace-nowrap px-4 py-2 text-gray-700">{maraude.truck}</td>
                             <td className="whitespace-nowrap px-4 py-2 text-gray-700">{maraude.event}</td>
                             <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                                <button onClick={() => openModal(maraude, 'edit')} className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">
-                                    Modifier
+                                <button className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">
+                                    <Link to={`/maraude/${maraude.id}`}> Voir </Link>
                                 </button>
                             </td>
                         </tr>

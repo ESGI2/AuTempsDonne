@@ -36,7 +36,12 @@ const router = createBrowserRouter([
     {
         path: "/maraude",
         element: <AuthenticatedRoute element={<MaraudePage />} />,
+    },
+    {
+        path: "/maraude/:id",
+        element: <AuthenticatedRoute element={<MaraudeData />} />,
     }
+
 ]);
 
 
@@ -49,6 +54,7 @@ import TruckGestionPage from "./pages/TruckGestionPage.jsx";
 import CalendarPage from "./pages/CalendarPage.jsx";
 import MaraudePage from "./pages/MaraudePage.jsx";
 import {PrimeReactProvider} from "primereact/api";
+import MaraudeData from "./pages/MaraudeData.jsx";
 
 function App() {
     return (
