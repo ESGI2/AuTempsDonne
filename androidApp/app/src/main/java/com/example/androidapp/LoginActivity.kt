@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 class LoginActivity : AppCompatActivity() {
 
-    private val loginApi = LoginApi
+    private val loginApi = LoginApi //Ne le detecte pas
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
