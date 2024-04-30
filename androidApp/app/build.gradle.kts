@@ -45,7 +45,18 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation("com.squareup.okhttp3:okhttp:4.9.3")
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    implementation("io.ktor:ktor-client-core:2.0.3")
+    implementation("io.ktor:ktor-client-android:2.0.3")
+    implementation("io.ktor:ktor-client-content-negotiation:2.0.3")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:2.0.3")
+    implementation("io.ktor:ktor-client-logging:2.0.3")
+    implementation("io.ktor:ktor-client-auth:2.0.3")
+    // implementation("io.ktor:ktor-client-cookies:2.0.3")
+    implementation("io.ktor:ktor-client-websockets:2.0.3")
+    implementation("io.ktor:ktor-client-cio:2.0.3")
+    testImplementation("io.ktor:ktor-client-mock:2.0.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
+
 }
+
