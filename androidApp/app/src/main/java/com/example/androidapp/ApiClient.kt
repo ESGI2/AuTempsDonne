@@ -1,18 +1,27 @@
 package com.example.androidapp
 
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-
-
-
+import io.ktor.client.*
+import io.ktor.client.engine.android.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.client.request.*
+import io.ktor.client.call.*
+import io.ktor.client.statement.HttpResponse
+import io.ktor.http.*
+import io.ktor.serialization.kotlinx.json.*
 
 object ApiClient {
-    private const val BASE_URL = "http://localhost:3000/login"
+    private const val BASE_URL = "http://10.0.2.2:3000/"  // Use this IP for Android emulator to access localhost
 
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
+    private val client = HttpClient(Android) {
+        install(ContentNegotiation) {
+            json()
+        }
+    }
 
-    val loginApi: LoginApi = retrofit.create(LoginApi::class.java)
+    suspend fun makePostRequest(endpoint: String, requestBody: Any): HttpResponse {
+        return client.post("$BASE_URL$endpoint") {
+            contentType(ContentType.Application.Json)
+            setBody(requestBody)
+        }
+    }
 }

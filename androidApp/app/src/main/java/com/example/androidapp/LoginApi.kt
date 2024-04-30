@@ -1,15 +1,17 @@
 package com.example.androidapp
-import com.example.androidapp.ApiClient
-import com.example.androidapp.LoginApi
 
+import io.ktor.client.statement.*
+import io.ktor.http.*
 
-import retrofit2.Call
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+object LoginApi {
+    private const val LOGIN_ENDPOINT = "login"
 
-interface LoginApi {
-    @FormUrlEncoded
-    @POST("login")
-    fun login(@Field("email") email: String, @Field("password") password: String): Call<LoginResponse>
+    suspend fun login(email: String, password: String): HttpResponse {
+        val requestBody = mapOf(
+            "email" to email,
+            "password" to password
+        )
+
+        return ApiClient.makePostRequest(LOGIN_ENDPOINT, requestBody)
+    }
 }
