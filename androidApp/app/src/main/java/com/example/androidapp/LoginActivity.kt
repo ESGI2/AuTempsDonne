@@ -1,54 +1,68 @@
 package com.example.androidapp
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import io.ktor.client.*
-import io.ktor.http.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import org.json.JSONException
+import org.json.JSONObject
 
 class LoginActivity : AppCompatActivity() {
+
+    private lateinit var emailEditText: EditText
+    private lateinit var passwordEditText: EditText
+    private lateinit var loginButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        val emailEditText = findViewById<EditText>(R.id.emailEditText)
-        val passwordEditText = findViewById<EditText>(R.id.passwordEditText)
-        val loginButton = findViewById<Button>(R.id.loginButton)
+        emailEditText = findViewById(R.id.emailEditText)
+        passwordEditText = findViewById(R.id.passwordEditText)
+        loginButton = findViewById(R.id.loginButton)
 
         loginButton.setOnClickListener {
-            val email = emailEditText.text.toString()
-            val password = passwordEditText.text.toString()
-
-            authenticateUser(email, password)
+            loginUser()
         }
     }
 
-    private fun authenticateUser(email: String, password: String) {
-        CoroutineScope(Dispatchers.Main).launch {
-            try {
-                val response = withContext(Dispatchers.IO) {
-                    LoginApi.login(email, password)
-                }
+    private fun loginUser() {
+        val email = emailEditText.text.toString().trim()
+        val password = passwordEditText.text.toString().trim()
 
-                if (response.status == HttpStatusCode.OK) {
-                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                } else {
-                    val errorBody = arrayOf(response)
-                    Toast.makeText(this@LoginActivity, "Erreur d'authentification : $errorBody", Toast.LENGTH_SHORT).show()
+        if (email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "Please enter email and password", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val stringRequest = object : StringRequest(
+            Request.Method.POST, "https://localhost:3000/login",
+            Response.Listener { response ->
+                try {
+                    val jsonObject = JSONObject(response)
+                    Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show()
+                } catch (e: JSONException) {
+                    e.printStackTrace()
                 }
-            } catch (e: Exception) {
-                Toast.makeText(this@LoginActivity, "Erreur : ${e.message}", Toast.LENGTH_SHORT).show()
+            },
+            Response.ErrorListener { error ->
+                Toast.makeText(this, "Login Failed", Toast.LENGTH_SHORT).show()
+            }) {
+            override fun getParams(): Map<String, String> {
+                val params = HashMap<String, String>()
+                params["email"] = email
+                params["password"] = password
+                return params
             }
         }
+
+        Volley.newRequestQueue(this).add(stringRequest)
+
+
     }
 }

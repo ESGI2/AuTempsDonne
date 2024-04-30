@@ -1,17 +1,16 @@
 package com.example.androidapp
 
-import io.ktor.client.statement.*
-import io.ktor.http.*
+import org.json.JSONObject
 
 object LoginApi {
     private const val LOGIN_ENDPOINT = "login"
 
-    suspend fun login(email: String, password: String): HttpResponse {
-        val requestBody = mapOf(
-            "email" to email,
-            "password" to password
-        )
+    fun login(email: String, password: String, success: (JSONObject) -> Unit, failure: (String) -> Unit) {
+        val requestBody = JSONObject().apply {
+            put("email", email)
+            put("password", password)
+        }
 
-        return ApiClient.makePostRequest(LOGIN_ENDPOINT, requestBody)
+        ApiClient.makePostRequest(LOGIN_ENDPOINT, requestBody, success, failure)
     }
 }
