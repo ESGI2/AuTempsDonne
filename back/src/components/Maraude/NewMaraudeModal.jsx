@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { Button, Modal, Form } from 'react-bootstrap';
+import {Button, Modal, Form, Alert} from 'react-bootstrap';
 import CancelButton from "../Button/CancelButton.jsx";
 import ClassicButton from "../Button/ClassicButton.jsx";
+import MaraudePath from './MaraudePath';
 
 const NewMaraudeModal = ({ closeModal }) => {
+    const [error, setError] = useState(null);
     const [show, setShow] = useState(true);
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState({
@@ -15,8 +17,13 @@ const NewMaraudeModal = ({ closeModal }) => {
 
     const handleClose = () => {
         setShow(false);
-        closeModal();
+        closeModal(step);
     }
+
+    const handleModalClose = (step) => {
+        setStep(step);
+    }
+
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -30,11 +37,24 @@ const NewMaraudeModal = ({ closeModal }) => {
         if (step === 1) {
             // Move to next step if first form is submitted
             setStep(step + 1);
-        } else {
-            // All forms submitted, close modal
-            setShow(false);
-            closeModal();
         }
+    }
+
+    const handleFinish = () => {
+        handleClose();
+    }
+
+    const handleNextStep = () => {
+        if (!validateForm()) return;
+        else setStep(step + 1);
+    }
+
+    const validateForm = () => {
+        if (formData.name === '' || formData.description === '' || formData.startDate === '' || formData.endDate === '') {
+            setError('Veuillez remplir tous les champs');
+            return true; // TODO Mettre sur false
+        }
+        return true;
     }
 
     return (
@@ -46,6 +66,7 @@ const NewMaraudeModal = ({ closeModal }) => {
                 <Modal.Body>
                     {step === 1 && (
                         <Form onSubmit={handleSubmit}>
+                            {error && <Alert variant="danger">{error}</Alert>}
                             <Form.Group controlId="formName">
                                 <Form.Label>Nom</Form.Label>
                                 <Form.Control
@@ -92,9 +113,10 @@ const NewMaraudeModal = ({ closeModal }) => {
                                     required
                                 />
                             </Form.Group>
-                            <ClassicButton>Suivant</ClassicButton>
+                            <ClassicButton onClick={handleNextStep}>Suivant</ClassicButton>
                         </Form>
                     )}
+                    {step === 2 && <MaraudePath closeModal={handleModalClose} finish={handleFinish} />}
                 </Modal.Body>
                 <Modal.Footer>
                     <CancelButton onClick={handleClose}>Annuler</CancelButton>
