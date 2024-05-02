@@ -1,42 +1,34 @@
 package com.example.androidapp
 
-
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
+import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
-import com.android.volley.Request
-import com.android.volley.RequestQueue
-import com.android.volley.Response
-import com.android.volley.VolleyError
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
 
 class MainActivity : AppCompatActivity() {
 
-    private var mRequestQueue: RequestQueue? = null
-    private var mStringRequest: StringRequest? = null
-    private val url = "https://localhost:3000/login"
+    private lateinit var homeButton: ImageButton
+    private lateinit var qrCodeButton: ImageButton
+    private lateinit var nfcButton: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        getData()
-    }
+        homeButton = findViewById(R.id.homeButton)
+        qrCodeButton = findViewById(R.id.qrCodeButton)
+        nfcButton = findViewById(R.id.nfcButton)
 
-    private fun getData() {
-        mRequestQueue = Volley.newRequestQueue(this)
+        homeButton.setOnClickListener { /* Rester sur la page d'accueil */ }
 
+        qrCodeButton.setOnClickListener {
+            val intent = Intent(this, QRCodeActivity::class.java)
+            startActivity(intent)
+        }
 
-        mStringRequest = StringRequest(Request.Method.GET, url,
-            Response.Listener { response ->
-                Toast.makeText(applicationContext, "Response :$response", Toast.LENGTH_LONG).show()
-            },
-            Response.ErrorListener { error ->
-                Log.i("TAG", "Error :" + error.toString())
-            })
-
-        mRequestQueue?.add(mStringRequest)
+        nfcButton.setOnClickListener {
+            val intent = Intent(this, NFCActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
