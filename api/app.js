@@ -113,6 +113,10 @@ app.use('/traininglisting', trainingListingRoute);
 const pathRoute = require('./routes/path.route');
 app.use('/path', pathRoute);
 
+// MARAUDE PASSING ROUTE
+const maraudePassingRoute = require('./routes/maraudePassing.route');
+app.use('/maraudePassing', maraudePassingRoute);
+
 // Setup default route
 app.use((req, res) => {
     res.status(404).json({"Error": "Not found"});

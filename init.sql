@@ -139,6 +139,7 @@ CREATE TABLE if not exists maraude_point(
 CREATE TABLE if not exists maraude_passing(
     id_maraude integer NOT NULL,
     id_maraude_point integer NOT NULL,
+    step integer NOT NULL,
     FOREIGN KEY (id_maraude) REFERENCES maraude(id),
     FOREIGN KEY (id_maraude_point) REFERENCES maraude_point(id),
     PRIMARY KEY (id_maraude, id_maraude_point)
