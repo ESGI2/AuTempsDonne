@@ -51,7 +51,6 @@ class MaraudeController{
             const { title, description, date_start, date_end, road_start, road_end, road_inter, truck } = req.body;
             const requiredFields = ['title', 'description', 'date_start', 'date_end', 'road_start', 'road_end', 'road_inter', 'truck'];
             let missingFields = [];
-            const dateFormat = "DD/MM/YYYY HH:mm";
 
             requiredFields.forEach(field => {
                 if (!req.body[field]) {
@@ -74,11 +73,38 @@ class MaraudeController{
             await EventService.updateEvent(event.id, { maraude_id: maraude.id });
 
             /*
-            TODO : Récupérer le chemin optimisé en utilisant start, end et inter et le service du path
-            On crée les maraudes passing pour chaque point avec le path en tant que step (id_maraude, id_point, step)
+            Récupérer le chemin optimisé en utilisant start, end et inter et le service du path
              */
 
-            res.status(200).json({ message: "Maraude created successfully" });
+            const start = await MaraudePointService.getMaraudePointById(road_start);
+            if (!start) return res.status(404).json({message: "Point de départ introuvable"});
+            const end = await MaraudePointService.getMaraudePointById(road_end);
+            if (!end) return res.status(404).json({message: "Point d'arrivée introuvable"});
+
+            const points = [];
+            points.push(start);
+
+            const inter = road_inter.split(',').map(Number);
+
+            for (let i = 0; i < inter.length; i++){
+                const point = await MaraudePointService.getMaraudePointById(inter[i]);
+                if (!point) return res.status(404).json({message: "Point intermédiaire introuvable", i});
+                points.push(point);
+            }
+            points.push(end);
+
+            const resultWithFixedEndpoints = PathService.solveTSPWithGeneticAlgorithm(points, 0, points.length - 1);
+
+            const sortedPoints = resultWithFixedEndpoints.path.map(index => points[index]);
+            console.log("Chemin optimal avec points de départ et d'arrivée fixés:", sortedPoints.map(p => p.name).join(" -> "));
+
+            // On crée les maraudes passing pour chaque point avec le path en tant que step (id_maraude, id_point, step)
+            for (let i = 0; i < sortedPoints.length; i++){
+                await MaraudePassingService.addPassingPoint({ id_maraude: maraude.id, id_point: sortedPoints[i].id, step: i });
+            }
+
+            res.status(201).json({ message: "Maraude created successfully", maraude });
+
 
         } catch (error) {
             console.error(error);
