@@ -57,7 +57,7 @@ class EventRepository {
                 console.error("Event not found");
                 return {message: "Event not found"};
             }
-            await Event.update(eventData);
+            await event.update(eventData);
             return event.reload();
         }catch (error){
             console.error(error);

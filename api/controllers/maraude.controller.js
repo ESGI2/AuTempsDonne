@@ -1,7 +1,10 @@
 const MaraudeService = require('../services/maraude.service');
 const TruckService =  require ('../services/truck.services');
 const EventService = require('../services/event.service');
+const PathService = require('../services/path.service');
+const MaraudePassingService = require('../services/maraudePassing.service');
 const moment = require('moment');
+const MaraudePointService = require("../services/maraudePoint.service");
 
 
 class MaraudeController{
@@ -60,9 +63,22 @@ class MaraudeController{
                 return res.status(400).json({ error: "Missing fields", missingFields });
             }
 
-            // Create an event
-            const event = await EventService.addEvent({ title, description, date_start, date_end });
+            /*
+            Création d'un event (title, description, date_start, date_end)
+            Création de la maraude associé (id_event, id_truck)
+            Edition de l'event -> ajout de l'id maraude dans l'event (id_maraude dans l'event)
+             */
 
+            const event = await EventService.addEvent({ title, description, start: date_start, end: date_end, allDay: 0, activity_id: 1 });
+            const maraude = await MaraudeService.addMaraude({ id_event: event.id, id_truck: truck });
+            await EventService.updateEvent(event.id, { maraude_id: maraude.id });
+
+            /*
+            TODO : Récupérer le chemin optimisé en utilisant start, end et inter et le service du path
+            On crée les maraudes passing pour chaque point avec le path en tant que step (id_maraude, id_point, step)
+             */
+
+            res.status(200).json({ message: "Maraude created successfully" });
 
         } catch (error) {
             console.error(error);
