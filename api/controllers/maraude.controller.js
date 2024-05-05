@@ -4,6 +4,7 @@ const EventService = require('../services/event.service');
 const PathService = require('../services/path.service');
 const MaraudePassingService = require('../services/maraudePassing.service');
 const moment = require('moment');
+const { spawn } = require('child_process');
 const MaraudePointService = require("../services/maraudePoint.service");
 
 
@@ -68,9 +69,9 @@ class MaraudeController{
             Edition de l'event -> ajout de l'id maraude dans l'event (id_maraude dans l'event)
              */
 
-            const event = await EventService.addEvent({ title, description, start: date_start, end: date_end, allDay: 0, activity_id: 1 });
-            const maraude = await MaraudeService.addMaraude({ id_event: event.id, id_truck: truck });
-            await EventService.updateEvent(event.id, { maraude_id: maraude.id });
+            // const event = await EventService.addEvent({ title, description, start: date_start, end: date_end, allDay: 0, activity_id: 1 });
+            // const maraude = await MaraudeService.addMaraude({ id_event: event.id, id_truck: truck });
+            // await EventService.updateEvent(event.id, { maraude_id: maraude.id });
 
             /*
             Récupérer le chemin optimisé en utilisant start, end et inter et le service du path
@@ -98,13 +99,46 @@ class MaraudeController{
             const sortedPoints = resultWithFixedEndpoints.path.map(index => points[index]);
             console.log("Chemin optimal avec points de départ et d'arrivée fixés:", sortedPoints.map(p => p.name).join(" -> "));
 
+            // Convertir sortedPoints en un tableau de points (nom, lat, lon)
+            const pointsData = sortedPoints.map(p => ({ name: p.name, lat: p.lat, lon: p.lon }));
+
             // On crée les maraudes passing pour chaque point avec le path en tant que step (id_maraude, id_point, step)
-            for (let i = 0; i < sortedPoints.length; i++){
-                await MaraudePassingService.addPassingPoint({ id_maraude: maraude.id, id_point: sortedPoints[i].id, step: i });
-            }
+            // for (let i = 0; i < sortedPoints.length; i++){
+            //     await MaraudePassingService.addPassingPoint({ id_maraude: maraude.id, id_point: sortedPoints[i].id, step: i });
+            // }
 
-            res.status(201).json({ message: "Maraude created successfully", maraude });
+            // TODO : Utiliser les points sur un script python pour générer le document de tournée
 
+            // Exécution du script Python pour tracer les points sur la carte
+            console.log('Running script to generate map...')
+
+            const pointsDataNumeric = pointsData.map(point => ({
+                name: point.name,
+                lat: parseFloat(point.lat),
+                lon: parseFloat(point.lon)
+            }));
+
+            const pythonProcess = spawn('python', ['./components/map_script.py', JSON.stringify(pointsDataNumeric)]);
+            console.log(__dirname);
+            pythonProcess.on('exit', (code) => {
+                if (code === 0) {
+                    res.sendFile('../map.html', { root: __dirname }, (err) => {
+                        if (err) {
+                            console.error('Error sending file:', err);
+                            res.status(500).json({ error: 'Error sending file' });
+                        } else {
+                            console.log('Map HTML file sent successfully');
+                        }
+                    });
+                } else {
+                    console.error(`Python process exited with code ${code}`);
+                    res.status(500).json({ error: 'Python process exited with error' });
+                }
+            });
+
+            pythonProcess.stderr.on('data', (data) => {
+                console.error(`stderr: ${data}`);
+            });
 
         } catch (error) {
             console.error(error);
