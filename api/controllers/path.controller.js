@@ -27,7 +27,7 @@ class PathController {
         const startPointIndex = 0;
         const endPointIndex = points.length - 1;
 
-        const resultWithFixedEndpoints = PathService.solveTSPWithFixedEndpoints(points, startPointIndex, endPointIndex);
+        const resultWithFixedEndpoints = PathService.solveTSPWithGeneticAlgorithm(points, startPointIndex, endPointIndex);
         // Trie les points dans l'ordre de la solution optimale
         const sortedPoints = resultWithFixedEndpoints.path.map(index => points[index]);
         console.log("Chemin optimal avec points de départ et d'arrivée fixés:", sortedPoints.map(p => p.name).join(" -> "));
