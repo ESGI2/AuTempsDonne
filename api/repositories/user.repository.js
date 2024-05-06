@@ -101,6 +101,22 @@ class UserRepository {
             throw error;
         }
     }
+
+    static async getNewsletterSubscribers() {
+        try {
+            const subscribers = await User.findAll({
+                where: {
+                    newsletter: 1
+                }
+            });
+            return subscribers;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
+
 }
 
 module.exports = UserRepository;

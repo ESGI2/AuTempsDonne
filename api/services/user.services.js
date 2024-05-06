@@ -76,6 +76,17 @@ class UserServices {
             throw error;
         }
     }
+
+    static async getNewsletterSubscribers() {
+        try {
+            return await UserRepository.getNewsletterSubscribers();
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
+
 }
 
 module.exports = UserServices;
