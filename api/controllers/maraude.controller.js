@@ -3,10 +3,12 @@ const TruckService =  require ('../services/truck.services');
 const EventService = require('../services/event.service');
 const PathService = require('../services/path.service');
 const MaraudePassingService = require('../services/maraudePassing.service');
+const ProductService = require('../services/product.services');
 const moment = require('moment');
 const { spawn } = require('child_process');
 const fs = require('fs');
 const MaraudePointService = require("../services/maraudePoint.service");
+const MaraudeContentService = require("../services/maraudeContent.service");
 
 
 class MaraudeController{
@@ -50,8 +52,8 @@ class MaraudeController{
     //ADD
     static async addMaraude(req, res) {
         try {
-            const { title, description, date_start, date_end, road_start, road_end, road_inter, truck } = req.body;
-            const requiredFields = ['title', 'description', 'date_start', 'date_end', 'road_start', 'road_end', 'road_inter', 'truck'];
+            const { title, description, date_start, date_end, road_start, road_end, road_inter, truck, product} = req.body;
+            const requiredFields = ['title', 'description', 'date_start', 'date_end', 'road_start', 'road_end', 'road_inter', 'truck', 'product'];
             let missingFields = [];
 
             requiredFields.forEach(field => {
@@ -107,8 +109,6 @@ class MaraudeController{
                 await MaraudePassingService.addPassingPoint({ id_maraude: maraude.id, id_point: sortedPoints[i].id, step: i });
             }
 
-            // TODO : Utiliser les points sur un script python pour générer le document de tournée
-
             // Exécution du script Python pour tracer les points sur la carte
             console.log('Running script to generate map...')
 
@@ -139,11 +139,33 @@ class MaraudeController{
                     }
                     console.log('Le fichier a été supprimé avec succès!');
                 });
-            }, 10000);
+            }, 5000);
 
             console.log('Response sent!')
 
-            res.status(201).json({ message: "Maraude created successfully", maraude, event });
+            // TODO : Crée les maraudes content pour chaque produit de la maraude (id_maraude, id_product, quantity)
+
+            const products = product.split(',').map(p => {
+                const [id_product, quantity] = p.split(':');
+                return { id_product, quantity };
+            });
+
+            for (let i = 0; i < products.length; i++) {
+                try {
+                    if (!products[i].id_product || !products[i].quantity) {
+                        console.log('Missing parameters');
+                        return;
+                    }
+                    await MaraudeContentService.create({ id_maraude: maraude.id, id_product: products[i].id_product, quantity: products[i].quantity });
+                } catch (error) {
+                    console.log(error)
+                    res.status(500).json({ "Error": "Error creating maraude content" });
+                }
+            }
+
+            console.log('Creating maraude content...')
+
+            res.status(201).json({ message: "Maraude created successfully", maraude, event, products, sortedPoints});
 
         } catch (error) {
             console.error(error);
