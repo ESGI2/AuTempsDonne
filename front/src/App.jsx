@@ -12,6 +12,8 @@ import MainLog from "./logPages/Main.page.jsx";
 import AuthRoute from "./utils/authentification.js";
 import Profil from "./logPages/Profil.page.jsx";
 import AgendaPage from "./logPages/Agenda.page.jsx";
+import MissionLogpage from "./logPages/Mission.logpage.jsx";
+import DemandeFormLog from "./logPages/Demande.page.jsx";
 
 const router = createBrowserRouter([
     {
@@ -81,9 +83,19 @@ const router = createBrowserRouter([
     },{
         path: "/en/agenda",
         element: <AuthRoute element={<AgendaPage/>}/>
+    },{
+        path: "/fr/missionlog",
+        element: <AuthRoute element={<MissionLogpage/>}/>
+    },{
+        path: "/en/missionlog",
+        element: <AuthRoute element={<MissionLogpage/>}/>
+    },{
+        path: "/fr/demande",
+        element: <AuthRoute element={<DemandeFormLog/>}/>
+    },{
+        path: "/en/demande",
+        element: <AuthRoute element={<DemandeFormLog/>}/>
     },
-
-
 ]);
 
 function App() {
