@@ -131,13 +131,15 @@ CREATE TABLE if not exists maraude_point(
     city varchar(50) NOT NULL,
     postal_code varchar(50) NOT NULL,
     road varchar(50) NOT NULL,
-    road_number integer NOT NULL,
+    lat varchar(10) NOT NULL,
+    lon varchar(10) NOT NULL,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE if not exists maraude_passing(
     id_maraude integer NOT NULL,
     id_maraude_point integer NOT NULL,
+    step integer NOT NULL,
     FOREIGN KEY (id_maraude) REFERENCES maraude(id),
     FOREIGN KEY (id_maraude_point) REFERENCES maraude_point(id),
     PRIMARY KEY (id_maraude, id_maraude_point)

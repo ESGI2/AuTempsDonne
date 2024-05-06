@@ -22,7 +22,9 @@ export default function NewEventModal({ show, handleClose }) {
             start,
             end,
             activity_id: activity,
-            allDay
+            allDay,
+            maraude: false,
+            delivery: false,
         };
 
         if (data.title === '' || data.description === '' || data.start === '' || data.end === '' || data.activity_id === '') {

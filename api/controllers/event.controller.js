@@ -54,10 +54,9 @@ class EventController {
     //ADD
     static async addEvent(req, res) {
         try {
-            const {title, description, start, end, activity_id, allDay, maraude_id, delivery_id} = req.body;
+            const {title, description, start, end, activity_id, allDay, maraude, delivery} = req.body;
             const requiredFields = ['title', 'description', 'start', 'end', 'activity_id'];
             let missingFields = [];
-            const dateFormat = "DD/MM/YYYY HH:mm"; //Verify hh:mm => hours
             requiredFields.forEach(field => {
                 if (!req.body[field]) {
                     missingFields.push(field);
@@ -71,8 +70,6 @@ class EventController {
                 return res.status(400).json({error: "Name or description too long."});
             }
 
-
-
             if (moment(start).isAfter(end)) {
                 return res.status(400).json({error: "The start date must be before the end date."});
             }
@@ -81,7 +78,7 @@ class EventController {
                 return res.status(400).json({error: "Activity not found."});
             }
 
-            const eventData = {title, description, start, end, activity_id, allDay, maraude_id, delivery_id};
+            const eventData = {title, description, start, end, activity_id, allDay, maraude, delivery};
 
             const newEvent = await EventService.addEvent(eventData);
             res.status(201).json(newEvent);

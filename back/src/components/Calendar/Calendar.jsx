@@ -9,6 +9,7 @@ import NewEventModal from "./NewEventModal.jsx";
 import ShowEventModal from "./ShowEventModal.jsx";
 import ActivityModal from "./ActivityModal.jsx";
 import PersonnalCalendarSelection from "./PersonnalCalendarSelection.jsx";
+import ClassicButton from "../Button/ClassicButton.jsx";
 
 export default function Calendar() {
     const [currentEvents, setCurrentEvents] = useState([]);
@@ -108,15 +109,14 @@ export default function Calendar() {
                 />
                 <div className="d-flex">
                     <div className="p-2">
-                        <button className="btn bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded"
-                                onClick={() => openModal("new")}>
+                        <ClassicButton onClick={() => openModal("new")}>
                             New event
-                        </button>
+                        </ClassicButton>
                     </div>
                     <div className="p-2">
-                        <button className="btn btn-primary px-3 py-2" onClick={() => openModal("activity")}>
+                        <ClassicButton onClick={() => openModal("activity")}>
                             Activities
-                        </button>
+                        </ClassicButton>
                     </div>
                 </div>
 

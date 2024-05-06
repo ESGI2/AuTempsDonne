@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import {Modal, Form, Button, Alert} from 'react-bootstrap';
 import ky from 'ky';
+import ValidateButton from "../Button/ValidateButton.jsx";
+import CancelButton from "../Button/CancelButton.jsx";
+import ClassicButton from "../Button/ClassicButton.jsx";
+import DeleteButton from "../Button/DeleteButton.jsx";
 
 export default function PointDistributionModal({ show, handleClose }) {
     const [error, setError] = useState(null);
@@ -85,20 +89,21 @@ export default function PointDistributionModal({ show, handleClose }) {
                     {points.length === 0 && <Alert variant="info">Aucun point de distribution</Alert>}
                     <ul>
                         {points.map(point => (
-                            <li key={point.id}>
-                                <strong>{point.name}</strong><br />
-                                <span>Pays: {point.country}</span><br />
-                                <span>Ville: {point.city}</span><br />
-                                <span>Code postal: {point.postal_code}</span><br />
-                                <span>Adresse: {point.road}</span><br />
-                                <Button variant="ml-4 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg" onClick={() => handleDeletePoint(point.id)}>Supprimer</Button>
-                            </li>
-                        ))}
+                                <li key={point.id}>
+                                    <strong>{point.name}</strong><br />
+                                    <span>Pays: {point.country}</span><br />
+                                    <span>Ville: {point.city}</span><br />
+                                    <span>Code postal: {point.postal_code}</span><br />
+                                    <span>Adresse: {point.road}</span><br />
+                                    <DeleteButton onClick={() => handleDeletePoint(point.id)}>Supprimer</DeleteButton>
+                                </li>
+                        ))
+                        }
                     </ul>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg" onClick={() => setShowNewPointModal(true)}>Nouveau point</Button>
-                    <Button variant="ml-4 px-4 py-2 bg-gray-300 text-gray-700 hover:bg-gray-400 rounded-lg" onClick={handleClose}>Fermer</Button>
+                    <ClassicButton onClick={() => setShowNewPointModal(true)}>Nouveau point</ClassicButton>
+                    <CancelButton onClick={handleClose}>Fermer</CancelButton>
                 </Modal.Footer>
             </Modal>
 
@@ -133,8 +138,8 @@ export default function PointDistributionModal({ show, handleClose }) {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg" onClick={handleAddPoint}>Ajouter</Button>
-                    <Button variant="ml-4 px-4 py-2 bg-gray-300 text-gray-700 hover:bg-gray-400 rounded-lg" onClick={handleCloseNewPointModal}>Annuler</Button>
+                    <ValidateButton onClick={handleAddPoint}>Ajouter</ValidateButton>
+                    <CancelButton onClick={handleCloseNewPointModal}>Annuler</CancelButton>
                 </Modal.Footer>
             </Modal>
         </>
