@@ -4,6 +4,7 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from PySide6 import QtCore, QtWidgets, QtGui
+
 from app.get_token import get_token
 from constante import WIDTH, HEIGHT, SMTP_PASSWORD, SMTP_USERNAME
 
@@ -19,6 +20,7 @@ class HomePage(QtWidgets.QWidget):
         self.send_button = None
         self.complete_button = None
         self.reload_button = None  # Ajout du bouton Reload
+        self.user_role = None  # Ajout du rôle de l'utilisateur connecté
         self.create_components()  # Déplacez la création des composants ici
         self.display_element()
 
@@ -33,6 +35,7 @@ class HomePage(QtWidgets.QWidget):
             if response_user.status_code == 200:
                 user_data = response_user.json()
                 self.user_id = user_data['me']['id']
+                self.user_role = user_data['me']['role']  # Récupérer le rôle de l'utilisateur connecté
                 response = requests.get('http://localhost:3000/ticket', cookies=self.cookies)
                 if response.status_code == 200:
                     ticket_data = response.json()
@@ -51,7 +54,7 @@ class HomePage(QtWidgets.QWidget):
         self.table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.table.verticalHeader().setVisible(False)
 
-        self.logout_button = QtWidgets.QPushButton("Logout")
+        self.logout_button = QtWidgets.QPushButton("Close")
         self.logout_button.clicked.connect(self.logout)
         self.logout_button.setFont(QtGui.QFont("Arial", 15))
         self.logout_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
@@ -65,20 +68,31 @@ class HomePage(QtWidgets.QWidget):
         self.ticket_detail_label = QtWidgets.QLabel()
         self.ticket_detail_label.setAlignment(QtCore.Qt.AlignCenter)
 
+        # Création du bouton "S'attribuer le ticket" avec le style directement ajouté
         self.attribute_button = QtWidgets.QPushButton("S'attribuer le ticket")
         self.attribute_button.clicked.connect(self.attribute_ticket)
         self.attribute_button.hide()
-        self.style_button(self.attribute_button)
+        self.attribute_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.attribute_button.setStyleSheet(
+            "QPushButton {background-color: #008CBA; color: white; border: none; border-radius: 5px; padding: 5px 10px; font-size: 12px;} QPushButton:hover {background-color: #00bfff;}")
+        self.attribute_button.setMinimumHeight(30)
 
+        # Autres boutons
         self.back_button = QtWidgets.QPushButton("Retour à la liste")
         self.back_button.clicked.connect(self.back_to_list)
         self.back_button.hide()
-        self.style_button(self.back_button)
+        self.back_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.back_button.setStyleSheet(
+            "QPushButton {background-color: #008CBA; color: white; border: none; border-radius: 5px; padding: 5px 10px; font-size: 12px;} QPushButton:hover {background-color: #00bfff;}")
+        self.back_button.setMinimumHeight(30)
 
-        self.complete_button = QtWidgets.QPushButton("Ticket terminé")  # Bouton pour terminer le ticket
+        self.complete_button = QtWidgets.QPushButton("Ticket terminé")
         self.complete_button.clicked.connect(self.complete_ticket)
         self.complete_button.hide()
-        self.style_button(self.complete_button)
+        self.complete_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.complete_button.setStyleSheet(
+            "QPushButton {background-color: #008CBA; color: white; border: none; border-radius: 5px; padding: 5px 10px; font-size: 12px;} QPushButton:hover {background-color: #00bfff;}")
+        self.complete_button.setMinimumHeight(30)
 
         self.header_label = QtWidgets.QLabel("Liste des tickets")
         self.header_label.setAlignment(QtCore.Qt.AlignCenter)
@@ -95,21 +109,9 @@ class HomePage(QtWidgets.QWidget):
         self.layout.addWidget(self.table)
         self.layout.addWidget(self.ticket_detail_label)
         self.layout.addWidget(self.attribute_button)
-
-        # Vérifier si self.response_text n'est pas None avant de l'ajouter à la mise en page
-        if self.response_text is not None:
-            self.layout.addWidget(self.response_text)  # Ajout du champ de réponse
-            self.layout.addWidget(self.send_button)    # Ajout du bouton d'envoi
-
-        # Ajouter le bouton "Ticket terminé" à un emplacement spécifique
         self.layout.addWidget(self.complete_button)
-
-        self.layout.addWidget(self.back_button)  # Mettre le bouton "Retour à la liste" en dernier
-
-        # Ajouter le bouton Reload avant le bouton Logout
+        self.layout.addWidget(self.back_button)
         self.layout.addWidget(self.reload_button)
-
-        # Ajouter le bouton Logout
         self.layout.addWidget(self.logout_button, alignment=QtCore.Qt.AlignLeft | QtCore.Qt.AlignBottom)
 
     def display_ticket_table(self, ticket_data):
@@ -151,7 +153,9 @@ class HomePage(QtWidgets.QWidget):
             # Add "Examiner" button in the "Action" column
             examine_button = QtWidgets.QPushButton("Examiner")
             examine_button.clicked.connect(lambda _, r=row: self.examine_ticket(sorted_data[r]["id"]))
-            self.style_button(examine_button)
+            examine_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+            examine_button.setStyleSheet(
+                "QPushButton {background-color: #008CBA; color: white; border: none; border-radius: 5px; padding: 5px 10px; font-size: 12px;} QPushButton:hover {background-color: #00bfff;}")
             self.table.setCellWidget(row, 4, examine_button)
 
     def hide_home_title(self):
@@ -188,10 +192,9 @@ class HomePage(QtWidgets.QWidget):
                 self.ticket_detail_label.show()
                 self.back_button.show()
 
-                if ticket_data.get("status") == 0:
-                    self.attribute_button.show()
-                else:
-                    self.attribute_button.hide()
+                if ticket_data.get("status") == 0 and self.user_role == "admin":
+                    # Afficher la liste déroulante des utilisateurs admins ou responsables
+                    self.display_user_dropdown()
 
                 if ticket_data.get("status") == 1:
                     response_label = QtWidgets.QLabel("Message à envoyer pour répondre au ticket")
@@ -207,7 +210,9 @@ class HomePage(QtWidgets.QWidget):
 
                     self.send_button = QtWidgets.QPushButton("Envoyer")
                     self.send_button.clicked.connect(self.send_response)
-                    self.style_button(self.send_button)
+                    self.send_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+                    self.send_button.setStyleSheet(
+                        "QPushButton {background-color: #008CBA; color: white; border: none; border-radius: 5px; padding: 5px 10px; font-size: 12px;} QPushButton:hover {background-color: #00bfff;}")
                     self.layout.addWidget(self.send_button)
 
                     self.complete_button.show()
@@ -215,6 +220,26 @@ class HomePage(QtWidgets.QWidget):
                     self.complete_button.hide()
         else:
             print("Erreur.", response_ticket.status_code)
+
+    def display_user_dropdown(self):
+        response_users = requests.get('http://localhost:3000/user', cookies=self.cookies)
+        if response_users.status_code == 200:
+            user_data = response_users.json().get("users", [])
+            admin_users = [user for user in user_data if user["role"] in ["admin", "responsable"]]
+            if admin_users:
+                dropdown = QtWidgets.QComboBox()
+                dropdown.addItem("Sélectionnez un utilisateur")
+                for user in admin_users:
+                    dropdown.addItem(f"{user['first_name']} {user['last_name']}", user['id'])
+
+                dropdown.currentIndexChanged.connect(self.user_selected)
+                self.layout.addWidget(dropdown)
+
+    def user_selected(self, index):
+        if index > 0:
+            user_id = self.sender().currentData()
+            self.selected_user_id = user_id
+            self.attribute_button.show()
 
     def send_response(self):
         if hasattr(self, 'response_text'):
@@ -252,27 +277,35 @@ class HomePage(QtWidgets.QWidget):
         print("E-mail envoyé avec succès.")
 
     def attribute_ticket(self):
-        selected_row = self.table.currentRow()
-        ticket_id_item = self.table.item(selected_row, 0)
-        ticket_id = int(ticket_id_item.text())
+        if hasattr(self, 'selected_user_id'):
+            ticket_id = self.table.item(self.table.currentRow(), 0).text()
 
-        user_id = self.user_id
-        add_answer_url = 'http://localhost:3000/ticket/add-answer'
-        add_answer_payload = {"ticketId": ticket_id, "userId": user_id}
-        add_answer_response = requests.post(add_answer_url, json=add_answer_payload, cookies=self.cookies)
+            add_answer_url = 'http://localhost:3000/ticket/add-answer'
+            add_answer_payload = {"ticketId": ticket_id, "userId": self.selected_user_id}
+            add_answer_response = requests.post(add_answer_url, json=add_answer_payload, cookies=self.cookies)
 
-        if add_answer_response.status_code == 200:
-            print("Réponse ajoutée avec succès.")
-            increment_status_url = f'http://localhost:3000/ticket/increment-status/{ticket_id}'
-            increment_status_response = requests.put(increment_status_url, cookies=self.cookies)
+            if add_answer_response.status_code == 200:
+                print("Réponse ajoutée avec succès.")
+                increment_status_url = f'http://localhost:3000/ticket/increment-status/{ticket_id}'
+                increment_status_response = requests.put(increment_status_url, cookies=self.cookies)
 
-            if increment_status_response.status_code == 200:
-                print("Statut du ticket incrementé avec succès.")
-                self.back_to_list()
+                if increment_status_response.status_code == 200:
+                    print("Statut du ticket incrementé avec succès.")
+                    self.back_to_list()
+                    self.remove_dropdown()  # Supprimer la liste déroulante après l'attribution du ticket
+                else:
+                    print("Erreur lors de l'incrémentation du statut du ticket.")
             else:
-                print("Erreur lors de l'incrémentation du statut du ticket.")
+                print("Erreur lors de l'ajout de la réponse au ticket.")
         else:
-            print("Erreur lors de l'ajout de la réponse au ticket.")
+            print("Utilisateur sélectionné non trouvé.")
+
+    def remove_dropdown(self):
+        for i in reversed(range(self.layout.count())):
+            widget = self.layout.itemAt(i).widget()
+            if isinstance(widget, QtWidgets.QComboBox):
+                widget.deleteLater()
+                del widget
 
     def complete_ticket(self):
         # Récupérer l'ID du ticket
@@ -304,6 +337,7 @@ class HomePage(QtWidgets.QWidget):
         self.header_label.show()
         self.reload_button.show()
         self.initialize_home()
+        self.remove_dropdown()
 
     def hide_response_label(self):
         for i in reversed(range(self.layout.count())):
@@ -313,16 +347,17 @@ class HomePage(QtWidgets.QWidget):
                 break
 
     def remove_response_elements(self):
-        if hasattr(self, 'response_text') and self.response_text:
-            self.response_text.hide()
+        if hasattr(self, 'response_text'):
+            self.response_text.deleteLater()
             del self.response_text
-        if hasattr(self, 'send_button') and self.send_button:
-            self.send_button.hide()
+        if hasattr(self, 'send_button') and self.send_button is not None:
+            self.send_button.deleteLater()
             del self.send_button
 
+    def reload_page(self):
+        self.back_to_list()
+
     def logout(self):
-        with open("token.txt", "w") as file:
-            file.write("")
         self.close()
         sys.exit()
 
@@ -332,27 +367,5 @@ class HomePage(QtWidgets.QWidget):
     def show_logout_button(self):
         self.logout_button.show()
 
-    def style_button(self, button):
-        button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        button.setStyleSheet("QPushButton {font-size: 14px; background-color: #ADD8E6; color: #000000; padding: 5px 10px;} QPushButton:hover {background-color: #87CEFA; color: #000000;}")
 
-    def center_widgets(self):
-        for i in range(self.layout.count()):
-            widget = self.layout.itemAt(i).widget()
-            if isinstance(widget, QtWidgets.QLineEdit):
-                widget.setAlignment(QtCore.Qt.AlignCenter)
-                widget.setMaximumWidth(self.width() // 2)
-                break
 
-    def resizeEvent(self, event):
-        super().resizeEvent(event)
-        self.center_widgets()
-
-    def reload_page(self):
-        print("reload")
-        self.table.clearContents()
-        self.table.setRowCount(0)
-        self.ticket_detail_label.clear()
-        self.remove_response_elements()
-        self.hide_response_label()
-        self.initialize_home()
