@@ -2,14 +2,15 @@ package com.example.androidapp
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.ImageButton
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var homeButton: ImageButton
-    private lateinit var qrCodeButton: ImageButton
-    private lateinit var nfcButton: ImageButton
+    private lateinit var homeButton: ImageView
+    private lateinit var qrCodeButton: ImageView
+    private lateinit var nfcButton: ImageView
+    private lateinit var logoutButton: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,8 +19,9 @@ class MainActivity : AppCompatActivity() {
         homeButton = findViewById(R.id.homeButton)
         qrCodeButton = findViewById(R.id.qrCodeButton)
         nfcButton = findViewById(R.id.nfcButton)
+        logoutButton = findViewById(R.id.logoutButton)
 
-        homeButton.setOnClickListener { /* Rester sur la page d'accueil */ }
+        homeButton.setOnClickListener {}
 
         qrCodeButton.setOnClickListener {
             val intent = Intent(this, QRCodeActivity::class.java)
@@ -29,6 +31,12 @@ class MainActivity : AppCompatActivity() {
         nfcButton.setOnClickListener {
             val intent = Intent(this, NFCActivity::class.java)
             startActivity(intent)
+        }
+
+        logoutButton.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 }

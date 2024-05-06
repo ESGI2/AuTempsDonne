@@ -4,7 +4,8 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.widget.ImageButton
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -18,32 +19,22 @@ import com.journeyapps.barcodescanner.DecoratedBarcodeView
 class QRCodeActivity : AppCompatActivity() {
     private lateinit var barcodeView: DecoratedBarcodeView
     private lateinit var captureManager: CaptureManager
-    private lateinit var homeButton: ImageButton
-    private lateinit var qrCodeButton: ImageButton
-    private lateinit var nfcButton: ImageButton
+    private lateinit var homeButton: ImageView
+    private lateinit var qrCodeButton: ImageView
+    private lateinit var nfcButton: ImageView
     private val requestCodeCameraPermission = 1001
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_qr_code)
 
-
         barcodeView = findViewById(R.id.cameraPreview)
-
         homeButton = findViewById(R.id.homeButton)
         qrCodeButton = findViewById(R.id.qrCodeButton)
         nfcButton = findViewById(R.id.nfcButton)
 
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.CAMERA
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.CAMERA),
-                requestCodeCameraPermission
-            )
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), requestCodeCameraPermission)
         } else {
             initializeQRCodeReader(savedInstanceState)
         }
@@ -53,9 +44,7 @@ class QRCodeActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        qrCodeButton.setOnClickListener {
-            /* Rester sur la page du lecteur de code QR */
-        }
+        qrCodeButton.setOnClickListener {}
 
         nfcButton.setOnClickListener {
             val intent = Intent(this, NFCActivity::class.java)
@@ -63,17 +52,12 @@ class QRCodeActivity : AppCompatActivity() {
         }
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == requestCodeCameraPermission && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             initializeQRCodeReader(null)
         } else {
-            Toast.makeText(this, "Autorisation d'accès à la caméra requise", Toast.LENGTH_SHORT)
-                .show()
+            Toast.makeText(this, "Autorisation d'accès à la caméra requise", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -81,17 +65,13 @@ class QRCodeActivity : AppCompatActivity() {
         captureManager = CaptureManager(this, barcodeView)
         captureManager.initializeFromIntent(intent, savedInstanceState)
         captureManager.decode()
-        this@QRCodeActivity.barcodeView.decodeContinuous(callback)
+        barcodeView.decodeContinuous(callback)
     }
 
     private val callback: BarcodeCallback = object : BarcodeCallback {
         override fun barcodeResult(result: BarcodeResult) {
             val qrCodeValue = result.text
-            Toast.makeText(
-                this@QRCodeActivity,
-                "Code QR détecté : $qrCodeValue",
-                Toast.LENGTH_SHORT
-            ).show()
+            Toast.makeText(this@QRCodeActivity, "Code QR détecté : $qrCodeValue", Toast.LENGTH_SHORT).show()
         }
 
         override fun possibleResultPoints(resultPoints: List<ResultPoint>) {}
