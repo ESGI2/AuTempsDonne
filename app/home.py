@@ -68,20 +68,31 @@ class HomePage(QtWidgets.QWidget):
         self.ticket_detail_label = QtWidgets.QLabel()
         self.ticket_detail_label.setAlignment(QtCore.Qt.AlignCenter)
 
+        # Création du bouton "S'attribuer le ticket" avec le style directement ajouté
         self.attribute_button = QtWidgets.QPushButton("S'attribuer le ticket")
         self.attribute_button.clicked.connect(self.attribute_ticket)
         self.attribute_button.hide()
-        self.style_button(self.attribute_button)
+        self.attribute_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.attribute_button.setStyleSheet(
+            "QPushButton {background-color: #008CBA; color: white; border: none; border-radius: 5px; padding: 5px 10px; font-size: 12px;} QPushButton:hover {background-color: #00bfff;}")
+        self.attribute_button.setMinimumHeight(30)
 
+        # Autres boutons
         self.back_button = QtWidgets.QPushButton("Retour à la liste")
         self.back_button.clicked.connect(self.back_to_list)
         self.back_button.hide()
-        self.style_button(self.back_button)
+        self.back_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.back_button.setStyleSheet(
+            "QPushButton {background-color: #008CBA; color: white; border: none; border-radius: 5px; padding: 5px 10px; font-size: 12px;} QPushButton:hover {background-color: #00bfff;}")
+        self.back_button.setMinimumHeight(30)
 
-        self.complete_button = QtWidgets.QPushButton("Ticket terminé")  # Bouton pour terminer le ticket
+        self.complete_button = QtWidgets.QPushButton("Ticket terminé")
         self.complete_button.clicked.connect(self.complete_ticket)
         self.complete_button.hide()
-        self.style_button(self.complete_button)
+        self.complete_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.complete_button.setStyleSheet(
+            "QPushButton {background-color: #008CBA; color: white; border: none; border-radius: 5px; padding: 5px 10px; font-size: 12px;} QPushButton:hover {background-color: #00bfff;}")
+        self.complete_button.setMinimumHeight(30)
 
         self.header_label = QtWidgets.QLabel("Liste des tickets")
         self.header_label.setAlignment(QtCore.Qt.AlignCenter)
@@ -98,21 +109,9 @@ class HomePage(QtWidgets.QWidget):
         self.layout.addWidget(self.table)
         self.layout.addWidget(self.ticket_detail_label)
         self.layout.addWidget(self.attribute_button)
-
-        # Vérifier si self.response_text n'est pas None avant de l'ajouter à la mise en page
-        if self.response_text is not None:
-            self.layout.addWidget(self.response_text)  # Ajout du champ de réponse
-            self.layout.addWidget(self.send_button)    # Ajout du bouton d'envoi
-
-        # Ajouter le bouton "Ticket terminé" à un emplacement spécifique
         self.layout.addWidget(self.complete_button)
-
-        self.layout.addWidget(self.back_button)  # Mettre le bouton "Retour à la liste" en dernier
-
-        # Ajouter le bouton Reload avant le bouton Logout
+        self.layout.addWidget(self.back_button)
         self.layout.addWidget(self.reload_button)
-
-        # Ajouter le bouton Logout
         self.layout.addWidget(self.logout_button, alignment=QtCore.Qt.AlignLeft | QtCore.Qt.AlignBottom)
 
     def display_ticket_table(self, ticket_data):
@@ -154,7 +153,9 @@ class HomePage(QtWidgets.QWidget):
             # Add "Examiner" button in the "Action" column
             examine_button = QtWidgets.QPushButton("Examiner")
             examine_button.clicked.connect(lambda _, r=row: self.examine_ticket(sorted_data[r]["id"]))
-            self.style_button(examine_button)
+            examine_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+            examine_button.setStyleSheet(
+                "QPushButton {background-color: #008CBA; color: white; border: none; border-radius: 5px; padding: 5px 10px; font-size: 12px;} QPushButton:hover {background-color: #00bfff;}")
             self.table.setCellWidget(row, 4, examine_button)
 
     def hide_home_title(self):
@@ -209,7 +210,9 @@ class HomePage(QtWidgets.QWidget):
 
                     self.send_button = QtWidgets.QPushButton("Envoyer")
                     self.send_button.clicked.connect(self.send_response)
-                    self.style_button(self.send_button)
+                    self.send_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+                    self.send_button.setStyleSheet(
+                        "QPushButton {background-color: #008CBA; color: white; border: none; border-radius: 5px; padding: 5px 10px; font-size: 12px;} QPushButton:hover {background-color: #00bfff;}")
                     self.layout.addWidget(self.send_button)
 
                     self.complete_button.show()
@@ -364,11 +367,5 @@ class HomePage(QtWidgets.QWidget):
     def show_logout_button(self):
         self.logout_button.show()
 
-    def style_button(self, button):
-        button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        if self.table.isVisible():
-            button.setStyleSheet(
-                "QPushButton {background-color: #008CBA; color: white; border: none; border-radius: 5px; padding: 5px 10px; font-size: 12px;} QPushButton:hover {background-color: #00bfff;}")
-            button.setMinimumHeight(30)
 
 
