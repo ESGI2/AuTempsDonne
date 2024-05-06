@@ -49,7 +49,7 @@ function LogHeader() {
             volunteer: <Link to={`/${langParam}/agenda`}>
                 <button className="association-btn">{lang.menu.agenda}</button>
             </Link>,
-            beneficiary: <Link to={`/${langParam}/`}>
+            beneficiary: <Link to={`/${langParam}/demande`}>
                 <button className="association-btn">{lang.menu.demande}</button>
             </Link>,
         };
@@ -83,7 +83,7 @@ function LogHeader() {
                 <Link to={`/${langParam}/main`}>
                     <button className="association-btn">{lang.menu.association}</button>
                 </Link>
-                <Link to={`/${langParam}/`}>
+                <Link to={`/${langParam}/missionlog`}>
                     <button className="missions-btn">{lang.menu.missions}</button>
                 </Link>
 

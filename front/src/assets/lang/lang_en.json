@@ -136,6 +136,12 @@
     "title": "WELCOME BACK AU TEMPS DONNE",
     "description": "AU TEMPS DONNE fights against isolation among precarious individuals. In this regard, we develop a social bond based on listening and dialogue.",
     "button": "Learn more"
+  },
+  "demandeForm": {
+    "ticket_demand": "Ticket Request",
+    "title": "Title",
+    "message": "Message",
+    "submit": "Submit"
   }
 }
 

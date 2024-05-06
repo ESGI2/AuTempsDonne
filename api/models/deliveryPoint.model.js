@@ -25,6 +25,14 @@ const DeliveryPoint = sequelize.define('delivery_point', {
     },
     road: {
         type: Sequelize.STRING
+    },
+    lat: {
+        type: Sequelize.DECIMAL(10, 8),
+        defaultValue: null
+    },
+    lon: {
+        type: Sequelize.DECIMAL(11, 8),
+        defaultValue: null
     }
 }, {
     tableName: 'delivery_point',
