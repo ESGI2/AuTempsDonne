@@ -117,6 +117,11 @@ app.use('/path', pathRoute);
 const maraudePassingRoute = require('./routes/maraudePassing.route');
 app.use('/maraudePassing', maraudePassingRoute);
 
+// MARAUDE CONTENT ROUTE
+const maraudeContentRoute = require('./routes/maraudeContent.route');
+app.use('/maraudeContent', maraudeContentRoute);
+
+
 // Setup default route
 app.use((req, res) => {
     res.status(404).json({"Error": "Not found"});
