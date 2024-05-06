@@ -134,5 +134,11 @@
   "main": {
     "title": "Bienvenue Au Temps Donné",
     "subtitle": "L'association Au Temps Donné lutte contre l'isolement des personnes précaires. En ce sens, nous développons un lien social basé sur l’écoute et le dialogue."
+  },
+  "demandeForm": {
+    "ticket_demand": "Demande de Ticket",
+    "title": "Titre",
+    "message": "Message",
+    "submit": "Soumettre"
   }
 }
