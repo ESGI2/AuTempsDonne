@@ -3,45 +3,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-
     <SurfaceView
         android:id="@+id/cameraPreview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bottomNavigation" />
+        android:layout_above="@id/bottomNavigation" />
 
     <LinearLayout
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@color/secondBlue">
 
-        <Button
+        <ImageView
             android:id="@+id/homeButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Home" />
+            android:layout_height="32dp"
+            android:src="@drawable/home"
+            android:layout_gravity="center"
+            android:layout_weight="1"/>
 
-        <Button
+        <ImageView
             android:id="@+id/qrCodeButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="QR" />
+            android:layout_height="32dp"
+            android:src="@drawable/qr"
+            android:layout_gravity="center"
+            android:layout_weight="1"/>
 
-        <Button
+        <ImageView
             android:id="@+id/nfcButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="NFC" />
-
-
+            android:layout_height="32dp"
+            android:src="@drawable/nfc"
+            android:layout_gravity="center"
+            android:layout_weight="1"/>
     </LinearLayout>
-
-
 
 </RelativeLayout>

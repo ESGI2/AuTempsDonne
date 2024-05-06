@@ -11,33 +11,39 @@
         android:text="Approchez votre appareil d'un tag NFC"
         android:textSize="18sp" />
 
+
     <LinearLayout
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
+        android:background="@color/secondBlue"
+        android:gravity="center"
         android:orientation="horizontal">
 
-        <Button
+        <ImageView
             android:id="@+id/homeButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="32dp"
+            android:layout_gravity="center"
             android:layout_weight="1"
-            android:text="Home" />
+            android:src="@drawable/home" />
 
-        <Button
+        <ImageView
             android:id="@+id/qrCodeButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="32dp"
+            android:layout_gravity="center"
             android:layout_weight="1"
-            android:text="QR" />
+            android:src="@drawable/qr" />
 
-        <Button
+        <ImageView
             android:id="@+id/nfcButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="32dp"
+            android:layout_gravity="center"
             android:layout_weight="1"
-            android:text="NFC" />
+            android:src="@drawable/nfc" />
 
     </LinearLayout>
 
