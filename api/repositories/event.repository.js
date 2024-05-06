@@ -29,12 +29,11 @@ class EventRepository {
 
     static async getEventByUserId(id){
         try {
-            const event = await Event.findAll({
+            return await Event.findAll({
                 where: {
                     id: id
                 }
             });
-            return event;
         }catch (error){
             console.error("Event error :", error);
             throw error;

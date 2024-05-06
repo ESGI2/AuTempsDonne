@@ -5,6 +5,7 @@ const PathService = require('../services/path.service');
 const MaraudePassingService = require('../services/maraudePassing.service');
 const moment = require('moment');
 const { spawn } = require('child_process');
+const fs = require('fs');
 const MaraudePointService = require("../services/maraudePoint.service");
 
 
@@ -69,9 +70,8 @@ class MaraudeController{
             Edition de l'event -> ajout de l'id maraude dans l'event (id_maraude dans l'event)
              */
 
-            // const event = await EventService.addEvent({ title, description, start: date_start, end: date_end, allDay: 0, activity_id: 1 });
-            // const maraude = await MaraudeService.addMaraude({ id_event: event.id, id_truck: truck });
-            // await EventService.updateEvent(event.id, { maraude_id: maraude.id });
+            const event = await EventService.addEvent({ title, description, start: date_start, end: date_end, allDay: 0, activity_id: 1 , maraude: true, delivery: false});
+            const maraude = await MaraudeService.addMaraude({ id_event: event.id, id_truck: truck });
 
             /*
             Récupérer le chemin optimisé en utilisant start, end et inter et le service du path
@@ -103,9 +103,9 @@ class MaraudeController{
             const pointsData = sortedPoints.map(p => ({ name: p.name, lat: p.lat, lon: p.lon }));
 
             // On crée les maraudes passing pour chaque point avec le path en tant que step (id_maraude, id_point, step)
-            // for (let i = 0; i < sortedPoints.length; i++){
-            //     await MaraudePassingService.addPassingPoint({ id_maraude: maraude.id, id_point: sortedPoints[i].id, step: i });
-            // }
+            for (let i = 0; i < sortedPoints.length; i++){
+                await MaraudePassingService.addPassingPoint({ id_maraude: maraude.id, id_point: sortedPoints[i].id, step: i });
+            }
 
             // TODO : Utiliser les points sur un script python pour générer le document de tournée
 
@@ -118,27 +118,32 @@ class MaraudeController{
                 lon: parseFloat(point.lon)
             }));
 
-            const pythonProcess = spawn('python', ['./components/map_script.py', JSON.stringify(pointsDataNumeric)]);
-            console.log(__dirname);
-            pythonProcess.on('exit', (code) => {
-                if (code === 0) {
-                    res.sendFile('../map.html', { root: __dirname }, (err) => {
-                        if (err) {
-                            console.error('Error sending file:', err);
-                            res.status(500).json({ error: 'Error sending file' });
-                        } else {
-                            console.log('Map HTML file sent successfully');
-                        }
-                    });
-                } else {
-                    console.error(`Python process exited with code ${code}`);
-                    res.status(500).json({ error: 'Python process exited with error' });
-                }
-            });
-
+            const pythonProcess = spawn('python', ['./components/map_script.py', JSON.stringify(pointsDataNumeric), 'maraude_map_' + maraude.id]);
             pythonProcess.stderr.on('data', (data) => {
                 console.error(`stderr: ${data}`);
             });
+
+            console.log('Map generated successfully!')
+
+            console.log('Sending response...')
+            // Supprimer le fichier de la carte après 10 secondes
+            setTimeout(() => {
+                // Chemin du fichier à supprimer
+                const filePath = './maraude_map_' + maraude.id + '.html';
+
+                // Supprimer le fichier
+                fs.unlink(filePath, (err) => {
+                    if (err) {
+                        console.error(err);
+                        return;
+                    }
+                    console.log('Le fichier a été supprimé avec succès!');
+                });
+            }, 10000);
+
+            console.log('Response sent!')
+
+            res.status(201).json({ message: "Maraude created successfully", maraude, event });
 
         } catch (error) {
             console.error(error);
@@ -199,9 +204,14 @@ class MaraudeController{
             const deleteMaraude = await MaraudeService.deleteMaraude(id);
             if (!deleteMaraude){
                 res.status(404).json({"Error":"Maraude not found"});
-            }else{
-                res.status(200).json(deleteMaraude);
             }
+
+            const deleteEvent = await EventService.deleteEvent(deleteMaraude.id_event);
+            if (!deleteEvent){
+                res.status(404).json({"Error":"Event not found"});
+            }
+
+            res.status(200).json({"Message":"Maraude deleted successfully"});
         }catch (error){
             console.error(error);
             res.status(500).json({"Error":"Error deleting maraude"})
