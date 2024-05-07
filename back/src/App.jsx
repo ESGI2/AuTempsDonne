@@ -41,6 +41,7 @@ const router = createBrowserRouter([
         path: "/maraude/:id",
         element: <AuthenticatedRoute element={<MaraudeData />} />,
     },
+    {
         path: "/delivery",
         element: <AuthenticatedRoute element={<DeliveryPage />} />,
         errorElement: <ErrorPage />,
