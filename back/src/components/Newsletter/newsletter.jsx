@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Alert } from "react-bootstrap";
-import axios from "axios";
-import { sendMail } from "./sendmail"; // Importer la fonction sendMail
+import { sendMail } from "./sendmail.js";
 
 function NewsletterForm() {
     const [title, setTitle] = useState('');
@@ -16,19 +15,21 @@ function NewsletterForm() {
         setMessage(e.target.value);
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (title.trim() === '' || message.trim() === '') {
             setError('Veuillez remplir tous les champs.');
             return;
         }
 
-        // Appeler la fonction sendMail pour envoyer l'e-mail
-        sendMail(title, message);
-
-        // Effacer les champs du formulaire après l'envoi
-        setTitle('');
-        setMessage('');
+        try {
+            await sendMail(title, message);
+            setTitle('');
+            setMessage('');
+            setError('');
+        } catch (error) {
+            setError('Une erreur s\'est produite lors de l\'envoi de la newsletter. Veuillez réessayer plus tard.');
+        }
     };
 
     return (

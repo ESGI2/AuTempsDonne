@@ -109,6 +109,11 @@ app.use('/training', trainingRoute);
 const trainingListingRoute = require('./routes/trainingListing.route');
 app.use('/traininglisting', trainingListingRoute);
 
+// NEWSLETTER ROUTE
+const newsletterRoute = require('./routes/newsletter.route');
+app.use('/newsletter', newsletterRoute);
+
+
 // Setup default route
 app.use((req, res) => {
     res.status(404).json({"Error": "Not found"});
