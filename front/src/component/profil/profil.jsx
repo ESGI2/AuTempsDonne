@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ky from 'ky';
+import ProfileModal from './profileModal.jsx';
 
 const Profiler = () => {
     const [id, setId] = useState('');
@@ -17,6 +18,10 @@ const Profiler = () => {
     const [childrens, setChildrens] = useState(0);
     const [phoneNumber, setPhoneNumber] = useState('');
     const [country, setCountry] = useState('');
+    const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
+    const [newPassword, setNewPassword] = useState('');
+    const [confirmNewPassword, setConfirmNewPassword] = useState('');
+    const [changePasswordError, setChangePasswordError] = useState('');
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -107,6 +112,28 @@ const Profiler = () => {
             }
         } catch (error) {
             throw new Error('Erreur lors de la mise à jour des données de l\'utilisateur');
+        }
+    };
+
+    const handleChangePassword = async () => {
+        try {
+            if (newPassword !== confirmNewPassword) {
+                setChangePasswordError('Les mots de passe ne correspondent pas');
+                return;
+            }
+
+            const response = await ky.put(`http://localhost:3000/user/password/${id}`, {
+                json: { password: newPassword },
+                credentials: "include",
+            });
+
+            if (response.status !== 200) {
+                window.location.href = "/";
+            } else {
+                setShowChangePasswordModal(false);
+            }
+        } catch (error) {
+            throw new Error('Erreur lors de la modification du mot de passe');
         }
     };
 
@@ -276,11 +303,43 @@ const Profiler = () => {
                                         Enregistrer
                                     </button>
                                 </form>
+
+                                <button className="btn btn-secondary btn-block" onClick={() => setShowChangePasswordModal(true)}>
+                                    Modifier le mot de passe
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
+
+            {showChangePasswordModal &&
+                <div className={`modal fade ${showChangePasswordModal ? 'show' : ''}`} id="changePasswordModal" tabIndex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden={!showChangePasswordModal} style={{ display: showChangePasswordModal ? 'block' : 'none' }}>
+                    <div className="modal-dialog modal-dialog-centered">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="changePasswordModalLabel">Modifier le mot de passe</h5>
+                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={() => setShowChangePasswordModal(false)}></button>
+                            </div>
+                            <div className="modal-body">
+                                <div className="mb-3">
+                                    <label htmlFor="newPassword" className="form-label">Nouveau mot de passe</label>
+                                    <input type="password" className="form-control" id="newPassword" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
+                                </div>
+                                <div className="mb-3">
+                                    <label htmlFor="confirmNewPassword" className="form-label">Confirmer le nouveau mot de passe</label>
+                                    <input type="password" className="form-control" id="confirmNewPassword" value={confirmNewPassword} onChange={(e) => setConfirmNewPassword(e.target.value)} />
+                                </div>
+                                {changePasswordError && <div className="alert alert-danger">{changePasswordError}</div>}
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-primary" onClick={handleChangePassword}>Modifier le mot de passe</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
         </div>
     );
 };
