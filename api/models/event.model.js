@@ -36,22 +36,13 @@ const Event = sequelize.define('Event', {
         type: DataTypes.BOOLEAN,
         allowNull: false
     },
-    maraude_id: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        references: {
-            model: 'maraude' ,
-            key: 'id'
-        }
+    maraude: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
     },
-    delivery_id: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        references: {
-            model: 'delivery' ,
-            key: 'id'
-        }
-
+    delivery: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
     }
 }, {
     tableName: 'event',

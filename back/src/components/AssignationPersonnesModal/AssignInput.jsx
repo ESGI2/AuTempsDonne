@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import ValidateButton from "../Button/ValidateButton.jsx";
 
 const AssignInput = ({ volunteer, onAdd }) => {
     const [selectedPerson, setSelectedPerson] = useState("");
@@ -34,7 +35,7 @@ const AssignInput = ({ volunteer, onAdd }) => {
                         </option>
                     ))}
                 </select>
-                <button className="btn btn-primary" onClick={handleAdd}>Ajouter</button>
+                <ValidateButton onClick={handleAdd}>Assigner</ValidateButton>
             </div>
         </div>
     );

@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import ky from "ky";
-import AssignationPersonnesModal from '../AssignationPersonnesModal/AssignationPersonnesModal'; // Import du modal d'assignation
+import AssignationPersonnesModal from '../AssignationPersonnesModal/AssignationPersonnesModal';
+import ClassicButton from "../Button/ClassicButton.jsx";
+import DeleteButton from "../Button/DeleteButton.jsx";
+import CancelButton from "../Button/CancelButton.jsx"; // Import du modal d'assignation
 
 export default function ShowEventModal({ show, handleClose, event }) {
     const formatDate = (date) => {
@@ -39,9 +42,9 @@ export default function ShowEventModal({ show, handleClose, event }) {
                     )}
                 </Modal.Body>
                 <Modal.Footer className="d-flex justify-between">
-                    <button onClick={() => setShowAssignationModal(true)} className="btn btn-primary">Assigner</button> {/* Bouton pour ouvrir le modal d'assignation */}
-                    <button onClick={() => deleteEvent(event.id)} className="btn btn-danger">Supprimer</button>
-                    <button onClick={handleClose} className="btn btn-secondary">Fermer</button>
+                    <ClassicButton onClick={() => setShowAssignationModal(true)}>Assigner</ClassicButton>
+                    <DeleteButton onClick={() => deleteEvent(event.id)}>Supprimer</DeleteButton>
+                    <CancelButton onClick={handleClose}>Fermer</CancelButton>
                 </Modal.Footer>
             </Modal>
 

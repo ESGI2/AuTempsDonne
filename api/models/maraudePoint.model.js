@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 
-const MaraudePoint = sequelize.define('MaraudePoint', {
+const MaraudePoint = sequelize.define('maraudePoint', {
     id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -29,11 +29,11 @@ const MaraudePoint = sequelize.define('MaraudePoint', {
         allowNull: false
     },
     lat: {
-        type: DataTypes.DECIMAL,
+        type: DataTypes.STRING,
         allowNull: false
     },
     lon: {
-        type: DataTypes.DECIMAL,
+        type: DataTypes.STRING,
         allowNull: false
     }
 }, {
