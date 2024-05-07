@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Alert } from "react-bootstrap";
-import { sendMail } from "./sendmail.js";
+import ky from "ky";
 
 function NewsletterForm() {
     const [title, setTitle] = useState('');
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
+    const [success, setSuccess] = useState(false); // Nouvelle variable d'état pour le succès
 
     const handleTitleChange = (e) => {
         setTitle(e.target.value);
@@ -27,9 +28,24 @@ function NewsletterForm() {
             setTitle('');
             setMessage('');
             setError('');
+            setSuccess(true);
         } catch (error) {
             setError('Une erreur s\'est produite lors de l\'envoi de la newsletter. Veuillez réessayer plus tard.');
         }
+    };
+
+    const sendMail = (title, message) => {
+        return ky.post(`http://localhost:3000/newsletter`, {
+            credentials: "include",
+            method: "POST",
+            json: { title, message }
+        }).then((response) => {
+            if (response.status !== 200) {
+                window.location.href = "/";
+            } else {
+                return response.json();
+            }
+        });
     };
 
     return (
@@ -55,6 +71,7 @@ function NewsletterForm() {
                             <div className="col-lg-8">
                                 <h1 className="fw-bold mb-5">Inscription à la newsletter</h1>
                                 {error && <Alert variant="danger">{error}</Alert>}
+                                {success && <Alert variant="success">Le mail a bien été envoyé !</Alert>} {/* Alert for success */}
                                 <form onSubmit={handleSubmit}>
                                     <div className="form-outline mb-4">
                                         <label className="form-label" htmlFor="formTitle">Titre</label>
