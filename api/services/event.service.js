@@ -22,6 +22,16 @@ class EventService {
 
     }
 
+    static async getEventByUserId(id){
+        try{
+            const event = await EventRepository.getEventByUserId(id);
+            return event;
+        }catch (error){
+            console.error(error);
+            throw error;
+        }
+    }
+
     //ADD
     static async addEvent(eventData){
         return EventRepository.addEvent(eventData);
@@ -35,6 +45,11 @@ class EventService {
     //DELETE
     static async deleteEvent(id){
         return EventRepository.deleteEvent(id);
+    }
+
+    //GET AVAILABLE USERS
+    static async getAvailableUsers(activity_id){
+        return EventRepository.getAvailableUsers(activity_id);
     }
 
 }

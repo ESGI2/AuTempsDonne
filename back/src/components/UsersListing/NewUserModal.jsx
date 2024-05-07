@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import ky from 'ky';
+import CancelButton from "../Button/CancelButton.jsx";
+import ValidateButton from "../Button/ValidateButton.jsx";
+import {Alert} from "react-bootstrap";
 
 const NewUserModal = ({ onClose }) => {
     const [first_name, setFirstName] = useState('');
@@ -71,7 +74,7 @@ const NewUserModal = ({ onClose }) => {
         <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
             <div className="bg-white p-8 rounded-lg">
                 <h2 className="text-lg font-bold mb-4">Nouvel utilisateur</h2>
-                {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+                {error && <Alert type="error">{error}</Alert> }
                 <form onSubmit={handleSubmit}>
                     <div className="flex flex-col mb-4">
                         <label htmlFor="first_name" className="text-sm font-medium text-gray-700">First Name</label>
@@ -98,8 +101,8 @@ const NewUserModal = ({ onClose }) => {
                         </select>
                     </div>
                 <div className="flex justify-end">
-                    <button onClick={onClose} className="bg-gray-200 text-gray-800 px-4 py-2 rounded-md mr-2">Cancel</button>
-                    <button onClick={handleSubmit} className="bg-blue-500 text-white px-4 py-2 rounded-md">Create</button>
+                    <CancelButton onClick={onClose}>Cancel</CancelButton>.
+                    <ValidateButton type="submit">Create</ValidateButton>
                 </div>
                 </form>
             </div>

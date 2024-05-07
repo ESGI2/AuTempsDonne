@@ -112,6 +112,19 @@ class UserController {
             res.status(500).json({ "Error": "Error updating password" });
         }
     }
+
+    static async getVolunteers(req, res) {
+        try {
+            const volunteers = await UserServices.getVolunteers();
+            if (!volunteers || volunteers.length === 0) {
+                return res.status(404).json({ "Error": "No volunteers found" });
+            }
+            res.status(200).json({volunteers});
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ "Error": "Error recovering volunteers" });
+        }
+    }
 }
 
 module.exports = UserController;

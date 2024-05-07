@@ -11,4 +11,5 @@ router.put('/:id',[authMiddleware, isAdmin], maraudeController.updateMaraude);
 router.delete('/:id',[authMiddleware, isAdmin], maraudeController.deleteMaraude);
 
 
+
 module.exports = router;

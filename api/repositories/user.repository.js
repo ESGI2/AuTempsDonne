@@ -87,6 +87,20 @@ class UserRepository {
             throw error;
         }
     }
+
+    static async getVolunteers() {
+        try {
+            const volunteers = await User.findAll({
+                where: {
+                    role: ['volunteer', 'admin', 'responsable']
+                }
+            });
+            return volunteers;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
 }
 
 module.exports = UserRepository;

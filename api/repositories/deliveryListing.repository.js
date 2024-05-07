@@ -1,27 +1,46 @@
-const DeliveryListingModel = require('../models/deliveryListing.model');
+const DeliveryListing = require('../models/deliveryListing.model');
 
 class DeliveryListingRepository {
-    static async createDeliveryListing(id_product, id_delivery, departure, arrival) {
+    static async create(id_delivery, id_point, isDeparture, isArrival) {
         try {
-            const newDeliveryListing = await DeliveryListingModel.create({ id_product, id_delivery, departure, arrival });
-            return newDeliveryListing;
+            return await DeliveryListing.create({ id_delivery, id_point, isDeparture, isArrival });
         } catch (error) {
-            throw error;
+            throw new Error('Error while creating delivery listing');
         }
     }
-    static async findAllDeliveryListings() {
+    static async findByDeliveryId(id_delivery) {
         try {
-            return await DeliveryListingModel.findAll();
+            return await DeliveryListing.findAll({
+                where: {
+                    id_delivery: id_delivery
+                }
+            });
         } catch (error) {
-            throw error;
+            throw new Error('Error while finding delivery listings by id_delivery');
         }
     }
 
-    static async deleteDeliveryListing(id_product, id_delivery) {
+    static async findByDeparture() {
         try {
-            await DeliveryListingModel.destroy({ where: { id_product, id_delivery } });
+            return await DeliveryListing.findAll({
+                where: {
+                    isDeparture: true
+                }
+            });
         } catch (error) {
-            throw error;
+            throw new Error('Error while finding departure delivery listings');
+        }
+    }
+
+    static async findByArrival() {
+        try {
+            return await DeliveryListing.findAll({
+                where: {
+                    isArrival: true
+                }
+            });
+        } catch (error) {
+            throw new Error('Error while finding arrival delivery listings');
         }
     }
 }

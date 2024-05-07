@@ -1,4 +1,5 @@
 import './main.css';
+import "primereact/resources/themes/lara-light-cyan/theme.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AuthenticatedRoute from "./utils/authentication.js";
 
@@ -31,7 +32,20 @@ const router = createBrowserRouter([
     {
         path: "/calendar",
         element: <AuthenticatedRoute element={<CalendarPage />} />,
-    }
+    },
+    {
+        path: "/maraude",
+        element: <AuthenticatedRoute element={<MaraudePage />} />,
+    },
+    {
+        path: "/maraude/:id",
+        element: <AuthenticatedRoute element={<MaraudeData />} />,
+    },
+    {
+        path: "/delivery",
+        element: <AuthenticatedRoute element={<DeliveryPage />} />,
+        errorElement: <ErrorPage />,
+    },
 ]);
 
 
@@ -42,10 +56,16 @@ import Users from "./pages/Users.jsx";
 import WarehouseStockPage from "./pages/WarehouseStockPage.jsx";
 import TruckGestionPage from "./pages/TruckGestionPage.jsx";
 import CalendarPage from "./pages/CalendarPage.jsx";
+import MaraudePage from "./pages/MaraudePage.jsx";
+import DeliveryPage from "./pages/DeliveryPage.jsx";
+import {PrimeReactProvider} from "primereact/api";
+import MaraudeData from "./pages/MaraudeData.jsx";
 
 function App() {
     return (
-        <RouterProvider router={router} />
+        <PrimeReactProvider>
+            <RouterProvider router={router} />
+        </PrimeReactProvider>
     );
 }
 

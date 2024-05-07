@@ -65,6 +65,10 @@ app.use('/activity', activityRoute);
 const maraudeRoute = require('./routes/maraude.route');
 app.use('/maraude', maraudeRoute);
 
+// MARAUDE POINT ROUTE
+const maraudePointRoute = require('./routes/maraudePoint.route');
+app.use('/maraudePoint', maraudePointRoute);
+
 // STOCK ROUTE
 const stockRoutes = require('./routes/stock.routes');
 app.use('/stock', stockRoutes);
@@ -81,9 +85,17 @@ app.use('/delivery', deliveryRoutes);
 const deliveryDriverRoutes = require('./routes/deliveryDriver.route');
 app.use('/deliveryDrivers', deliveryDriverRoutes)
 
+// DELIVERY_POINT ROUTE
+const deliveryPointRoutes = require('./routes/deliveryPoint.route');
+app.use('/deliveryPoint', deliveryPointRoutes)
+
 // DELIVERY_LISTING ROUTE
 const deliveryListingRoutes = require('./routes/deliveryListing.route');
 app.use('/deliveryListing', deliveryListingRoutes)
+
+// DELIVERY_PRODUCT ROUTE
+const deliveryProductRoutes = require('./routes/deliveryProduct.route');
+app.use('/deliveryProduct', deliveryProductRoutes)
 
 // EVENT LISTING ROUTE
 const eventListingRoute = require('./routes/eventListing.route');
@@ -96,6 +108,19 @@ app.use('/training', trainingRoute);
 // TRAINING LISTING ROUTE
 const trainingListingRoute = require('./routes/trainingListing.route');
 app.use('/traininglisting', trainingListingRoute);
+
+// PATH ROUTE
+const pathRoute = require('./routes/path.route');
+app.use('/path', pathRoute);
+
+// MARAUDE PASSING ROUTE
+const maraudePassingRoute = require('./routes/maraudePassing.route');
+app.use('/maraudePassing', maraudePassingRoute);
+
+// MARAUDE CONTENT ROUTE
+const maraudeContentRoute = require('./routes/maraudeContent.route');
+app.use('/maraudeContent', maraudeContentRoute);
+
 
 // Setup default route
 app.use((req, res) => {

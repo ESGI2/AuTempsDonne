@@ -1,36 +1,36 @@
 const DeliveryListingRepository = require('../repositories/deliveryListing.repository');
-const ProductModel = require('../models/product.model');
-const DeliveryModel = require('../models/delivery.model');
 
 class DeliveryListingService {
-    static async createDeliveryListing(id_product, id_delivery, departure, arrival) {
-        try {
-            const productExists = await ProductModel.findByPk(id_product);
-            const deliveryExists = await DeliveryModel.findByPk(id_delivery);
+    static async createDeliveryListing(id_delivery, id_point, isDeparture, isArrival) {
 
-            if (!productExists || !deliveryExists) {
-                throw new Error('Les clés primaires ne sont pas valides');
-            }
-
-            return await DeliveryListingRepository.createDeliveryListing(id_product, id_delivery, departure, arrival);
-        } catch (error) {
-            console.error(error);
-            throw error;
-        }
-    }
-    static async getAllDeliveryListings() {
         try {
-            return await DeliveryListingRepository.findAllDeliveryListings();
+            return await DeliveryListingRepository.create(id_delivery, id_point, isDeparture, isArrival);
         } catch (error) {
-            throw error;
+            throw new Error('Error while creating delivery listing');
         }
     }
 
-    static async deleteDeliveryListing(id_product, id_delivery) {
+    static async findByDeliveryId(id_delivery) {
         try {
-            await DeliveryListingRepository.deleteDeliveryListing(id_product, id_delivery);
+            return await DeliveryListingRepository.findByDeliveryId(id_delivery);
         } catch (error) {
-            throw error;
+            throw new Error('Error while finding delivery listings by id_delivery');
+        }
+    }
+
+    static async findByDeparture() {
+        try {
+            return await DeliveryListingRepository.findByDeparture();
+        } catch (error) {
+            throw new Error('Error while finding departure delivery listings');
+        }
+    }
+
+    static async findByArrival() {
+        try {
+            return await DeliveryListingRepository.findByArrival();
+        } catch (error) {
+            throw new Error('Error while finding arrival delivery listings');
         }
     }
 }

@@ -1,33 +1,38 @@
-const Sequelize = require('sequelize');
+const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
+const Delivery = require('./delivery.model');
+const DeliveryPoint = require('./deliveryPoint.model');
 
-const DeliveryListingModel = sequelize.define('delivery_listing', {
-    id_product: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        references: {
-            model: 'product',
-            key: 'id'
-        }
-    },
+const DeliveryListing = sequelize.define('delivery_listing', {
     id_delivery: {
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
+        allowNull: false,
         primaryKey: true,
         references: {
-            model: 'delivery',
+            model: Delivery,
             key: 'id'
         }
     },
-    departure: {
-        type: Sequelize.INTEGER,
+    id_point: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        references: {
+            model: DeliveryPoint,
+            key: 'id'
+        }
+    },
+    isDeparture: {
+        type: DataTypes.BOOLEAN,
         allowNull: false
     },
-    arrival: {
-        type: Sequelize.INTEGER,
+    isArrival: {
+        type: DataTypes.BOOLEAN,
         allowNull: false
-    }}, {
+    }
+}, {
     tableName: 'delivery_listing',
-    timestamps: false
+    timestamps: false,
 });
 
-module.exports = DeliveryListingModel;
+module.exports = DeliveryListing;

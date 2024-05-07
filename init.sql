@@ -109,11 +109,10 @@ ADD COLUMN plaque_immatriculation varchar(20) NOT NULL;
 
 CREATE TABLE if not exists maraude(
     id integer NOT NULL AUTO_INCREMENT,
-    date date NOT NULL,
-    duration integer NOT NULL,
     id_truck integer NOT NULL,
-    people_needed integer NOT NULL,
+    id_event integer NOT NULL,
     FOREIGN KEY (id_truck) REFERENCES truck(id),
+    FOREIGN KEY (id_event) REFERENCES event(id),
     PRIMARY KEY (id)
 );
 
@@ -132,13 +131,15 @@ CREATE TABLE if not exists maraude_point(
     city varchar(50) NOT NULL,
     postal_code varchar(50) NOT NULL,
     road varchar(50) NOT NULL,
-    road_number integer NOT NULL,
+    lat varchar(10) NOT NULL,
+    lon varchar(10) NOT NULL,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE if not exists maraude_passing(
     id_maraude integer NOT NULL,
     id_maraude_point integer NOT NULL,
+    step integer NOT NULL,
     FOREIGN KEY (id_maraude) REFERENCES maraude(id),
     FOREIGN KEY (id_maraude_point) REFERENCES maraude_point(id),
     PRIMARY KEY (id_maraude, id_maraude_point)
@@ -149,8 +150,28 @@ CREATE TABLE if not exists delivery(
     departure date NOT NULL,
     theorical_arrival date NOT NULL,
     id_truck integer NOT NULL,
+    status integer NOT NULL,
     FOREIGN KEY (id_truck) REFERENCES truck(id),
     PRIMARY KEY (id)
+);
+
+CREATE TABLE if not exists Delivery_point (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    type VARCHAR(255),
+    name VARCHAR(255),
+    country VARCHAR(255),
+    city VARCHAR(255),
+    postal_code VARCHAR(20),
+    road VARCHAR(255)
+);
+
+CREATE TABLE Delivery_listing (
+    id_delivery INT,
+    id_point INT,
+    isDeparture BOOLEAN,
+    isArrival BOOLEAN,
+    FOREIGN KEY (id_delivery) REFERENCES delivery(id),
+    FOREIGN KEY (id_point) REFERENCES Delivery_point(id)
 );
 
 CREATE TABLE if not exists product(

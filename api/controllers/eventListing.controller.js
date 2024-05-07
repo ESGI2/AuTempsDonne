@@ -6,7 +6,7 @@ class EventListingController {
         try {
             const {id_user, id_event} = req.body;
             const result = await EventListingService.addUserToEvent(id_user, id_event);
-            res.status(201).json(result);
+            res.status(201).json("User added to event");
         } catch (error) {
             console.error(error);
             res.status(500).json({"Error": "Error adding user to event"});
@@ -37,9 +37,10 @@ class EventListingController {
 
     static async deleteUserListing(req, res) {
         try {
-            const {id_user, id_event} = req.body;
+            const {id_user, id_event} = req.query;
             const result = await EventListingService.deleteUserListing(id_user, id_event);
-            res.status(200).json({Message: "User deleted from event"});
+            if (result) res.status(200).json({Message: "User deleted from event"});
+            else res.status(404).json({Error: "Error deleting user from event"});
         } catch (error) {
             console.error(error);
             res.status(500).json({"Error": "Error deleting user from event"});

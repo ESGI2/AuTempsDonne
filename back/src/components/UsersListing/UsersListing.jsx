@@ -6,6 +6,7 @@ import Beneficiary_img from "../../assets/images/Beneficiary.svg";
 import Volunteer_img from "../../assets/images/Volunteer.svg";
 import EditUserModal from "./EditUserModal.jsx";
 import NewUserModal from "./NewUserModal.jsx";
+import ClassicButton from "../Button/ClassicButton.jsx";
 
 const role = {
     admin : Admin_img,
@@ -61,7 +62,7 @@ const UsersListing = () => {
 
     return (
 
-        <div className="rounded-lg border border-gray-200">
+        <div className="rounded-lg border border-gray-200 w-100">
             {(showModal === "edit") && <EditUserModal user={selectedUser} onClose={closeModal} />}
             {(showModal === "new") && <NewUserModal onClose={closeModal} />}
             <h1 className="text-2xl font-semibold text-gray-900 px-4 py-6 text-center">Users</h1>
@@ -92,9 +93,7 @@ const UsersListing = () => {
                                 <td className="whitespace nowrap px-4 py-2 text-gray-700">{user.registration_date}</td>
                                 <td className="whitespace nowrap px-4 py-2 text-gray-700">{user.account_status}</td>
                                 <td className="whitespace nowrap px-4 py-2 text-gray-700">
-                                    <button onClick={() => openModal(user, "edit")} className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">
-                                        Edit
-                                    </button>
+                                    <ClassicButton onClick={() => openModal(user, "edit")} text="Edit">Edit</ClassicButton>
                                 </td>
                             </tr>
                         ) )}
@@ -103,86 +102,7 @@ const UsersListing = () => {
             </div>
 
             <div className="rounded-b-lg border-t border-gray-200 px-4 py-2">
-                <button onClick={() => openModal(null, "new")}
-                        className="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded">
-                    New User
-                </button>
-
-
-                {/*<ol className="flex justify-end gap-1 text-xs font-medium">*/}
-                {/*    <li>*/}
-                {/*        <a*/}
-                {/*            href="#"*/}
-                {/*            className="inline-flex size-8 items-center justify-center rounded border border-gray-100 bg-white text-gray-900 rtl:rotate-180"*/}
-                {/*        >*/}
-                {/*            <span className="sr-only">Prev Page</span>*/}
-                {/*            <svg*/}
-                {/*                xmlns="http://www.w3.org/2000/svg"*/}
-                {/*                className="h-3 w-3"*/}
-                {/*                viewBox="0 0 20 20"*/}
-                {/*                fill="currentColor"*/}
-                {/*            >*/}
-                {/*                <path*/}
-                {/*                    fillRule="evenodd"*/}
-                {/*                    d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"*/}
-                {/*                    clipRule="evenodd"*/}
-                {/*                />*/}
-                {/*            </svg>*/}
-                {/*        </a>*/}
-                {/*    </li>*/}
-
-                {/*    <li>*/}
-                {/*        <a*/}
-                {/*            href="#"*/}
-                {/*            className="block size-8 rounded border border-gray-100 bg-white text-center leading-8 text-gray-900"*/}
-                {/*        >*/}
-                {/*            1*/}
-                {/*        </a>*/}
-                {/*    </li>*/}
-
-                {/*    <li className="block size-8 rounded border-blue-600 bg-blue-600 text-center leading-8 text-white">*/}
-                {/*        2*/}
-                {/*    </li>*/}
-
-                {/*    <li>*/}
-                {/*        <a*/}
-                {/*            href="#"*/}
-                {/*            className="block size-8 rounded border border-gray-100 bg-white text-center leading-8 text-gray-900"*/}
-                {/*        >*/}
-                {/*            3*/}
-                {/*        </a>*/}
-                {/*    </li>*/}
-
-                {/*    <li>*/}
-                {/*        <a*/}
-                {/*            href="#"*/}
-                {/*            className="block size-8 rounded border border-gray-100 bg-white text-center leading-8 text-gray-900"*/}
-                {/*        >*/}
-                {/*            4*/}
-                {/*        </a>*/}
-                {/*    </li>*/}
-
-                {/*    <li>*/}
-                {/*        <a*/}
-                {/*            href="#"*/}
-                {/*            className="inline-flex size-8 items-center justify-center rounded border border-gray-100 bg-white text-gray-900 rtl:rotate-180"*/}
-                {/*        >*/}
-                {/*            <span className="sr-only">Next Page</span>*/}
-                {/*            <svg*/}
-                {/*                xmlns="http://www.w3.org/2000/svg"*/}
-                {/*                className="h-3 w-3"*/}
-                {/*                viewBox="0 0 20 20"*/}
-                {/*                fill="currentColor"*/}
-                {/*            >*/}
-                {/*                <path*/}
-                {/*                    fillRule="evenodd"*/}
-                {/*                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"*/}
-                {/*                    clipRule="evenodd"*/}
-                {/*                />*/}
-                {/*            </svg>*/}
-                {/*        </a>*/}
-                {/*    </li>*/}
-                {/*</ol>*/}
+                <ClassicButton onClick={() => openModal(null, "new")} text="Add User">Add User</ClassicButton>
             </div>
         </div>
     );

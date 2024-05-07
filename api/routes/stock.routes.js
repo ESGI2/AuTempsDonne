@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.post('/', authMiddleware ,StockController.addStock);
 router.get('/', authMiddleware ,StockController.getStockQuantity);
+router.get('/:warehouseId', authMiddleware ,StockController.getStockQuantityByWarehouseId);
 router.get('/all', authMiddleware ,StockController.getAllStocks);
 router.patch('/:productId/:warehouseId/:quantity', authMiddleware , StockController.updateStockQuantity);
 

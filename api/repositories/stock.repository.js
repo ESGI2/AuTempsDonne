@@ -60,6 +60,16 @@ class StockRepository {
             throw error;
         }
     }
+
+    static async getAllStockWarehouse(warehouseId){
+        try {
+            const stock = await Stock.findAll({where : { id_warehouse : warehouseId  }});
+            return stock;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
 }
 
 module.exports = StockRepository;
