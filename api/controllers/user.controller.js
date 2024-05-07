@@ -125,6 +125,22 @@ class UserController {
             res.status(500).json({ "Error": "Error recovering volunteers" });
         }
     }
+
+    static async getNewsletterSubscribers(req, res) {
+        try {
+            const subscribers = await UserServices.getNewsletterSubscribers();
+            if (!subscribers || subscribers.length === 0) {
+                return res.status(404).json({ "Error": "No subscribers found" });
+            }
+            const emails = subscribers.map(user => user.email);
+            res.status(200).json({ "Message": "Newsletter subscribers retrieved", emails });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ "Error": "Error retrieving newsletter subscribers" });
+        }
+    }
+
+
 }
 
 module.exports = UserController;
