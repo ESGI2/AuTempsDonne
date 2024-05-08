@@ -4,10 +4,10 @@ const authMiddleware = require("../middlewares/authMiddleware");
 
 const router = express.Router();
 
+router.get('/all', authMiddleware ,StockController.getAllStocks);
 router.post('/', authMiddleware ,StockController.addStock);
 router.get('/', authMiddleware ,StockController.getStockQuantity);
-router.get('/:warehouseId', authMiddleware ,StockController.getStockQuantityByWarehouseId);
-router.get('/all', authMiddleware ,StockController.getAllStocks);
 router.patch('/:productId/:warehouseId/:quantity', authMiddleware , StockController.updateStockQuantity);
+router.get('/:warehouseId', authMiddleware ,StockController.getStockQuantityByWarehouseId);
 
 module.exports = router;

@@ -28,6 +28,8 @@ class StockRepository {
     static async getAllStocks() {
         try {
             const allStocks = await Stock.findAll();
+            console.log(allStocks)
+            console.log("aaaaaaaaaa")
             return allStocks;
         } catch (error) {
             console.error(error);

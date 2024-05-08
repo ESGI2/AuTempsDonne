@@ -32,6 +32,7 @@ class StockController {
 
     static async getAllStocks(req, res) {
         try {
+            console.log("a")
             const allStocks = await StockService.getAllStocks();
             res.status(200).json(allStocks);
         } catch (error) {
@@ -39,6 +40,7 @@ class StockController {
             res.status(500).json({ error: 'Error during stock get' });
         }
     }
+
 
     static async updateStockQuantity(req, res) {
         const productId = req.params.productId;
