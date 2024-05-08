@@ -55,7 +55,7 @@ const WarehouseStock = () => {
     const [stocks, setStocks] = useState([]);
     const [warehouses, setWarehouses] = useState([]);
     const [showModal, setShowModal] = useState(false);
-    const [quantityToAdd, setQuantityToAdd] = useState(0);
+    const [quantityToAddMap, setQuantityToAddMap] = useState({});
 
     useEffect(() => {
         getAllProducts().then((data) => {
@@ -79,13 +79,20 @@ const WarehouseStock = () => {
         setShowModal(false);
     };
 
-    const handleChangeQuantity = (event) => {
-        setQuantityToAdd(event.target.value);
+    const handleChangeQuantity = (event, productId) => {
+        const value = event.target.value;
+        setQuantityToAddMap(prevState => ({
+            ...prevState,
+            [productId]: value
+        }));
     };
 
     const handleModifyQuantity = (id, warehouseId) => {
+        const quantityToAdd = quantityToAddMap[id] || 0;
         patchProductquantity(id, warehouseId, quantityToAdd)
             .then(() => {
+                // Actualiser la page après la modification
+                window.location.reload();
             })
             .catch((error) => {
                 console.error('Une erreur s\'est produite :', error);
@@ -95,8 +102,6 @@ const WarehouseStock = () => {
     const dataRows = products.map(product => {
         const stock = stocks.find(stock => stock.id_product === product.id);
         const warehouse = stock ? warehouses.find(warehouse => warehouse.id === stock.id_warehouse) : null;
-
-        console.log(stock)
 
         return {
             id: product.id,
@@ -138,7 +143,7 @@ const WarehouseStock = () => {
                             <td className="py-2.5 px-3">{row.donation ? "oui" : "non "}</td>
                             <td className="py-2.5 px-3">{row.warehouseName}</td>
                             <td className="py-2.5 px-3">
-                                <input className="border border-black rounded-md" type="number" value={quantityToAdd} onChange={handleChangeQuantity} />
+                                <input className="border border-black rounded-md" type="number" value={quantityToAddMap[row.id] || ''} onChange={(event) => handleChangeQuantity(event, row.id)} />
                                 <button onClick={() => handleModifyQuantity(row.id, row.warehouseId)}>Modifier</button>
                             </td>
                         </tr>

@@ -109,6 +109,10 @@ app.use('/training', trainingRoute);
 const trainingListingRoute = require('./routes/trainingListing.route');
 app.use('/traininglisting', trainingListingRoute);
 
+// NEWSLETTER ROUTE
+const newsletterRoute = require('./routes/newsletter.route');
+app.use('/newsletter', newsletterRoute);
+
 // PATH ROUTE
 const pathRoute = require('./routes/path.route');
 app.use('/path', pathRoute);
@@ -120,6 +124,7 @@ app.use('/maraudePassing', maraudePassingRoute);
 // MARAUDE CONTENT ROUTE
 const maraudeContentRoute = require('./routes/maraudeContent.route');
 app.use('/maraudeContent', maraudeContentRoute);
+
 
 
 // Setup default route
