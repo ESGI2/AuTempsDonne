@@ -11,6 +11,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var qrCodeButton: ImageView
     private lateinit var nfcButton: ImageView
     private lateinit var logoutButton: ImageView
+    private lateinit var authManager: AuthManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,9 +24,11 @@ class MainActivity : AppCompatActivity() {
 
         homeButton.setOnClickListener {}
 
+        authManager = AuthManager(this)
+
         qrCodeButton.setOnClickListener {
-            val intent = Intent(this, QRCodeActivity::class.java)
-            startActivity(intent)
+           // val intent = Intent(this, QRCodeActivity::class.java)
+           // startActivity(intent)
         }
 
         nfcButton.setOnClickListener {
@@ -33,7 +36,9 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+
         logoutButton.setOnClickListener {
+            authManager.logout()
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()
