@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import LightNavbar from "../components/LightNavbar/LightNavbar.jsx";
 import MaraudeInformations from "../components/Maraude/MaraudeInformations.jsx";
 import ky from "ky";
 import {Alert} from "react-bootstrap";
 import TruckInformations from "../components/Maraude/TruckInformations.jsx";
+import MaraudeProductData from "../components/Maraude/MaraudeProductData.jsx";
 
 const MaraudeData = () => {
     // State
@@ -15,7 +16,6 @@ const MaraudeData = () => {
         getMaraudeInformations(id)
             .then((data) => {
                 setMaraude(data); //
-                console.log(data); //
             })
             .catch((error) => {
                 setError(error.message);
@@ -45,6 +45,7 @@ const MaraudeData = () => {
                 {error && <Alert variant="danger">{error}</Alert>}
                 <MaraudeInformations information={maraude}/>
                 <TruckInformations information={maraude}/>
+                <MaraudeProductData information={maraude}/>
             </div>
         </div>
     );

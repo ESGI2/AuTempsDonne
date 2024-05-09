@@ -32,10 +32,12 @@ const router = createBrowserRouter([
     {
         path: "/calendar",
         element: <AuthenticatedRoute element={<CalendarPage />} />,
+        errorElement: <ErrorPage />,
     },
     {
         path: "/maraude",
         element: <AuthenticatedRoute element={<MaraudePage />} />,
+        errorElement: <ErrorPage />,
     },
     {
         path: "/maraude/:id",

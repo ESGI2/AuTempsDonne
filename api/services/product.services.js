@@ -21,6 +21,15 @@ class ProductService {
         }
     }
 
+    static async getProductById(id) {
+        try {
+            return await ProductRepository.getProductById(id);
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
     static async deleteProductByName(name) {
         try {
             const product = await ProductRepository.getProductByName(name);
