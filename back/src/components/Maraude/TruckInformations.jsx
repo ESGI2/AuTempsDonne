@@ -14,7 +14,11 @@ const TruckInformations = ({information}) => {
 
 
     if (!maraude) {
-        return <div>Loading...</div>;
+        return (
+            <div className="spinner-border" role="status">
+            <span className="sr-only">Loading...</span>
+        </div>
+        );
     }
 
     // Affichage

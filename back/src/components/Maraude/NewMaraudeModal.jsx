@@ -3,7 +3,6 @@ import { Modal, Form, Alert } from 'react-bootstrap';
 import CancelButton from "../Button/CancelButton.jsx";
 import ClassicButton from "../Button/ClassicButton.jsx";
 import ky from 'ky';
-import DeleteButton from "../Button/DeleteButton.jsx";
 
 const NewMaraudeModal = ({ closeModal }) => {
     const [error, setError] = useState(null);
@@ -19,6 +18,9 @@ const NewMaraudeModal = ({ closeModal }) => {
     });
     const [inter, setInter] = useState([]);
     const [points, setPoints] = useState([]);
+    const [products, setProducts] = useState([]);
+    // Tableau associatif de produit avec la quantité
+    const [selectedProducts, setSelectedProducts] = useState([]);
 
     const handleClose = () => {
         setShow(false);
@@ -41,7 +43,7 @@ const NewMaraudeModal = ({ closeModal }) => {
                     road_start: formData.road_start,
                     road_end: formData.road_end,
                     road_inter: inter.join(','),
-                    product: "1:5",
+                    product: selectedProducts.map(p => `${p.productObject.id}:${p.quantity}`).join(','),
                     truck: 1
                 },
                 credentials: 'include'
@@ -54,23 +56,57 @@ const NewMaraudeModal = ({ closeModal }) => {
     const handleNextStep = () => {
         if (step === 1) {
             if (validateForm()) {
+                setError(null)
                 setStep(2);
             }
         }
         if (step === 2) {
-            handleSubmit().then(() => {
-                console.log('Maraude créée');
-            });
+            if (validateForm()) {
+                setError(null)
+                setStep(3);
+            }
+        }
+        if (step === 3) {
+            if (validateForm()) {
+                handleSubmit();
+            }
         }
     }
 
+    const handleAddProduct = (e) => {
+        e.preventDefault();
+        const product = document.getElementById('productOption').value;
+        const productObject = products.find(p => p.id === parseInt(product));
+
+        // Vérifier si le produit est déjà dans la liste
+        if (selectedProducts.find(p => p.productObject.id === productObject.id)) {
+            setError('Le produit est déjà dans la liste');
+            return;
+        }
+
+        const quantity = document.getElementById('productQuantity').value;
+
+        // Vérifier si la quantité est de 0 ou vide
+        if (quantity === '0' || quantity === '') {
+            setError('La quantité ne peut pas être de 0');
+            return;
+        }
+
+        setError(null);
+        setSelectedProducts([...selectedProducts, { productObject, quantity }]);
+
+        // Reset les champs
+        document.getElementById('productOption').value = '';
+        document.getElementById('productQuantity').value = '';
+    }
+
     const validateForm = () => {
-        const { name, description, date_start, date_end, road_start, road_end, inter } = formData;
+        const { name, description, date_start, date_end, road_start, road_end } = formData;
         if (step === 1 && (name === '' || description === '' || date_start === '' || date_end === '')) {
             setError('Veuillez remplir tous les champs');
             return false;
-        } else if (step === 2 && (road_start === null || road_end === null || selectedPoints.length === 0)) {
-            setError('Veuillez sélectionner un point de départ, un point d\'arrivée et au moins un point intermédiaire');
+        } else if (step === 2 && (road_start === null || road_end === null)) {
+            setError('Veuillez sélectionner un point de départ, un point d\'arrivée');
             return false;
         }
         return true;
@@ -87,8 +123,20 @@ const NewMaraudeModal = ({ closeModal }) => {
         }
     }
 
+    const fetchProducts = async () => {
+        try {
+            const data = await ky.get('http://localhost:3000/product', {
+                credentials: 'include'
+            }).json();
+            setProducts(data);
+        } catch (error) {
+            setError(error.message);
+        }
+    }
+
     useEffect(() => {
         fetchPoints();
+        fetchProducts();
     }, []);
 
     return (
@@ -207,11 +255,44 @@ const NewMaraudeModal = ({ closeModal }) => {
                                 </Form.Group>
                             </>
                         )}
-
+                        {/* Ici nous allons nous occuper de la gestion des denrées pour la maraude */}
+                        {/* On liste les produit dans un select option avec à coté un input number*/}
+                        {/*Enfin, un bouton ajouter qui va ajouter le produit a la liste des produit selectionner*/}
+                        {step === 3 && (
+                            <>
+                                <Form.Group controlId="formProducts">
+                                    <Form.Label>Produits</Form.Label>
+                                    <div className="d-flex">
+                                        <select id="productOption">
+                                            <option value="">Sélectionnez un produit</option>
+                                            {products.map(product => (
+                                                <option key={product.id} value={product.id}>{product.name}</option>
+                                            ))}
+                                        </select>
+                                        <input type="number" id="productQuantity" placeholder="Quantité" />
+                                        <ClassicButton onClick={handleAddProduct}>Ajouter</ClassicButton>
+                                    </div>
+                                </Form.Group>
+                                <Form.Group controlId="formSelectedProducts">
+                                    {(selectedProducts.length !== 0) && <Form.Label>Produits sélectionnés</Form.Label>}
+                                    <ul>
+                                        {selectedProducts.map((product, index) => (
+                                            <div key={index} className="d-flex">
+                                                <li key={index}>{product.productObject.name} - {product.quantity}</li>
+                                                <p onClick={() => {
+                                                    setSelectedProducts(selectedProducts.filter((_, i) => i !== index))
+                                                }}
+                                                className="border-3 border-danger text-center bg-danger text-white cursor-pointer pl-1 pr-1 rounded ml-2">X</p>
+                                            </div>
+                                        ))}
+                                    </ul>
+                                </Form.Group>
+                            </>
+                        )}
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <ClassicButton onClick={handleNextStep}>{step === 2 ? 'Créer' : 'Suivant'}</ClassicButton>
+                    <ClassicButton onClick={handleNextStep}>{step === 3 ? 'Créer' : 'Suivant'}</ClassicButton>
                     <CancelButton onClick={handleClose}>Annuler</CancelButton>
                 </Modal.Footer>
             </Modal>
