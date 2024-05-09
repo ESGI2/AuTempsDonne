@@ -69,6 +69,7 @@ const NewMaraudeModal = ({ closeModal }) => {
         if (step === 3) {
             if (validateForm()) {
                 handleSubmit();
+                handleClose();
             }
         }
     }
@@ -87,8 +88,8 @@ const NewMaraudeModal = ({ closeModal }) => {
         const quantity = document.getElementById('productQuantity').value;
 
         // Vérifier si la quantité est de 0 ou vide
-        if (quantity === '0' || quantity === '') {
-            setError('La quantité ne peut pas être de 0');
+        if (quantity <= '0' || quantity === '') {
+            setError('La quantité ne peut pas être de 0, moins, ou vide');
             return;
         }
 
