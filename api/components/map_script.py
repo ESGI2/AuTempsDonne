@@ -1,15 +1,3 @@
-
-# Préparation du systeme de routing (plus réaliste)
-#def get_directions_response(lat1, long1, lat2, long2, mode='drive'):
-#    url = "https://route-and-directions.p.rapidapi.com/v1/routing"
-#    key = "f8c2895173msh8ae7aac45a55f9ep194714jsn263a04ec86bb"  # Remplacez "YOUR-API-KEY" par votre clé API
-#    host = "route-and-directions.p.rapidapi.com"
-#    headers = {"X-RapidAPI-Key": key, "X-RapidAPI-Host": host}
-#    querystring = {"waypoints":f"{str(lat1)},{str(long1)}|{str(lat2)},{str(long2)}","mode":mode}
-#    response = requests.request("GET", url, headers=headers, params=querystring)
-#    return response
-
-
 import boto3
 import sys
 import json

@@ -143,8 +143,6 @@ class MaraudeController{
 
             console.log('Response sent!')
 
-            // TODO : Crée les maraudes content pour chaque produit de la maraude (id_maraude, id_product, quantity)
-
             const products = product.split(',').map(p => {
                 const [id_product, quantity] = p.split(':');
                 return { id_product, quantity };

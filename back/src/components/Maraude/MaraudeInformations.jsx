@@ -16,12 +16,16 @@ const MaraudeInformations = ({information}) => {
     }
 
     if (!maraude) {
-        return <div>Loading...</div>;
+        return (
+            <div className="spinner-border" role="status">
+            <span className="sr-only">Loading...</span>
+        </div>
+        )
     }
 
     return (
         <div className="card maraude-informations-container">
-            <div className="card-body">
+        <div className="card-body">
                 <h5 className="card-title text-center">Informations de la maraude</h5>
                 <div className="card-text">
                     <p><strong>Id :</strong> {maraude.event?.id}</p>
