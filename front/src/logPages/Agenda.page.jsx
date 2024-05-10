@@ -1,12 +1,12 @@
 import Footer from "../component/footer/footer.jsx";
-import Agenda from "../component/agenda/agenda.jsx";
+import Calendar from "../component/agenda/Calendar.jsx";
 import LogHeader from "../component/header/logHeader.jsx";
 
 function AgendaPage() {
     return (
         <>
             <LogHeader/>
-             <Agenda/>
+             <Calendar/>
             <Footer/>
         </>
     );
