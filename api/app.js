@@ -125,6 +125,9 @@ app.use('/maraudePassing', maraudePassingRoute);
 const maraudeContentRoute = require('./routes/maraudeContent.route');
 app.use('/maraudeContent', maraudeContentRoute);
 
+// WASABI ROUTE
+const wasabiRoute = require('./routes/wasabi.route');
+app.use('/wasabi', wasabiRoute);
 
 
 // Setup default route
