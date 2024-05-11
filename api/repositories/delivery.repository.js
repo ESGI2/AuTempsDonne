@@ -2,7 +2,7 @@ const Delivery = require('../models/delivery.model');
 const DeliveryProduct = require('../models/deliveryProduct.model');
 const DeliveryListing = require('../models/deliveryListing.model');
 const Warehouse = require('../models/warehouse.model');
-const Stock = require('../models/Stock.model');
+const Stock = require('../models/stock.model');
 
 class DeliveryRepository {
     static async createDelivery(departure, theoretical_arrival, id_truck,status) {
