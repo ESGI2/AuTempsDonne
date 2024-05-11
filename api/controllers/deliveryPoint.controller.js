@@ -3,8 +3,8 @@ const DeliveryPoint = require('../models/deliveryPoint.model');
 
 class DeliveryPointController {
     static async createDeliveryPoint(req, res) {
-        const { type, name, country, city, postal_code, road } = req.query;
         try {
+            const { type, name, country, city, postal_code, road } = req.body;
             const newDeliveryPoint = await DeliveryPointService.createDeliveryPoint({ type, name, country, city, postal_code, road });
             return res.status(201).json(newDeliveryPoint);
         } catch (error) {

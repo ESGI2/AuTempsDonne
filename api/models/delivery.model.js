@@ -9,14 +9,6 @@ const Delivery = sequelize.define('delivery', {
         primaryKey: true,
         autoIncrement: true
     },
-    departure: {
-        type: Sequelize.DATE,
-        allowNull: false
-    },
-    theoretical_arrival: {
-        type: Sequelize.DATE,
-        allowNull: false
-    },
     id_truck: {
         type: Sequelize.INTEGER,
         allowNull: false,

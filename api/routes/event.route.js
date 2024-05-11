@@ -6,9 +6,8 @@ const isAdmin = require('../middlewares/isAdmin');
 const isVolunteer = require('../middlewares/isVolunteer');
 
 router.get('/availableUser' ,[authMiddleware, isAdmin], eventController.getAvailableUsers);
-router.get('/',[authMiddleware, isVolunteer], eventController.getAllEvents);
-router.get('/:id',[authMiddleware, isAdmin], eventController.getEventById);
 router.get('/user/:id',[authMiddleware, isVolunteer], eventController.getEventByUserId);
+router.get('/',[authMiddleware, isVolunteer], eventController.getAllEvents);
 router.post('/',[authMiddleware, isAdmin], eventController.addEvent);
 router.put('/:id',[authMiddleware, isAdmin], eventController.updateEvent);
 router.delete('/:id',[authMiddleware, isAdmin], eventController.deleteEvent);
