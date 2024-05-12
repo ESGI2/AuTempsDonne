@@ -1,5 +1,8 @@
 const DeliveryProductService = require('../services/deliveryProduct.service');
 const ProductService = require("../services/product.services");
+const DeliveryListingService = require("../services/deliveryListing.service");
+const WarehouseService = require("../services/warehouse.service");
+const StockService = require("../services/stock.service");
 
 class DeliveryProductController {
     static async addDeliveryProduct(req, res) {
@@ -19,14 +22,20 @@ class DeliveryProductController {
 
     static async addDeliveryProductIfNotExist(req, res) {
         try {
-            const { name , type , id_delivery, id_product, quantity } = req.body;
+            const { name , type , id_delivery, quantity } = req.body;
 
-            if (!id_product || !id_delivery || !quantity || !name || !type) {
+            if ( !id_delivery || !quantity || !name || !type) {
                 return res.status(400).json({ error: 'Provide all necessary parameters' });
             }
             const donation = true
 
             const newProduct = await ProductService.addProduct(name, type, donation);
+            const lastStep = await DeliveryListingService.findDeliveryLastStep(id_delivery)
+            const warehouses = await WarehouseService.getWarehouseIdByDeliveryPoint(lastStep);
+
+            const stock = await StockService.addStock(newProduct.id, warehouses.id, quantity)
+
+
 
             
 
