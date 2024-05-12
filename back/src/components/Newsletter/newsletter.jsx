@@ -84,7 +84,7 @@ function NewsletterForm() {
                                         <textarea id="formMessage" name="message" className="form-control"
                                                   rows="4" value={message} onChange={handleMessageChange}></textarea>
                                     </div>
-                                    <button type="submit" className="btn btn-primary btn-block mb-4">
+                                    <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">
                                         Envoyer
                                     </button>
                                 </form>

@@ -10,11 +10,6 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
     },
     {
-        path: "/admin",
-        element: <AuthenticatedRoute element={<Home />} />,
-        errorElement: <ErrorPage />,
-    },
-    {
         path: "/users",
         element: <AuthenticatedRoute element={<Users />} />,
         errorElement: <ErrorPage />,
