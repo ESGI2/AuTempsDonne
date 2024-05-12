@@ -28,21 +28,15 @@ class DeliveryListingService {
         }
     }
 
-    static async findByDeparture() {
+    static async findDeliveryLastStep(delivery_id) {
         try {
-            return await DeliveryListingRepository.findByDeparture();
+            return await DeliveryListingRepository.findDeliveryLastStep(delivery_id);
         } catch (error) {
-            throw new Error('Error while finding departure delivery listings');
+            throw new Error('Error while finding last step delivery listings ');
         }
     }
 
-    static async findByArrival() {
-        try {
-            return await DeliveryListingRepository.findByArrival();
-        } catch (error) {
-            throw new Error('Error while finding arrival delivery listings');
-        }
-    }
+
 }
 
 module.exports = DeliveryListingService;

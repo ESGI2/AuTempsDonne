@@ -31,29 +31,28 @@ class DeliveryListingRepository {
         }
     }
 
-    static async findByDeparture() {
+    static async findDeliveryLastStep(delivery_id) {
         try {
-            return await DeliveryListing.findAll({
+            const lastStepDelivery = await DeliveryListing.findOne({
                 where: {
-                    isDeparture: true
-                }
+                    id_delivery: delivery_id // Utilisation correcte du paramètre delivery_id
+                },
+                order: [['step', 'DESC']],
+                limit: 1
             });
+
+            if (lastStepDelivery) {
+                return lastStepDelivery.id_point;
+            } else {
+                return null;
+            }
         } catch (error) {
-            throw new Error('Error while finding departure delivery listings');
+            throw new Error('Error while finding last step of delivery');
         }
     }
 
-    static async findByArrival() {
-        try {
-            return await DeliveryListing.findAll({
-                where: {
-                    isArrival: true
-                }
-            });
-        } catch (error) {
-            throw new Error('Error while finding arrival delivery listings');
-        }
-    }
+
+
 }
 
 module.exports = DeliveryListingRepository;
