@@ -1,0 +1,64 @@
+services:
+  db:
+    image: mysql:8.3.0
+    environment:
+      MYSQL_ROOT_PASSWORD: Respons11
+      MYSQL_DATABASE: atd_api
+      MYSQL_USER: user
+      MYSQL_PASSWORD: Azerty11
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 10s
+      retries: 10
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  myAdmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "3001:80"
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: Respons11
+    depends_on:
+      db:
+        condition: service_healthy
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      DB_DIALECT: mysql
+      DB_HOST: 172.22.0.2
+      DB_USER: user
+      DB_PASS: Azerty11
+      DB_NAME: atd_api
+      ACCESS_TOKEN_SECRET: secret
+    depends_on:
+      db:
+        condition: service_healthy
+
+  backend:
+    build:
+      context: ./back
+      dockerfile: Dockerfile
+    ports:
+      - "8081:80"
+    depends_on:
+      - api
+
+  frontend:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+volumes:
+  db-data:
