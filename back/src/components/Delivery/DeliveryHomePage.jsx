@@ -111,6 +111,33 @@ const DeliveryHomePage = () => {
         });
     };
 
+    async function downloadMap(id) {
+        try {
+            console.log("Téléchargement de la carte...");
+            const response = await fetch(`http://localhost:3000/wasabi/delivery/${id}`);
+
+            if (!response.ok) {
+                throw new Error('Error downloading file');
+            }
+
+            const fileContent = await response.text();
+            const blob = new Blob([fileContent], { type: 'text/html' });
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `delivery_map${id}.html`;
+
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+
+        } catch (error) {
+            console.error('Error downloading map:', error);
+        }
+    }
+
+
     const formatDate = (dateTimeString) => {
         const date = new Date(dateTimeString);
         const formattedDate = date.toLocaleDateString();
@@ -235,8 +262,9 @@ const DeliveryHomePage = () => {
                                     <label>Point de départ:</label>
                                     <select className="form-control" name="road_start"
                                             value={deliveryFormData.road_start} onChange={handleDeliveryFormChange}>
+                                        <option value="">Sélectionner un point de départ</option>
                                         {warehouses.map((warehouse) => (
-                                            <option key={warehouse.id} value={warehouse.id}>
+                                            <option key={warehouse.id_delivery_point} value={warehouse.id_delivery_point}>
                                                 {warehouse.name}
                                             </option>
                                         ))}
@@ -246,8 +274,9 @@ const DeliveryHomePage = () => {
                                     <label>Point d'arrivée:</label>
                                     <select className="form-control" name="road_end" value={deliveryFormData.road_end}
                                             onChange={handleDeliveryFormChange}>
+                                        <option value="">Sélectionner un point d'arrivé</option>
                                         {warehouses.map((warehouse) => (
-                                            <option key={warehouse.id} value={warehouse.id}>
+                                            <option key={warehouse.id_delivery_point} value={warehouse.id_delivery_point}>
                                                 {warehouse.name}
                                             </option>
                                         ))}
@@ -355,6 +384,7 @@ const DeliveryHomePage = () => {
                     <th className="py-2.5 px-3 text-left border border-gray-200">Date de début</th>
                     <th className="py-2.5 px-3 text-left border border-gray-200">Date de fin</th>
                     <th className="py-2.5 px-3 text-left border border-gray-200">Titre</th>
+                    <th className="py-2.5 px-3 text-left border border-gray-200">Download</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -367,6 +397,11 @@ const DeliveryHomePage = () => {
                             <td className="py-2.5 px-3 border border-gray-200">{matchingEvent ? formatDate(matchingEvent.start) : ''}</td>
                             <td className="py-2.5 px-3 border border-gray-200">{matchingEvent ? formatDate(matchingEvent.end) : ''}</td>
                             <td className="py-2.5 px-3 border border-gray-200">{matchingEvent ? matchingEvent.title : ''}</td>
+                            <td className="py-2.5 px-3 border border-gray-200">
+                                <button className="btn btn-primary" onClick={() => downloadMap(delivery.id)}>
+                                    Télécharger
+                                </button>
+                            </td>
                         </tr>
                     );
                 })}
