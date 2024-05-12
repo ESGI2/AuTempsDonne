@@ -3,7 +3,7 @@ const DeliveryProductService = require('../services/deliveryProduct.service');
 class DeliveryProductController {
     static async addDeliveryProduct(req, res) {
         try {
-            const { id_product, id_delivery, quantity } = req.query;
+            const { id_delivery, id_product, quantity } = req.body;
 
             if (!id_product || !id_delivery || !quantity) {
                 return res.status(400).json({ error: 'Provide all necessary parameters' });
@@ -17,7 +17,7 @@ class DeliveryProductController {
 
     static async getDeliveryProductsByDeliveryId(req, res) {
         try {
-            const { id_delivery } = req.query;
+            const { id_delivery } = req.body;
 
             if (!id_delivery) {
                 return res.status(400).json({ error: 'Provide a valid delivery ID' });
