@@ -3,6 +3,7 @@ const ActivityService = require('../services/activity.service');
 const UserServices = require("../services/user.services");
 const EventListingServices = require("../services/eventListing.service");
 const moment = require('moment-timezone');
+const MaraudeService = require("../services/maraude.service");
 
 
 class EventController {
@@ -128,6 +129,29 @@ class EventController {
     static async deleteEvent(req, res) {
         try {
             const {id} = req.params;
+            const event = await EventService.getEventById(id);
+            if (!event) {
+                return res.status(404).json({error: "Event not found"});
+            }
+
+            if (event.maraude) {
+                const maraudes = await MaraudeService.getAllMaraudes();
+                let maraudeToDelete = null;
+                for (let i = 0; i < maraudes.length; i++) {
+                    if (maraudes[i].id_event.toString() === id) {
+                        maraudeToDelete = maraudes[i];
+                        break;
+                    }
+                }
+                // Si on a trouvé une maraude à supprimer
+                if (maraudeToDelete) {
+                    await MaraudeService.deleteMaraude(maraudeToDelete.id);
+                } else {
+                    return res.status(404).json({error: "Maraude not found"});
+                }
+            }
+
+
             const deleteEvent = await EventService.deleteEvent(id);
             if (!deleteEvent) {
                 res.status(404).json({error: "Event not found"});

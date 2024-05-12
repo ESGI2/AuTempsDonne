@@ -35,11 +35,15 @@ class MaraudeController{
             let data = maraude;
             data.event = await EventService.getEventById(maraude.id_event);
             data.truck = await TruckService.getTruckById(maraude.id_truck);
+            data.product = await MaraudeContentService.getProductByMaraude(maraude.id);
+            data.points = await MaraudePassingService.getPointsDataByMaraude(maraude.id);
 
             return res.status(200).json({
                 "maraude": data,
                 "event": data.event,
-                "truck": data.truck
+                "truck": data.truck,
+                "product": data.product,
+                "points": data.points
             });
 
         } catch (error) {
