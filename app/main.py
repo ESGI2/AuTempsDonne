@@ -1,6 +1,6 @@
 import sys
 from PySide6 import QtWidgets
-from .connection import ConnectionPage
+from connection import ConnectionPage
 from home import HomePage
 from constante import WIDTH, HEIGHT, NAME
 
