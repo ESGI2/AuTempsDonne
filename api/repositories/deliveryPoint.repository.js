@@ -1,4 +1,5 @@
 const DeliveryPoint = require('../models/deliveryPoint.model');
+const MaraudePoint = require("../models/maraudePoint.model");
 
 class DeliveryPointRepository {
     static async create(data) {
@@ -6,6 +7,15 @@ class DeliveryPointRepository {
             return await DeliveryPoint.create(data);
         } catch (error) {
             throw new Error('Error while creating delivery point');
+        }
+    }
+
+    static async getDeliveryPointById(id) {
+        try {
+            return await DeliveryPoint.findByPk(id);
+        } catch (error) {
+            console.error('DeliveryPoint error :', error);
+            throw error;
         }
     }
 

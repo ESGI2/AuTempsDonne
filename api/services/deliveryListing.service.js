@@ -1,4 +1,6 @@
 const DeliveryListingRepository = require('../repositories/deliveryListing.repository');
+const MaraudePassing = require("../models/maraudePassing.model");
+const MaraudePassingRepository = require("../repositories/maraudePassing.repository");
 
 class DeliveryListingService {
     static async createDeliveryListing(id_delivery, id_point, isDeparture, isArrival) {
@@ -10,6 +12,14 @@ class DeliveryListingService {
         }
     }
 
+    static async addPassingPoint({ id_delivery, id_point, step }) {
+        try {
+            return await DeliveryListingRepository.addPassingPoint({ id_delivery, id_point, step });
+        } catch (error) {
+            throw error;
+        }
+    }
+
     static async findByDeliveryId(id_delivery) {
         try {
             return await DeliveryListingRepository.findByDeliveryId(id_delivery);
@@ -18,21 +28,15 @@ class DeliveryListingService {
         }
     }
 
-    static async findByDeparture() {
+    static async findDeliveryLastStep(delivery_id) {
         try {
-            return await DeliveryListingRepository.findByDeparture();
+            return await DeliveryListingRepository.findDeliveryLastStep(delivery_id);
         } catch (error) {
-            throw new Error('Error while finding departure delivery listings');
+            throw new Error('Error while finding last step delivery listings ');
         }
     }
 
-    static async findByArrival() {
-        try {
-            return await DeliveryListingRepository.findByArrival();
-        } catch (error) {
-            throw new Error('Error while finding arrival delivery listings');
-        }
-    }
+
 }
 
 module.exports = DeliveryListingService;

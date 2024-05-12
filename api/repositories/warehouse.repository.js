@@ -12,6 +12,25 @@ class WarehouseRepository {
         }
     }
 
+
+    static async getWarehouseIdByDeliveryPoint(id_delivery_point) {
+        try {
+            console.log(id_delivery_point)
+            const warehouse = await Warehouse.findOne({
+                where: {
+                    id_delivery_point: id_delivery_point
+                }
+            });
+
+            return warehouse
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
+
+
     static async getAllWarehouses() {
         try {
             const warehouses = await Warehouse.findAll();

@@ -11,6 +11,16 @@ class WarehouseService {
         }
     }
 
+
+    static async getWarehouseIdByDeliveryPoint(id_delivery_point) {
+        try {
+            return WarehouseRepository.getWarehouseIdByDeliveryPoint(id_delivery_point);
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
     static async getAllWarehouses() {
         try {
             const warehouses = await WarehouseRepository.getAllWarehouses();

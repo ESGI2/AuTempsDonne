@@ -1,6 +1,8 @@
 const WarehouseService = require('../services/warehouse.service');
 
 class WarehouseController {
+
+
     static async addWarehouse(req, res) {
         try {
             const { name, country, city, postal_code, road } = req.query;
@@ -16,6 +18,21 @@ class WarehouseController {
             res.status(500).json({ error: "Can't patch warehouse" });
         }
     }
+
+
+
+    static async getWarehouseIdByDeliveryPoint(req, res) {
+        try {
+            const {id_delivery_point} = req.body;
+            console.log(id_delivery_point)
+            const warehouseId = await WarehouseService.getWarehouseIdByDeliveryPoint(id_delivery_point);
+            res.status(201).json(warehouseId);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Error during warehouse get' });
+        }
+    }
+
 
     static async getAllWarehouses(req, res) {
         try {

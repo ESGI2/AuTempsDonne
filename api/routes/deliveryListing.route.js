@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 const DeliveryListingController = require('../controllers/deliveryListing.controller');
 
-router.post('/', DeliveryListingController.createDeliveryListing);
+router.get('/last', DeliveryListingController.findDeliveryLastStep);
 router.get('/:id', DeliveryListingController.findByDeliveryId);
-router.get('/Departure', DeliveryListingController.findByDeparture);
-router.get('/Arrival', DeliveryListingController.findByArrival);
+router.post('/', DeliveryListingController.createDeliveryListing);
+
+
 
 module.exports = router;
