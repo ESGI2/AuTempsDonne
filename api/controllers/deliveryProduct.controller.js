@@ -29,15 +29,15 @@ class DeliveryProductController {
             }
             const donation = true
 
+            // Creation du nouveau produit
             const newProduct = await ProductService.addProduct(name, type, donation);
+
+            //Récuperation du lieu d'arrivé
             const lastStep = await DeliveryListingService.findDeliveryLastStep(id_delivery)
             const warehouses = await WarehouseService.getWarehouseIdByDeliveryPoint(lastStep);
 
+            //Creation du stock
             const stock = await StockService.addStock(newProduct.id, warehouses.id, quantity)
-
-
-
-            
 
 
         } catch (error) {
