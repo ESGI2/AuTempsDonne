@@ -8,6 +8,17 @@ class DeliveryListingRepository {
             throw new Error('Error while creating delivery listing');
         }
     }
+
+    static async addPassingPoint({ id_delivery, id_point, step }) {
+        try {
+            return await DeliveryListing.create({ id_delivery, id_point, step });
+        } catch (error) {
+            console.error("DeliveryPassing error :", error);
+            throw error;
+        }
+    }
+
+
     static async findByDeliveryId(id_delivery) {
         try {
             return await DeliveryListing.findAll({

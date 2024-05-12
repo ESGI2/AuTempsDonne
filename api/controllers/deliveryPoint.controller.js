@@ -1,5 +1,4 @@
 const DeliveryPointService = require('../services/deliveryPoint.service');
-const DeliveryPoint = require('../models/deliveryPoint.model');
 
 class DeliveryPointController {
     static async createDeliveryPoint(req, res) {
@@ -31,39 +30,6 @@ class DeliveryPointController {
         }
     }
 
-    static async addDeliveryPointCord(req, res) {
-        try {
-            const api_key = process.env.GEOCODE_API_KEY;
-
-            const pre_data = {
-                name: req.body.name,
-                country: req.body.country,
-                city: req.body.city,
-                code_postal: req.body.postal_code,
-                street: req.body.road
-            }
-
-            const response = await fetch(`https://geocode.maps.co/search?q=${pre_data.street}+${pre_data.city}+${pre_data.country}&api_key=${api_key}`);
-            const map_response = await response.json();
-
-            const newDeliveryPoint = new DeliveryPoint({
-                type: req.body.type,
-                name: req.body.name,
-                country: req.body.country,
-                city: req.body.city,
-                postal_code: req.body.postal_code,
-                road: req.body.road,
-                lat: map_response[0].lat,
-                lon: map_response[0].lon
-            });
-
-            const result = await newDeliveryPoint.save();
-            res.status(201).json(result);
-        } catch (error) {
-            console.error('Error adding delivery point:', error);
-            res.status(500).json({ error: 'Internal server error' });
-        }
-    }
 }
 
 module.exports = DeliveryPointController;

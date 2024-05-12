@@ -1,5 +1,7 @@
 const DeliveryPointRepository = require('../repositories/deliveryPoint.repository');
 
+
+
 class DeliveryPointService {
     static async createDeliveryPoint(data) {
         try {
@@ -29,6 +31,14 @@ class DeliveryPointService {
             return await DeliveryPointRepository.findAll();
         } catch (error) {
             throw new Error('Error while fetching delivery points');
+        }
+    }
+
+    static async getDeliveryPointById(id) {
+        try {
+            return await DeliveryPointRepository.getDeliveryPointById(id);
+        } catch (error) {
+            throw error;
         }
     }
 

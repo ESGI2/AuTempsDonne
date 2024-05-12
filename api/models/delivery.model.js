@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../config/db');
 const Truck = require('./truck.model');
+const Event = require('./event.model');
 
 const Delivery = sequelize.define('delivery', {
     id: {
@@ -8,6 +9,14 @@ const Delivery = sequelize.define('delivery', {
         allowNull: false,
         primaryKey: true,
         autoIncrement: true
+    },
+    id_event: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'event',
+            key: 'id'
+        }
     },
     id_truck: {
         type: Sequelize.INTEGER,

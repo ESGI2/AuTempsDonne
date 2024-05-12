@@ -1,4 +1,6 @@
 const DeliveryListingRepository = require('../repositories/deliveryListing.repository');
+const MaraudePassing = require("../models/maraudePassing.model");
+const MaraudePassingRepository = require("../repositories/maraudePassing.repository");
 
 class DeliveryListingService {
     static async createDeliveryListing(id_delivery, id_point, isDeparture, isArrival) {
@@ -7,6 +9,14 @@ class DeliveryListingService {
             return await DeliveryListingRepository.create(id_delivery, id_point, isDeparture, isArrival);
         } catch (error) {
             throw new Error('Error while creating delivery listing');
+        }
+    }
+
+    static async addPassingPoint({ id_delivery, id_point, step }) {
+        try {
+            return await DeliveryListingRepository.addPassingPoint({ id_delivery, id_point, step });
+        } catch (error) {
+            throw error;
         }
     }
 
