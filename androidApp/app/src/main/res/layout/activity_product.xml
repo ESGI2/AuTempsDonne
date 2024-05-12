@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <EditText
+            android:id="@+id/etProductName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nom du produit"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/etProductEAN"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Code EAN"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/etProductDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Catégorie du produit"
+            android:inputType="textMultiLine" />
+
+        <Button
+            android:id="@+id/btnSaveProduct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Ajouter ce produit" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
