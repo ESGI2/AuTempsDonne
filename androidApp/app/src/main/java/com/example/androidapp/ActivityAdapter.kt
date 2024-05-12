@@ -1,29 +1,38 @@
 package com.example.androidapp
 
-import android.R
-import android.content.Context
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 
 
-class ActivitiesAdapter(context: Context?, activities: List<Activity?>?) :
-    ArrayAdapter<Activity?>(context!!, 0, activities!!) {
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        var convertView = convertView
-        val activity = getItem(position)
-        if (convertView == null) {
-            convertView =
-                LayoutInflater.from(context).inflate(R.layout.activity_list_item, parent, false)
-        }
-        val tvName = convertView!!.findViewById<TextView>(R.id.tvName)
-        val tvDescription = convertView.findViewById<TextView>(R.id.tvDescription)
+data class Activity(
+    val date: String,
+    val description: String,
+    val peopleNeeded: Int,
+    val color: String
+)
 
-        tvName.text = activity!!.activityName
-        tvDescription.text = activity.description
+class ActivityAdapter(private val activityList: List<Activity>) :
+    RecyclerView.Adapter<ActivityAdapter.ActivityViewHolder>() {
 
-        return convertView
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActivityViewHolder {
+        val itemView = LayoutInflater.from(parent.context).inflate(android.R.layout.simple_list_item_2, parent, false)
+        return ActivityViewHolder(itemView)
+    }
+
+    override fun onBindViewHolder(holder: ActivityViewHolder, position: Int) {
+        val activity = activityList[position]
+        holder.dateView.text = activity.date
+        holder.descriptionView.text = activity.description
+    }
+
+    override fun getItemCount(): Int = activityList.size
+
+    class ActivityViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        var dateView: TextView = view.findViewById(android.R.id.text1)
+        var descriptionView: TextView = view.findViewById(android.R.id.text2)
     }
 }

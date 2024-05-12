@@ -1,6 +1,9 @@
 package com.example.androidapp
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
@@ -18,7 +21,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var nfcButton: ImageView
     private lateinit var logoutButton: ImageView
     private lateinit var recyclerView: RecyclerView
-    private lateinit var authManager: AuthManager
+    private lateinit var dataUpdateReceiver: BroadcastReceiver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,37 +33,50 @@ class MainActivity : AppCompatActivity() {
         logoutButton = findViewById(R.id.logoutButton)
         recyclerView = findViewById(R.id.recyclerView)
 
-        homeButton.setOnClickListener {}
+        homeButton.setOnClickListener {
+            // Your Home Button code here
+        }
 
         qrCodeButton.setOnClickListener {
-            val intent = Intent(this, ScanActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, ScanActivity::class.java))
         }
 
         nfcButton.setOnClickListener {
-            val intent = Intent(this, NFCActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, NFCActivity::class.java))
         }
 
         logoutButton.setOnClickListener {
-            authManager.logout()
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
             finish()
         }
 
-        fetchProducts()
+        fetchActivities()
+
+        dataUpdateReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                if ("com.example.androidapp.ACTION_DATA_UPDATED" == intent.action) {
+                    fetchActivities() // Refresh the data in the RecyclerView
+                }
+            }
+        }
+
+        val filter = IntentFilter("com.example.androidapp.ACTION_DATA_UPDATED")
+        registerReceiver(dataUpdateReceiver, filter)
     }
 
-    private fun fetchProducts() {
-        val url = "http://213.199.38.64:3000/product/"
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(dataUpdateReceiver)
+    }
+
+    private fun fetchActivities() {
+        val url = "http://213.199.38.64:3000/activity"
         val requestQueue = Volley.newRequestQueue(this)
 
         val jsonArrayRequest = JsonArrayRequest(
             Request.Method.GET, url, null,
             { response ->
-                val productList = parseProducts(response)
-                setupRecyclerView(productList)
+                val activityList = parseActivities(response)
+                setupRecyclerView(activityList)
             },
             { error ->
                 error.printStackTrace()
@@ -70,20 +86,21 @@ class MainActivity : AppCompatActivity() {
         requestQueue.add(jsonArrayRequest)
     }
 
-    private fun parseProducts(jsonArray: JSONArray): List<Product> {
-        val productList = mutableListOf<Product>()
+    private fun parseActivities(jsonArray: JSONArray): List<Activity> {
+        val activityList = mutableListOf<Activity>()
         for (i in 0 until jsonArray.length()) {
             val jsonObject = jsonArray.getJSONObject(i)
-            val name = jsonObject.getString("name")
-            val ean = jsonObject.getString("ean")
-            val categoryName = jsonObject.getString("categoryName")
-            productList.add(Product(name, ean, categoryName))
+            val date = jsonObject.getString("date")
+            val description = jsonObject.getString("description")
+            val peopleNeeded = jsonObject.getInt("peopleNeeded")
+            val color = jsonObject.getString("color")
+            activityList.add(Activity(date, description, peopleNeeded, color))
         }
-        return productList
+        return activityList
     }
 
-    private fun setupRecyclerView(productList: List<Product>) {
-        val adapter = ProductAdapter(productList)
+    private fun setupRecyclerView(activityList: List<Activity>) {
+        val adapter = ActivityAdapter(activityList)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
     }
