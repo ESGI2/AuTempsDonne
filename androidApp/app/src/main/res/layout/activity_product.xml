@@ -27,7 +27,7 @@
             android:id="@+id/etProductDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Détails du produit"
+            android:hint="Catégorie du produit"
             android:inputType="textMultiLine" />
 
         <Button
@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Ajouter au stock" />
+            android:text="Ajouter ce produit" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,9 @@
 package com.example.androidapp
 
+import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class StockActivity : AppCompatActivity() {
@@ -25,7 +29,6 @@ class StockActivity : AppCompatActivity() {
         val category = intent.getStringExtra("category")
 
         saveButton.setOnClickListener {
-            // Logique pour sauvegarder les informations en base de données ou autre stockage
             Toast.makeText(this, "Stock added for $name", Toast.LENGTH_LONG).show()
         }
     }
