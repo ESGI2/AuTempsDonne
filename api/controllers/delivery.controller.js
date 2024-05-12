@@ -66,7 +66,7 @@ class DeliveryController {
                 lon: parseFloat(point.lon)
             }));
 
-            const pythonProcess = spawn('python', ['./components/delivery_script.py', JSON.stringify(pointsDataNumeric), 'delivery_map_' + delivery.id]);
+            const pythonProcess = spawn('python', ['./components/delivery_script.py', JSON.stringify(pointsDataNumeric), 'delivery_map_' + delivery.id, process.env.WASABI_ACCESS_KEY_ID, process.env.WASABI_SECRET_ACCESS_KEY]);
             pythonProcess.stderr.on('data', (data) => {
                 console.error(`stderr: ${data}`);
             });
