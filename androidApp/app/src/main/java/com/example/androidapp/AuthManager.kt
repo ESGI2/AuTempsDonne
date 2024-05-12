@@ -1,7 +1,6 @@
 package com.example.androidapp
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.util.Log
 import com.android.volley.Request
 import com.android.volley.Response
@@ -62,11 +61,15 @@ class AuthManager(private val context: Context) {
 
         if (authToken != null) {
             val request = object : JsonObjectRequest(
-                Method.GET, url, null,
+                Request.Method.GET, url, null,
                 Response.Listener { response ->
+                    val firstName = response.optString("firstName")
+                    val lastName = response.optString("lastName")
+                    val email = response.optString("email")
+                    val phone = response.optString("phone")
                     val status = response.optString("status")
                     val role = response.optString("role")
-                    val userInfo = UserInfo(status, role)
+                    val userInfo = UserInfo(firstName, lastName, email, phone, status, role)
                     callback(userInfo)
                 },
                 Response.ErrorListener { error ->
@@ -88,4 +91,4 @@ class AuthManager(private val context: Context) {
     }
 }
 
-data class UserInfo(val status: String, val role: String)
+data class UserInfo(val firstName: String, val lastName: String, val email: String, val phone: String, val status: String, val role: String)

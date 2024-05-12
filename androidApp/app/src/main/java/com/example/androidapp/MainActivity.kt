@@ -27,8 +27,8 @@ class MainActivity : AppCompatActivity() {
         authManager = AuthManager(this)
 
         qrCodeButton.setOnClickListener {
-           // val intent = Intent(this, QRCodeActivity::class.java)
-           // startActivity(intent)
+            val intent = Intent(this, ScanActivity::class.java)
+            startActivity(intent)
         }
 
         nfcButton.setOnClickListener {

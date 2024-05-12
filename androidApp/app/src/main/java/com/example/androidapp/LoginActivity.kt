@@ -10,10 +10,8 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
-import com.android.volley.Response
-import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import org.json.JSONException
 import org.json.JSONObject
 
 class LoginActivity : AppCompatActivity() {
@@ -55,40 +53,32 @@ class LoginActivity : AppCompatActivity() {
         progressBar.visibility = ProgressBar.VISIBLE
         val queue = Volley.newRequestQueue(this)
 
-        val stringRequest = object : StringRequest(
-            Request.Method.POST, "http://213.199.38.64:3000/login",
-            Response.Listener<String> { response ->
-                progressBar.visibility = ProgressBar.INVISIBLE
-                Log.d("LoginActivity", "Response: $response")
-                try {
-                    val jsonObject = JSONObject(response)
-                    val message = jsonObject.getString("Message")
-                    val role = jsonObject. getString("Role")
-                    Toast.makeText(this@LoginActivity, "Login Successful: $message, Role: $role", Toast.LENGTH_LONG).show()
+        val url = "http://213.199.38.64:3000/login"
+        val params = mapOf("email" to email, "password" to password)
 
-                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                } catch (e: JSONException) {
-                    e.printStackTrace()
-                    Log.e("LoginActivity", "JSON parsing error: " + e.message)
-                    Toast.makeText(this@LoginActivity, "Error parsing response", Toast.LENGTH_LONG).show()
-                }
+        val jsonRequest = JsonObjectRequest(
+            Request.Method.POST, url, JSONObject(params as Map<*, *>),
+            { response ->
+                progressBar.visibility = ProgressBar.INVISIBLE
+                val message = response.optString("Message")
+                val role = response.optString("Role")
+                Toast.makeText(
+                    this@LoginActivity,
+                    "Login Successful: $message, Role: $role",
+                    Toast.LENGTH_LONG
+                ).show()
+
+                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                finish()
             },
-            Response.ErrorListener { error ->
+            { error ->
                 progressBar.visibility = ProgressBar.INVISIBLE
-                error.printStackTrace()
-                Log.e("LoginActivity", "Volley error: " + error.message)
-                Toast.makeText(this@LoginActivity, "Network Error: $error", Toast.LENGTH_LONG).show()
-            }) {
-            override fun getParams(): Map<String, String> {
-                val params = HashMap<String, String>()
-                params["email"] = email
-                params["password"] = password
-                return params
+                Log.e("LoginActivity", "Volley error: $error")
+                Toast.makeText(this@LoginActivity, "Network Error: $error", Toast.LENGTH_LONG)
+                    .show()
             }
-        }
+        )
 
-        queue.add(stringRequest)
+        queue.add(jsonRequest)
     }
 }
