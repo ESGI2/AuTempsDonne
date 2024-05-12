@@ -35,11 +35,15 @@ class MaraudeController{
             let data = maraude;
             data.event = await EventService.getEventById(maraude.id_event);
             data.truck = await TruckService.getTruckById(maraude.id_truck);
+            data.product = await MaraudeContentService.getProductByMaraude(maraude.id);
+            data.points = await MaraudePassingService.getPointsDataByMaraude(maraude.id);
 
             return res.status(200).json({
                 "maraude": data,
                 "event": data.event,
-                "truck": data.truck
+                "truck": data.truck,
+                "product": data.product,
+                "points": data.points
             });
 
         } catch (error) {
@@ -118,7 +122,7 @@ class MaraudeController{
                 lon: parseFloat(point.lon)
             }));
 
-            const pythonProcess = spawn('python', ['./components/map_script.py', JSON.stringify(pointsDataNumeric), 'maraude_map_' + maraude.id]);
+            const pythonProcess = spawn('python', ['./components/maraude_script.py', JSON.stringify(pointsDataNumeric), 'maraude_map_' + maraude.id, process.env.WASABI_ACCESS_KEY_ID, process.env.WASABI_SECRET_ACCESS_KEY]);
             pythonProcess.stderr.on('data', (data) => {
                 console.error(`stderr: ${data}`);
             });
@@ -142,8 +146,6 @@ class MaraudeController{
             }, 5000);
 
             console.log('Response sent!')
-
-            // TODO : Crée les maraudes content pour chaque produit de la maraude (id_maraude, id_product, quantity)
 
             const products = product.split(',').map(p => {
                 const [id_product, quantity] = p.split(':');

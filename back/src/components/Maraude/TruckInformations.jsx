@@ -14,7 +14,11 @@ const TruckInformations = ({information}) => {
 
 
     if (!maraude) {
-        return <div>Loading...</div>;
+        return (
+            <div className="spinner-border" role="status">
+            <span className="sr-only">Loading...</span>
+        </div>
+        );
     }
 
     // Affichage
@@ -25,7 +29,7 @@ const TruckInformations = ({information}) => {
                 <div className="card-text">
                     <p><strong>Id :</strong> {maraude.truck?.id}</p>
                     <p><strong>Titre :</strong> {maraude.truck?.name}</p>
-                    <p><strong>Description :</strong> {maraude.truck?.plaque_immatriculation}</p>
+                    <p><strong>Immatriculation :</strong> {maraude.truck?.plaque_immatriculation}</p>
                     <p><strong>Position :</strong> {maraude.truck?.localisation}</p>
                 </div>
             </div>

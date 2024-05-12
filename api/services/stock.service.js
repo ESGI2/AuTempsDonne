@@ -3,19 +3,34 @@ const WarehouseRepository = require('../repositories/warehouse.repository');
 const ProductRepository = require('../repositories/product.repository');
 
 class StockService {
-    static async addStock(id_product, id_warehouse, quantity) {
+    static async addStock(id_product, id_warehouse, quantity, dlc, date) {
         try {
-            const productExists = await ProductRepository.getProductById(id_product);
+            const productExists = await ProductRepository.getAllProducts(id_product);
             if (!productExists) {
                 throw new Error('No product found with this ID');
             }
 
-            const warehouseExists = await WarehouseRepository.getWarehouseById(id_warehouse);
+            const warehouseExists = await WarehouseRepository.getAllWarehouses(id_warehouse);
             if (!warehouseExists) {
                 throw new Error('No warehouse found with this ID');
             }
 
-            const newStock = await StockRepository.addStock(id_product, id_warehouse, quantity);
+            const dlcDate = new Date(dlc);
+            const entryDate = new Date(date);
+            const currentDate = new Date();
+
+            if (entryDate < currentDate) {
+                throw new Error('Entry date cannot be in the past.');
+            }
+            if (dlcDate < currentDate) {
+                throw new Error('DLC cannot be in the past.');
+            }
+
+            if (dlcDate > entryDate) {
+                throw new Error('DLC cannot be earlier than the date of product entry.');
+            }
+
+            const newStock = await StockRepository.addStock(id_product, id_warehouse, quantity, dlc, date);
             return newStock;
         } catch (error) {
             throw new Error(error.message);

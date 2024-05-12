@@ -22,14 +22,11 @@ const DeliveryListing = sequelize.define('delivery_listing', {
             key: 'id'
         }
     },
-    isDeparture: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false
+    step: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
     },
-    isArrival: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false
-    }
 }, {
     tableName: 'delivery_listing',
     timestamps: false,

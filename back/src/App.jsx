@@ -10,11 +10,6 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
     },
     {
-        path: "/admin",
-        element: <AuthenticatedRoute element={<Home />} />,
-        errorElement: <ErrorPage />,
-    },
-    {
         path: "/users",
         element: <AuthenticatedRoute element={<Users />} />,
         errorElement: <ErrorPage />,
@@ -32,10 +27,12 @@ const router = createBrowserRouter([
     {
         path: "/calendar",
         element: <AuthenticatedRoute element={<CalendarPage />} />,
+        errorElement: <ErrorPage />,
     },
     {
         path: "/maraude",
         element: <AuthenticatedRoute element={<MaraudePage />} />,
+        errorElement: <ErrorPage />,
     },
     {
         path: "/maraude/:id",
@@ -66,6 +63,7 @@ import DeliveryPage from "./pages/DeliveryPage.jsx";
 import {PrimeReactProvider} from "primereact/api";
 import NewsletterPage from "./pages/NewsletterPage.jsx";
 import MaraudeData from "./pages/MaraudeData.jsx";
+// import MaraudeData from "./pages/MaraudeData.jsx";
 
 function App() {
     return (

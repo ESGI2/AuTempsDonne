@@ -21,23 +21,19 @@ class DeliveryListingController {
         }
     }
 
-    static async findByDeparture(req, res) {
+    static async findDeliveryLastStep(req, res) {
         try {
-            const deliveryListings = await DeliveryListingService.findByDeparture();
-            return res.status(200).json(deliveryListings);
+            const { delivery_id } = req.body;
+            console.log(delivery_id)
+
+            const deliveryLastStep = await DeliveryListingService.findDeliveryLastStep(delivery_id);
+            return res.status(200).json(deliveryLastStep);
         } catch (error) {
-            return res.status(500).json({ error: 'Error while finding departure delivery listings' });
+            return res.status(500).json({ error: 'Error while finding last step of delivery listings' });
         }
     }
 
-    static async findByArrival(req, res) {
-        try {
-            const deliveryListings = await DeliveryListingService.findByArrival();
-            return res.status(200).json(deliveryListings);
-        } catch (error) {
-            return res.status(500).json({ error: 'Error while finding arrival delivery listings' });
-        }
-    }
+
 
 }
 

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import ky from 'ky';
-import ProfileModal from './profileModal.jsx';
 
 const Profiler = () => {
     const [id, setId] = useState('');
@@ -27,10 +26,8 @@ const Profiler = () => {
         const fetchUserData = async () => {
             try {
                 const meResponse = await getMe();
-                const id = meResponse.me.id;
-                setId(id);
-                const userInfoResponse = await getMeInfo(id);
-                const userData = userInfoResponse.users;
+                const userData = meResponse.me;
+                setId(userData.id);
                 setFirstName(userData.first_name);
                 setLastName(userData.last_name);
                 setEmail(userData.email);
@@ -67,22 +64,8 @@ const Profiler = () => {
         }
     };
 
-    const getMeInfo = async (userId) => {
-        try {
-            const response = await ky.get(`http://localhost:3000/user?id=${userId}`, {
-                credentials: "include",
-            });
-            if (response.status !== 200) {
-                window.location.href = "/";
-            } else {
-                return response.json();
-            }
-        } catch (error) {
-            throw new Error('Erreur lors de la récupération des informations de l\'utilisateur');
-        }
-    };
-
-    const EditUserInfo = async () => {
+    const EditUserInfo = async (e) => {
+        e.preventDefault();
         try {
             const userInfo = {
                 first_name: firstName,
@@ -139,180 +122,97 @@ const Profiler = () => {
 
     return (
         <div className="container mt-5">
-            <section className="text-center" style={{
-                paddingLeft: '20px',
-                paddingRight: '20px',
-                paddingBottom: '20px',
-            }}>
-                <div className="p-5 bg-image" style={{
-                    height: '250px',
-                }}></div>
-
-                <div id='reg' className="mx-4 mx-md-5 shadow-5-strong" style={{
-                    marginTop: '-250px',
-                    background: 'linear-gradient(rgba(91, 131, 166, 0.5), rgba(209, 209, 209, 0.5))',
-                    backdropFilter: 'blur(30px)',
-                    borderRadius: '20px',
-                    paddingBottom: '50px',
-                }}>
+            <section className="text-center">
+                <div className="p-5 bg-image" style={{ height: '250px' }}></div>
+                <div className="mx-4 mx-md-5 shadow-5-strong" style={{ marginTop: '-250px', background: 'linear-gradient(rgba(91, 131, 166, 0.5), rgba(209, 209, 209, 0.5))', backdropFilter: 'blur(30px)', borderRadius: '20px', paddingBottom: '50px' }}>
                     <div className="card-body py-5 px-md-5">
                         <div className="row d-flex justify-content-center">
                             <div className="col-lg-8">
                                 <h1 className="fw-bold mb-5">Profil</h1>
                                 <form onSubmit={EditUserInfo}>
-                                    <div className="row">
-                                        {error && <div className="alert alert-danger">{error}</div>}
-                                        <div className="col-md-6 mb-4">
-                                            <div className="form-outline">
-                                                <label className="form-label" htmlFor="formLastName">Nom</label>
-                                                <input type="text" id="formLastName" value={lastName}
-                                                       onChange={(e) => setLastName(e.target.value)}
-                                                       className="form-control"/>
-                                            </div>
+                                    {error && <div className="alert alert-danger">{error}</div>}
+                                    <div className="row mb-4">
+                                        <div className="col-md-6">
+                                            <label className="form-label" htmlFor="formLastName">Nom</label>
+                                            <input type="text" id="formLastName" value={lastName} onChange={(e) => setLastName(e.target.value)} className="form-control" />
                                         </div>
-                                        <div className="col-md-6 mb-4">
-                                            <div className="form-outline">
-                                                <label className="form-label" htmlFor="formFirstName">Prénom</label>
-                                                <input type="text" id="formFirstName" value={firstName}
-                                                       onChange={(e) => setFirstName(e.target.value)}
-                                                       className="form-control"/>
+                                        <div className="col-md-6">
+                                            <label className="form-label" htmlFor="formFirstName">Prénom</label>
+                                            <input type="text" id="formFirstName" value={firstName} onChange={(e) => setFirstName(e.target.value)} className="form-control" />
+                                        </div>
+                                    </div>
+                                    <div className="row mb-4">
+                                        <div className="col-md-6">
+                                            <label className="form-label" htmlFor="formEmail">Email</label>
+                                            <input type="email" id="formEmail" value={email} onChange={(e) => setEmail(e.target.value)} className="form-control" />
+                                        </div>
+                                        <div className="col-md-6">
+                                            <label className="form-label" htmlFor="formDob">Date de Naissance</label>
+                                            <input type="date" id="formDob" value={dob} onChange={(e) => setDob(e.target.value)} className="form-control" />
+                                        </div>
+                                    </div>
+                                    <div className="row mb-4">
+                                        <div className="col-md-6">
+                                            <label className="form-label" htmlFor="formCity">Ville</label>
+                                            <input type="text" id="formCity" value={city} onChange={(e) => setCity(e.target.value)} className="form-control" />
+                                        </div>
+                                        <div className="col-md-6">
+                                            <label className="form-label" htmlFor="formNationality">Nationalité</label>
+                                            <input type="text" id="formNationality" value={nationality} onChange={(e) => setNationality(e.target.value)} className="form-control" />
+                                        </div>
+                                    </div>
+                                    <div className="row mb-4">
+                                        <div className="col-md-6">
+                                            <label className="form-label" htmlFor="formPostalCode">Code Postal</label>
+                                            <input type="text" id="formPostalCode" value={postalCode} onChange={(e) => setPostalCode(e.target.value)} className="form-control" />
+                                        </div>
+                                        <div className="col-md-6">
+                                            <label className="form-label" htmlFor="formFamilySituation">Situation Familiale</label>
+                                            <select id="formFamilySituation" value={familySituation} onChange={(e) => setFamilySituation(e.target.value)} className="form-select">
+                                                <option value="">Sélectionner</option>
+                                                <option value="single">Célibataire</option>
+                                                <option value="married">Marié(e)</option>
+                                                <option value="divorced">Divorcé(e)</option>
+                                                <option value="widowed">Veuf/Veuve</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="row mb-4">
+                                        <div className="col-md-6">
+                                            <label className="form-label" htmlFor="formRoad">Rue</label>
+                                            <input type="text" id="formRoad" value={road} onChange={(e) => setRoad(e.target.value)} className="form-control" />
+                                        </div>
+                                        <div className="col-md-6">
+                                            <label className="form-label" htmlFor="formChildrens">Enfants</label>
+                                            <input type="number" id="formChildrens" value={childrens} onChange={(e) => setChildrens(parseInt(e.target.value))} className="form-control" />
+                                        </div>
+                                    </div>
+                                    <div className="row mb-4">
+                                        <div className="col-md-6">
+                                            <label className="form-label" htmlFor="formPhoneNumber">Numéro de Téléphone</label>
+                                            <input type="tel" id="formPhoneNumber" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} className="form-control" />
+                                        </div>
+                                        <div className="col-md-6">
+                                            <label className="form-label" htmlFor="formCountry">Pays</label>
+                                            <input type="text" id="formCountry" value={country} onChange={(e) => setCountry(e.target.value)} className="form-control" />
+                                        </div>
+                                    </div>
+                                    <div className="row mb-4">
+                                        <div className="col-md-6">
+                                            <div className="form-check">
+                                                <input className="form-check-input" type="checkbox" id="formSubscribe" checked={subscribe} onChange={(e) => setSubscribe(e.target.checked)} />
+                                                <label className="form-check-label" htmlFor="formSubscribe">S'abonner à la newsletter</label>
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div className="row">
-                                        <div className="col-md-6 mb-4">
-                                            <div className="form-outline">
-                                                <label className="form-label" htmlFor="formEmail">Email</label>
-                                                <input type="email" id="formEmail" value={email}
-                                                       onChange={(e) => setEmail(e.target.value)}
-                                                       className="form-control"/>
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6 mb-4">
-                                            <div className="form-outline">
-                                                <label className="form-label" htmlFor="formDob">Date de
-                                                    Naissance</label>
-                                                <input type="date" id="formDob" value={dob}
-                                                       onChange={(e) => setDob(e.target.value)}
-                                                       className="form-control"/>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="row">
-                                        <div className="col-md-6 mb-4">
-                                            <div className="form-outline">
-                                                <label className="form-label" htmlFor="formCity">Ville</label>
-                                                <input type="text" id="formCity" value={city}
-                                                       onChange={(e) => setCity(e.target.value)}
-                                                       className="form-control"/>
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6 mb-4">
-                                            <div className="form-outline">
-                                                <label className="form-label"
-                                                       htmlFor="formNationality">Nationalité</label>
-                                                <input type="text" id="formNationality" value={nationality}
-                                                       onChange={(e) => setNationality(e.target.value)}
-                                                       className="form-control"/>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="row">
-                                        <div className="col-md-6 mb-4">
-                                            <div className="form-outline">
-                                                <label className="form-label" htmlFor="formPostalCode">Code
-                                                    Postal</label>
-                                                <input type="text" id="formPostalCode" value={postalCode}
-                                                       onChange={(e) => setPostalCode(e.target.value)}
-                                                       className="form-control"/>
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6 mb-4">
-                                            <div className="form-outline">
-                                                <label className="form-label" htmlFor="formFamilySituation">Situation
-                                                    Familiale</label>
-                                                <select id="formFamilySituation" value={familySituation}
-                                                        onChange={(e) => setFamilySituation(e.target.value)}
-                                                        className="form-select">
-                                                    <option value="">Sélectionner</option>
-                                                    <option value="single">Célibataire</option>
-                                                    <option value="married">Marié(e)</option>
-                                                    <option value="divorced">Divorcé(e)</option>
-                                                    <option value="widowed">Veuf/Veuve</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="row">
-                                        <div className="col-md-6 mb-4">
-                                            <div className="form-outline">
-                                                <label className="form-label" htmlFor="formRoad">Rue</label>
-                                                <input type="text" id="formRoad" value={road}
-                                                       onChange={(e) => setRoad(e.target.value)}
-                                                       className="form-control"/>
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6 mb-4">
-                                            <div className="form-outline">
-                                                <label className="form-label" htmlFor="formChildrens">Enfants</label>
-                                                <input type="number" id="formChildrens" value={childrens}
-                                                       onChange={(e) => setChildrens(parseInt(e.target.value))}
-                                                       className="form-control"/>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="row">
-                                        <div className="col-md-6 mb-4">
-                                            <div className="form-outline">
-                                                <label className="form-label" htmlFor="formPhoneNumber">Numéro de
-                                                    Téléphone</label>
-                                                <input type="tel" id="formPhoneNumber" value={phoneNumber}
-                                                       onChange={(e) => setPhoneNumber(e.target.value)}
-                                                       className="form-control"/>
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6 mb-4">
-                                            <div className="form-outline">
-                                                <label className="form-label" htmlFor="formCountry">Pays</label>
-                                                <input type="text" id="formCountry" value={country}
-                                                       onChange={(e) => setCountry(e.target.value)}
-                                                       className="form-control"/>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="row">
-                                        <div className="col-md-6 mb-4">
-                                            <div className="form-check mb-4">
-                                                <input className="form-check-input" type="checkbox" id="formSubscribe"
-                                                       checked={subscribe}
-                                                       onChange={(e) => setSubscribe(e.target.checked)}/>
-                                                <label className="form-check-label" htmlFor="formSubscribe">
-                                                    S'abonner à la newsletter
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <button type="submit" className="btn btn-primary btn-block mb-4">
-                                        Enregistrer
-                                    </button>
+                                    <button type="submit" className="btn btn-primary btn-block mb-4">Enregistrer</button>
                                 </form>
-
-                                <button className="btn btn-secondary btn-block" onClick={() => setShowChangePasswordModal(true)}>
-                                    Modifier le mot de passe
-                                </button>
+                                <button className="btn btn-secondary btn-block" onClick={() => setShowChangePasswordModal(true)}>Modifier le mot de passe</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
-
             {showChangePasswordModal &&
                 <div className={`modal fade ${showChangePasswordModal ? 'show' : ''}`} id="changePasswordModal" tabIndex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden={!showChangePasswordModal} style={{ display: showChangePasswordModal ? 'block' : 'none' }}>
                     <div className="modal-dialog modal-dialog-centered">
@@ -339,7 +239,6 @@ const Profiler = () => {
                     </div>
                 </div>
             }
-
         </div>
     );
 };

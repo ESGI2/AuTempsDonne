@@ -115,16 +115,16 @@ class HomePage(QtWidgets.QWidget):
         self.layout.addWidget(self.logout_button, alignment=QtCore.Qt.AlignLeft | QtCore.Qt.AlignBottom)
 
     def display_ticket_table(self, ticket_data):
-        # Filtrer les données pour exclure les tickets avec un statut de 2
-        filtered_data = [ticket for ticket in ticket_data if
-                         ticket.get("id_answer") is None or str(ticket.get("id_answer")) == str(
-                             self.user_id) and ticket.get("status") != 2]
+        if self.user_role == "admin":
+            display_data = ticket_data
+        elif self.user_role == "responsable":
+            display_data = [ticket for ticket in ticket_data if
+                            ticket.get("id_answer") == self.user_id and ticket.get("status") == 1]
+        else:
+            display_data = [ticket for ticket in ticket_data if ticket.get("status") != 2]
 
-        # Trier les données pour mettre en premier les tickets avec un statut de 1
-        sorted_data = sorted(filtered_data, key=lambda x: x.get("status") == 1, reverse=True)
-
-        self.table.setRowCount(len(sorted_data))
-        for row, ticket in enumerate(sorted_data):
+        self.table.setRowCount(len(display_data))
+        for row, ticket in enumerate(display_data):
             id_item = QtWidgets.QTableWidgetItem(str(ticket["id"]))
             title_item = QtWidgets.QTableWidgetItem(ticket["title"])
             date_item = QtWidgets.QTableWidgetItem(ticket["date_creation"])
@@ -152,7 +152,7 @@ class HomePage(QtWidgets.QWidget):
 
             # Add "Examiner" button in the "Action" column
             examine_button = QtWidgets.QPushButton("Examiner")
-            examine_button.clicked.connect(lambda _, r=row: self.examine_ticket(sorted_data[r]["id"]))
+            examine_button.clicked.connect(lambda _, r=row: self.examine_ticket(display_data[r]["id"]))
             examine_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
             examine_button.setStyleSheet(
                 "QPushButton {background-color: #008CBA; color: white; border: none; border-radius: 5px; padding: 5px 10px; font-size: 12px;} QPushButton:hover {background-color: #00bfff;}")
@@ -178,8 +178,8 @@ class HomePage(QtWidgets.QWidget):
             response_user = requests.get(f'http://localhost:3000/user?id={user_id}', cookies=self.cookies)
             if response_user.status_code == 200:
                 user_data = response_user.json().get("users", {})
-                user_email = user_data.get('email', '')  # Récupérer l'e-mail de l'utilisateur
-                self.user_email = user_email  # Ajout de cette ligne
+                user_email = user_data.get('email', '')
+                self.user_email = user_email
                 ticket_info = f"<h2>{ticket_data.get('title', '')}</h2>"
                 ticket_info += f"<p><strong>Message :</strong> {ticket_data.get('message', '')}</p>"
                 ticket_info += f"<p><strong>Date de création :</strong> {ticket_data.get('date_creation', '')}</p>"
@@ -193,7 +193,6 @@ class HomePage(QtWidgets.QWidget):
                 self.back_button.show()
 
                 if ticket_data.get("status") == 0 and self.user_role == "admin":
-                    # Afficher la liste déroulante des utilisateurs admins ou responsables
                     self.display_user_dropdown()
 
                 if ticket_data.get("status") == 1:
@@ -332,12 +331,14 @@ class HomePage(QtWidgets.QWidget):
         self.back_button.hide()
         self.complete_button.hide()
         self.remove_response_elements()
-        self.hide_response_label()
+        self.hide_response_label()  # Assurez-vous que le label est caché
         self.show_logout_button()
         self.header_label.show()
         self.reload_button.show()
         self.initialize_home()
         self.remove_dropdown()
+        self.send_button = None  # Réinitialisez l'état du bouton d'envoi de la réponse au ticket
+        self.response_text = None  # Réinitialisez l'état du champ de texte de la réponse au ticket
 
     def hide_response_label(self):
         for i in reversed(range(self.layout.count())):
@@ -347,10 +348,10 @@ class HomePage(QtWidgets.QWidget):
                 break
 
     def remove_response_elements(self):
-        if hasattr(self, 'response_text'):
+        if self.response_text is not None:
             self.response_text.deleteLater()
             del self.response_text
-        if hasattr(self, 'send_button') and self.send_button is not None:
+        if self.send_button is not None:
             self.send_button.deleteLater()
             del self.send_button
 
@@ -366,6 +367,3 @@ class HomePage(QtWidgets.QWidget):
 
     def show_logout_button(self):
         self.logout_button.show()
-
-
-

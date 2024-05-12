@@ -12,11 +12,14 @@ const Product = sequelize.define('product', {
         allowNull: false
     },
     type: {
-        type: Sequelize.STRING(20),
+        type: Sequelize.STRING,
     },
     donation: {
         type: Sequelize.BOOLEAN,
-    }
+    },
+    ean: {
+        type: Sequelize.STRING,
+    },
 }, {
     tableName: 'product',
     timestamps: false

@@ -36,15 +36,28 @@ class UserController {
         try {
             const { id } = req.user;
             const user = await UserServices.getUserById(id);
-            const me = {
+
+            if (!user) return res.status(404).json({ "Error": "User not found" });
+
+            const data = {
                 id: user.id,
                 email: user.email,
-                role: user.role,
                 first_name: user.first_name,
-                last_name: user.last_name
-            };
-            if (!user) return res.status(404).json({ "Error": "User not found" });
-            res.status(200).json({ "Message": "User recovered", me });
+                last_name: user.last_name,
+                role: user.role,
+                phone: user.phone,
+                country: user.country,
+                city: user.city,
+                postal_code: user.postal_code,
+                road: user.road,
+                date_of_birth: user.date_of_birth,
+                tag: user.tag,
+                nbr_child: user.nbr_child,
+                nationality: user.nationality,
+                newsletter: user.newsletter,
+            }
+
+            res.status(200).json({me : data});
         } catch (error) {
             console.error(error);
             res.status(500).json({ "Error": "Error recovering user" });

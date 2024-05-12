@@ -1,5 +1,6 @@
 const MaraudeContentRepository = require('../repositories/maraudeContent.repository');
 const ProductRepository = require('../repositories/product.repository');
+const ProductService = require("./product.services");
 
 class MaraudeContentService {
 
@@ -11,9 +12,22 @@ class MaraudeContentService {
             }
         }
 
-        static async getByMaraude(id) {
+        static async getProductByMaraude(id) {
             try {
-                return await MaraudeContentRepository.getByMaraude(id);
+                const product = await MaraudeContentRepository.getByMaraude(id);
+
+                let content = [];
+                for (let i = 0; i < product.length; i++) {
+                    const productData = await ProductService.getProductById(product[i].id_product);
+                    content.push({
+                        id: productData.id,
+                        name: productData.name,
+                        type: productData.type,
+                        quantity: product[i].quantity
+                    });
+                }
+
+                return content;
             } catch (error) {
                 throw error;
             }

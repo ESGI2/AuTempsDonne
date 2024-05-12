@@ -32,7 +32,7 @@ const LoginForm = () => {
                 const data = await response.json();
                 console.log(data);
                 if (data.Role === "admin") {
-                    window.location.href = "/admin";
+                    window.location.href = "/users";
                 } else {
                     setError("Vous n'êtes pas autorisé à accéder à cette page");
                 }

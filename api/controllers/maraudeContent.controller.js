@@ -1,4 +1,5 @@
 const MaraudeContentService = require('../services/maraudeContent.service');
+const ProductService = require('../services/product.services');
 
 class MaraudeContentController {
 
@@ -12,11 +13,11 @@ class MaraudeContentController {
         }
     }
 
-    static async getByMaraude(req, res) {
+    static async getProductByMaraude(req, res) {
         try {
             const id = req.params.id;
-            const maraudeContents = await MaraudeContentService.getByMaraude(id);
-            if (maraudeContents.length === 0) {
+            const maraudeContents = await MaraudeContentService.getProductByMaraude(id);
+            if (!maraudeContents) {
                 res.status(404).json({"Error": "Maraude content not found"});
                 return;
             }

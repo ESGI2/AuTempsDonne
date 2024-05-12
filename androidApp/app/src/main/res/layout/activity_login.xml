@@ -14,7 +14,7 @@
     <ImageView
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:src="@drawable/img" />
+        android:src="@drawable/logo" />
 
 
 
@@ -57,6 +57,13 @@
         android:backgroundTint="@color/firstBlue"
         android:textColor="@android:color/white"
         android:layout_marginTop="24dp" />
-    />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="invisible"/>
+
 
 </LinearLayout>

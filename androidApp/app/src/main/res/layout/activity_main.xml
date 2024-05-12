@@ -5,17 +5,89 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Vous êtes connecté !"
-        android:textSize="20sp" />
-
-    <!-- Bouton de déconnexion -->
-    <Button
-        android:id="@+id/logoutButton"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Se déconnecter" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/secondBlue"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="64dp"
+                android:src="@drawable/logo"
+                android:layout_gravity="center"
+                android:layout_weight="0.2" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:text="Au Temps Donne"
+                android:textSize="20sp"
+                android:layout_gravity="center"
+                android:layout_weight="0.6"/>
+
+            <ImageView
+                android:id="@+id/logoutButton"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/logout"
+                android:layout_gravity="center"
+                android:layout_weight="0.2"/>
+
+        </LinearLayout>
+
+        <CalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@color/secondBlue">
+
+        <ImageView
+            android:id="@+id/homeButton"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:src="@drawable/home"
+            android:layout_gravity="center"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/qrCodeButton"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:src="@drawable/stock"
+            android:layout_gravity="center"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/nfcButton"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:src="@drawable/nfc"
+            android:layout_gravity="center"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
 
 </LinearLayout>

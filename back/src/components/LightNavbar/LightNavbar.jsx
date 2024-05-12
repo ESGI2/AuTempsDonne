@@ -13,12 +13,12 @@ import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 
 const menuItems = [
-    { id: 1, name: 'HOME', logo: homeLogo, redirect: '/admin'},
-    { id: 2, name: 'MEMBERS', logo: membersLogo, redirect: '/users'},
-    { id: 3, name: 'CALENDAR', logo: calendarLogo, redirect: '/calendar'},
-    { id: 4, name: 'MARAUDE', logo: maraudeLogo, redirect: '/maraude'},
-    { id: 5, name: 'TRUCK', logo: truckLogo, redirect: '/truck'},
-    { id: 6, name: 'WAREHOUSE', logo: warehouseLogo, redirect: '/warehouse'},
+    { id: 1, name: 'MEMBERS', logo: membersLogo, redirect: '/users'},
+    { id: 2, name: 'CALENDAR', logo: calendarLogo, redirect: '/calendar'},
+    { id: 3, name: 'MARAUDE', logo: maraudeLogo, redirect: '/maraude'},
+    { id: 4, name: 'TRUCK', logo: truckLogo, redirect: '/truck'},
+    { id: 5, name: 'PRODUCT', logo: warehouseLogo, redirect: '/warehouse'},
+    { id: 6, name: 'DELIVERY', logo: truckLogo, redirect: '/delivery'},
     { id: 7, name: 'NEWSLETTER', logo: warehouseLogo, redirect: '/newsletter'},
 ];
 
@@ -42,7 +42,6 @@ function logoutUser() {
             window.location.href = "/";
         }
     });
-
 }
 
 

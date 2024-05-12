@@ -12,8 +12,8 @@ class NewsletterController {
             const transporter = nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
-                    user: 'atdpa2024@gmail.com',
-                    pass: 'lgco smip aept juwu'
+                    user: process.env.NEWSLETTER_EMAIL,
+                    pass: process.env.NEWLETTER_PASSWORD
                 }
             });
 
