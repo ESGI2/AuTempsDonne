@@ -26,6 +26,14 @@ const Stock = sequelize.define('stock', {
         type: Sequelize.INTEGER,
         allowNull: false
     },
+    dlc: {
+        type: Sequelize.DATE,
+        allowNull: true
+    },
+    date: {
+        type: Sequelize.DATE,
+        allowNull: true
+    },
 }, {
     tableName: 'stock',
     timestamps: false
