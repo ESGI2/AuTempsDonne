@@ -58,7 +58,5 @@ data class SearchResults(
 data class Product(
     val ean: String,
     val name: String,
-    val categoryId: String,
     val categoryName: String,
-    val issuingCountry: String
 )
