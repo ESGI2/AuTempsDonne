@@ -19,7 +19,7 @@ const menuItems = [
     { id: 4, name: 'MARAUDE', logo: maraudeLogo, redirect: '/maraude'},
     { id: 5, name: 'TRUCK', logo: truckLogo, redirect: '/truck'},
     { id: 6, name: 'PRODUCT', logo: warehouseLogo, redirect: '/warehouse'},
-    { id: 7, name: 'DELIVERY', logo: warehouseLogo, redirect: '/delivery'},
+    { id: 7, name: 'DELIVERY', logo: truckLogo, redirect: '/delivery'},
     { id: 8, name: 'NEWSLETTER', logo: warehouseLogo, redirect: '/newsletter'},
 ];
 

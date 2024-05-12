@@ -17,6 +17,16 @@ const DeliveryHomePage = () => {
         postal_code: '',
         road: ''
     });
+    const [deliveryFormData, setDeliveryFormData] = useState({
+        title: '',
+        description: '',
+        date_start: '',
+        date_end: '',
+        road_start: '',
+        road_end: '',
+        road_inter: '',
+        truck: '2'
+    });
 
     useEffect(() => {
         getAllDelivery().then(data => setDeliveries(data));
@@ -76,6 +86,18 @@ const DeliveryHomePage = () => {
         });
     };
 
+    const addDelivery = (formData) => {
+        return ky.post("http://localhost:3000/delivery", {
+            credentials: "include",
+            json: formData
+        }).then((response) => {
+            if (response.status !== 200) {
+                throw new Error('Failed to add delivery');
+            } else {
+                return response.json();
+            }
+        });
+    };
 
     const getAllDeliveryPoints = () => {
         return ky.get("http://localhost:3000/deliveryPoint", {
@@ -120,8 +142,17 @@ const DeliveryHomePage = () => {
         setNewPointModalIsOpen(false);
     };
 
-    const handleCreateDelivery = () => {
-        // Votre logique pour créer une livraison
+    const handleCreateDelivery = (event) => {
+        event.preventDefault();
+
+        // Format road_inter as comma-separated IDs
+        const formattedFormData = {
+            ...deliveryFormData,
+            road_inter: selectedIntermediatePoints
+        };
+
+        // Ajouter la livraison
+        addDelivery(formattedFormData);
         closeModal();
     };
 
@@ -150,8 +181,15 @@ const DeliveryHomePage = () => {
             .catch(error => {
                 closeNewPointModal();
                 console.error('Error creating delivery point:', error);
-
             });
+    };
+
+    const handleDeliveryFormChange = (event) => {
+        const { name, value } = event.target;
+        setDeliveryFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
     };
 
     return (
@@ -161,12 +199,13 @@ const DeliveryHomePage = () => {
             </button>
 
             {/* Modal pour créer une livraison */}
-            <div className="modal" tabIndex="-1" role="dialog" style={{ display: modalIsOpen ? 'block' : 'none' }}>
+            <div className="modal" tabIndex="-1" role="dialog" style={{display: modalIsOpen ? 'block' : 'none'}}>
                 <div className="modal-dialog modal-dialog-centered" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title">Créer une livraison</h5>
-                            <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={closeModal}>
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close"
+                                    onClick={closeModal}>
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -174,23 +213,28 @@ const DeliveryHomePage = () => {
                             <form onSubmit={handleCreateDelivery}>
                                 <div className="form-group">
                                     <label>Titre:</label>
-                                    <input type="text" className="form-control" name="title" />
+                                    <input type="text" className="form-control" name="title"
+                                           value={deliveryFormData.title} onChange={handleDeliveryFormChange}/>
                                 </div>
                                 <div className="form-group">
                                     <label>Description:</label>
-                                    <input type="text" className="form-control" name="description" />
+                                    <input type="text" className="form-control" name="description"
+                                           value={deliveryFormData.description} onChange={handleDeliveryFormChange}/>
                                 </div>
                                 <div className="form-group">
                                     <label>Date de début:</label>
-                                    <input type="datetime-local" className="form-control" name="start" />
+                                    <input type="datetime-local" className="form-control" name="date_start"
+                                           value={deliveryFormData.date_start} onChange={handleDeliveryFormChange}/>
                                 </div>
                                 <div className="form-group">
                                     <label>Date de fin:</label>
-                                    <input type="datetime-local" className="form-control" name="end" />
+                                    <input type="datetime-local" className="form-control" name="date_end"
+                                           value={deliveryFormData.date_end} onChange={handleDeliveryFormChange}/>
                                 </div>
                                 <div className="form-group">
                                     <label>Point de départ:</label>
-                                    <select className="form-control" name="departurePoint">
+                                    <select className="form-control" name="road_start"
+                                            value={deliveryFormData.road_start} onChange={handleDeliveryFormChange}>
                                         {warehouses.map((warehouse) => (
                                             <option key={warehouse.id} value={warehouse.id}>
                                                 {warehouse.name}
@@ -200,7 +244,8 @@ const DeliveryHomePage = () => {
                                 </div>
                                 <div className="form-group">
                                     <label>Point d'arrivée:</label>
-                                    <select className="form-control" name="arrivalPoint">
+                                    <select className="form-control" name="road_end" value={deliveryFormData.road_end}
+                                            onChange={handleDeliveryFormChange}>
                                         {warehouses.map((warehouse) => (
                                             <option key={warehouse.id} value={warehouse.id}>
                                                 {warehouse.name}
@@ -209,7 +254,9 @@ const DeliveryHomePage = () => {
                                     </select>
                                 </div>
                                 <div className="form-group">
-                                    <button type="button" className="btn btn-primary" onClick={openIntermediateModal}>Point intermédiaire</button>
+                                    <button type="button" className="btn btn-primary"
+                                            onClick={openIntermediateModal}>Point intermédiaire
+                                    </button>
                                 </div>
                                 <button type="submit" className="btn btn-primary">Créer</button>
                             </form>
@@ -219,19 +266,22 @@ const DeliveryHomePage = () => {
             </div>
 
             {/* Modal pour les points intermédiaires */}
-            <div className="modal" tabIndex="-1" role="dialog" style={{ display: intermediateModalIsOpen ? 'block' : 'none' }}>
+            <div className="modal" tabIndex="-1" role="dialog"
+                 style={{display: intermediateModalIsOpen ? 'block' : 'none'}}>
                 <div className="modal-dialog modal-dialog-centered" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title">Points intermédiaires</h5>
-                            <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={closeIntermediateModal}>
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close"
+                                    onClick={closeIntermediateModal}>
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div className="modal-body">
                             {deliveryPoints.map((point) => (
                                 <div key={point.id} className="form-check">
-                                    <input className="form-check-input" type="checkbox" value={point.id} id={`point-${point.id}`} onChange={handleCheckboxChange} />
+                                    <input className="form-check-input" type="checkbox" value={point.id}
+                                           id={`point-${point.id}`} onChange={handleCheckboxChange}/>
                                     <label className="form-check-label" htmlFor={`point-${point.id}`}>
                                         {point.name}
                                     </label>
@@ -239,19 +289,23 @@ const DeliveryHomePage = () => {
                             ))}
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-primary" onClick={openNewPointModal}>Ajouter un point intermédiaire</button>
+                            <button type="button" className="btn btn-primary" onClick={openNewPointModal}>Ajouter un
+                                point intermédiaire
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
 
             {/* Modal pour ajouter un nouveau point intermédiaire */}
-            <div className="modal" tabIndex="-1" role="dialog" style={{ display: newPointModalIsOpen ? 'block' : 'none' }}>
+            <div className="modal" tabIndex="-1" role="dialog"
+                 style={{display: newPointModalIsOpen ? 'block' : 'none'}}>
                 <div className="modal-dialog modal-dialog-centered" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title">Ajouter un point intermédiaire</h5>
-                            <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={closeNewPointModal}>
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close"
+                                    onClick={closeNewPointModal}>
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -259,59 +313,66 @@ const DeliveryHomePage = () => {
                             <form>
                                 <div className="form-group">
                                     <label>Nom:</label>
-                                    <input type="text" className="form-control" name="name" value={newPointFormData.name} onChange={handleNewPointFormChange} />
+                                    <input type="text" className="form-control" name="name"
+                                           value={newPointFormData.name} onChange={handleNewPointFormChange}/>
                                 </div>
                                 <div className="form-group">
                                     <label>Pays:</label>
-                                    <input type="text" className="form-control" name="country" value={newPointFormData.country} onChange={handleNewPointFormChange} />
+                                    <input type="text" className="form-control" name="country"
+                                           value={newPointFormData.country} onChange={handleNewPointFormChange}/>
                                 </div>
                                 <div className="form-group">
                                     <label>Ville:</label>
-                                    <input type="text" className="form-control" name="city" value={newPointFormData.city} onChange={handleNewPointFormChange} />
+                                    <input type="text" className="form-control" name="city"
+                                           value={newPointFormData.city} onChange={handleNewPointFormChange}/>
                                 </div>
                                 <div className="form-group">
                                     <label>Code postal:</label>
-                                    <input type="text" className="form-control" name="postal_code" value={newPointFormData.postal_code} onChange={handleNewPointFormChange} />
+                                    <input type="text" className="form-control" name="postal_code"
+                                           value={newPointFormData.postal_code} onChange={handleNewPointFormChange}/>
                                 </div>
                                 <div className="form-group">
                                     <label>Rue:</label>
-                                    <input type="text" className="form-control" name="road" value={newPointFormData.road} onChange={handleNewPointFormChange} />
+                                    <input type="text" className="form-control" name="road"
+                                           value={newPointFormData.road} onChange={handleNewPointFormChange}/>
                                 </div>
                             </form>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-primary" onClick={handleCreateNewPoint}>Créer</button>
+                            <button type="button" className="btn btn-primary" onClick={handleCreateNewPoint}>Créer
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
 
             {/* Tableau des livraisons */}
-            <table className="min-w-full">
+            <table className="min-w-full border-collapse border border-gray-200">
                 <thead>
-                <tr className="w-full" style={{ backgroundColor: '#CECFCF' }}>
-                    <th className="py-2.5 px-3 text-left">ID Delivery</th>
-                    <th className="py-2.5 px-3 text-left">ID Truck</th>
-                    <th className="py-2.5 px-3 text-left">Date de début</th>
-                    <th className="py-2.5 px-3 text-left">Date de fin</th>
-                    <th className="py-2.5 px-3 text-left">Titre</th>
+                <tr className="w-full bg-gray-200">
+                    <th className="py-2.5 px-3 text-left border border-gray-200">ID Delivery</th>
+                    <th className="py-2.5 px-3 text-left border border-gray-200">ID Truck</th>
+                    <th className="py-2.5 px-3 text-left border border-gray-200">Date de début</th>
+                    <th className="py-2.5 px-3 text-left border border-gray-200">Date de fin</th>
+                    <th className="py-2.5 px-3 text-left border border-gray-200">Titre</th>
                 </tr>
                 </thead>
                 <tbody>
                 {deliveries.map((delivery, index) => {
                     const matchingEvent = events.find(event => event.id === delivery.id_event);
                     return (
-                        <tr key={index}>
-                            <td className="py-2.5 px-3">{delivery.id}</td>
-                            <td className="py-2.5 px-3">{delivery.id_truck}</td>
-                            <td className="py-2.5 px-3">{matchingEvent ? formatDate(matchingEvent.start) : ''}</td>
-                            <td className="py-2.5 px-3">{matchingEvent ? formatDate(matchingEvent.end) : ''}</td>
-                            <td className="py-2.5 px-3">{matchingEvent ? matchingEvent.title : ''}</td>
+                        <tr key={index} className="bg-white border border-gray-200">
+                            <td className="py-2.5 px-3 border border-gray-200">{delivery.id}</td>
+                            <td className="py-2.5 px-3 border border-gray-200">{delivery.id_truck}</td>
+                            <td className="py-2.5 px-3 border border-gray-200">{matchingEvent ? formatDate(matchingEvent.start) : ''}</td>
+                            <td className="py-2.5 px-3 border border-gray-200">{matchingEvent ? formatDate(matchingEvent.end) : ''}</td>
+                            <td className="py-2.5 px-3 border border-gray-200">{matchingEvent ? matchingEvent.title : ''}</td>
                         </tr>
                     );
                 })}
                 </tbody>
             </table>
+
         </div>
     );
 
