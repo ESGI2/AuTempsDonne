@@ -1,12 +1,14 @@
 const Stock = require('../models/stock.model');
 
 class StockRepository {
-    static async addStock(id_product, id_warehouse, quantity) {
+    static async addStock(id_product, id_warehouse, quantity, dlc, date) {
         try {
             const newStock = await Stock.create({
                 id_product,
                 id_warehouse,
-                quantity
+                quantity,
+                dlc,
+                date
             });
             return newStock;
         } catch (error) {
