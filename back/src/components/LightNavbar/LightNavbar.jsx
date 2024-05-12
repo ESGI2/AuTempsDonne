@@ -18,8 +18,9 @@ const menuItems = [
     { id: 3, name: 'CALENDAR', logo: calendarLogo, redirect: '/calendar'},
     { id: 4, name: 'MARAUDE', logo: maraudeLogo, redirect: '/maraude'},
     { id: 5, name: 'TRUCK', logo: truckLogo, redirect: '/truck'},
-    { id: 6, name: 'WAREHOUSE', logo: warehouseLogo, redirect: '/warehouse'},
-    { id: 7, name: 'NEWSLETTER', logo: warehouseLogo, redirect: '/newsletter'},
+    { id: 6, name: 'PRODUCT', logo: warehouseLogo, redirect: '/warehouse'},
+    { id: 7, name: 'DELIVERY', logo: truckLogo, redirect: '/delivery'},
+    { id: 8, name: 'NEWSLETTER', logo: warehouseLogo, redirect: '/newsletter'},
 ];
 
 function getUserData() {
@@ -42,7 +43,6 @@ function logoutUser() {
             window.location.href = "/";
         }
     });
-
 }
 
 

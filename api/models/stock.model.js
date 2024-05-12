@@ -1,7 +1,5 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../config/db');
-const Warehouse = require('./warehouse.model');
-const Product = require('./product.model');
 
 const Stock = sequelize.define('stock', {
     id_product: {
