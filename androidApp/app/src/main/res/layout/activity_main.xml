@@ -73,7 +73,7 @@
             android:id="@+id/qrCodeButton"
             android:layout_width="0dp"
             android:layout_height="32dp"
-            android:src="@drawable/qr"
+            android:src="@drawable/stock"
             android:layout_gravity="center"
             android:layout_weight="1"/>
 

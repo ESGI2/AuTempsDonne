@@ -3,11 +3,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <SurfaceView
-        android:id="@+id/cameraPreview"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottomNavigation" />
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <Button
+            android:id="@+id/buttonScanQR"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Scanner un QR Code" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="OU" />
+
+        <EditText
+            android:id="@+id/editTextEAN"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Entrez l'EAN"
+            android:inputType="number" />
+
+        <Button
+            android:id="@+id/buttonSearchEAN"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rechercher avec EAN" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/bottomNavigation"
@@ -30,7 +57,7 @@
             android:id="@+id/qrCodeButton"
             android:layout_width="0dp"
             android:layout_height="32dp"
-            android:src="@drawable/qr"
+            android:src="@drawable/stock"
             android:layout_gravity="center"
             android:layout_weight="1"/>
 
