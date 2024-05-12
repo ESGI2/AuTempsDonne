@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import ClassicButton from "../Button/ClassicButton.jsx";
 
 const MaraudeProductData = ({information}) => {
+
     // State
     const [maraude, setMaraude] = useState(null);
 
@@ -11,15 +12,6 @@ const MaraudeProductData = ({information}) => {
         setMaraude(information);
         console.log(information)
     }, [information]);
-
-
-    // Comportements
-
-
-
-
-
-
 
     if (!maraude) {
         return (
@@ -31,9 +23,7 @@ const MaraudeProductData = ({information}) => {
 
     // Affichage
 
-    // Je veux un tableau récapitulatif des produits de la maraude avec les informations suivantes : id, nom, type, quantité
     return (
-
         <>
             <div className="overflow-x-auto rounded-t-lg pt-3">
                 <h5 className="card-title text-center pb-3">Informations sur les produits</h5>
@@ -58,11 +48,8 @@ const MaraudeProductData = ({information}) => {
                     </tbody>
                 </table>
             </div>
-
-
-                                </>
-
-                                );
-                            };
+        </>
+    );
+};
 
 export default MaraudeProductData;

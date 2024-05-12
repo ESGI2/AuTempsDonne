@@ -1,4 +1,5 @@
 const MaraudePassingRepository = require('../repositories/maraudePassing.repository');
+const MaraudePointService = require('./maraudePoint.service');
 
 class MaraudePassingService {
     static async getAllPassingPoints() {
@@ -12,6 +13,28 @@ class MaraudePassingService {
     static async getPassingPointByMaraude(id) {
         try {
             return await MaraudePassingRepository.getPassingPointByMaraudeId(id);
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async getPointsDataByMaraude(id) {
+        try {
+            // Cette fonction doit renvoyer les points de passage d'une maraude avec les données des points associés
+            const rawPassingPoints = await MaraudePassingRepository.getPassingPointByMaraudeId(id);
+
+            const points = [];
+
+            for (const passingPoint of rawPassingPoints) {
+                const point = await MaraudePointService.getMaraudePointById(passingPoint.id_point);
+                point.step = passingPoint.step;
+                points.push(point);
+            }
+
+            // On trie le tableau en fonction de l'attribut step
+            points.sort((a, b) => a.step - b.step);
+
+            return points;
         } catch (error) {
             throw error;
         }

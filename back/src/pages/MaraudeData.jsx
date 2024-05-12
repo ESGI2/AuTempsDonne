@@ -5,6 +5,7 @@ import ky from "ky";
 import {Alert} from "react-bootstrap";
 import TruckInformations from "../components/Maraude/TruckInformations.jsx";
 import MaraudeProductData from "../components/Maraude/MaraudeProductData.jsx";
+import MaraudeMap from "../components/Maraude/MaraudeMap.jsx";
 
 const MaraudeData = () => {
     // State
@@ -29,7 +30,7 @@ const MaraudeData = () => {
                 credentials: 'include'
             });
             if (!response.ok) {
-                throw new Error(response.statusText);
+                console.log(response);
             }
             return response.json();
         } catch (error) {
@@ -46,6 +47,7 @@ const MaraudeData = () => {
                 <MaraudeInformations information={maraude}/>
                 <TruckInformations information={maraude}/>
                 <MaraudeProductData information={maraude}/>
+                <MaraudeMap information={maraude}/>
             </div>
         </div>
     );

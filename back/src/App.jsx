@@ -68,6 +68,7 @@ import DeliveryPage from "./pages/DeliveryPage.jsx";
 import {PrimeReactProvider} from "primereact/api";
 import NewsletterPage from "./pages/NewsletterPage.jsx";
 import MaraudeData from "./pages/MaraudeData.jsx";
+// import MaraudeData from "./pages/MaraudeData.jsx";
 
 function App() {
     return (
