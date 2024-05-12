@@ -7,10 +7,18 @@
         android:id="@+id/nfcStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
         android:text="Approchez votre appareil d'un tag NFC"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:layout_marginTop="20dp"/>
 
+    <ListView
+        android:id="@+id/nfcDataList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/nfcStatus"
+        android:layout_marginTop="10dp"
+        android:layout_above="@id/bottomNavigation"/>
 
     <LinearLayout
         android:id="@+id/bottomNavigation"
@@ -44,7 +52,5 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:src="@drawable/nfc" />
-
     </LinearLayout>
-
 </RelativeLayout>

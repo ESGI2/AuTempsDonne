@@ -15,11 +15,6 @@
             android:layout_height="wrap_content"
             android:text="Scanner un QR Code" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="OU" />
 
         <EditText
             android:id="@+id/editTextEAN"
@@ -33,6 +28,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Rechercher avec EAN" />
+
+        <Button
+            android:id="@+id/buttonAddProduit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+                android:text="Ajouter un produit" />
+
+        <Button
+            android:id="@+id/afficherListeProduits"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+                android:text="Afficher la liste des produits" />
 
     </LinearLayout>
 
