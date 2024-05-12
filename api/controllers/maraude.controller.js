@@ -122,7 +122,7 @@ class MaraudeController{
                 lon: parseFloat(point.lon)
             }));
 
-            const pythonProcess = spawn('python', ['./components/map_script.py', JSON.stringify(pointsDataNumeric), 'maraude_map_' + maraude.id]);
+            const pythonProcess = spawn('python', ['./components/maraude_script.py', JSON.stringify(pointsDataNumeric), 'maraude_map_' + maraude.id, process.env.WASABI_ACCESS_KEY_ID, process.env.WASABI_SECRET_ACCESS_KEY]);
             pythonProcess.stderr.on('data', (data) => {
                 console.error(`stderr: ${data}`);
             });

@@ -23,12 +23,12 @@ def create_map(points, name):
 
     return map_filename
 
-def upload_to_wasabi(file_path, bucket_name, object_name):
+def upload_to_wasabi(file_path, bucket_name, object_name, access_key, secret_key):
     # Connexion au service Wasabi S3
     s3 = boto3.client('s3',
                       endpoint_url='https://s3.eu-central-1.wasabisys.com',
-                      aws_access_key_id='OAD77C2QY8CRH2FG2N9Z',
-                      aws_secret_access_key='lHcIiu0TvjQFjLJOjskdp0mZALzHJP6zFRLzMuNy')
+                      aws_access_key_id=access_key,
+                      aws_secret_access_key=secret_key)
 
     # Upload du fichier vers Wasabi
     with open(file_path, "rb") as f:
@@ -38,6 +38,8 @@ if __name__ == "__main__":
     # Récupérer les points depuis les arguments de la ligne de commande
     points_json = sys.argv[1]
     file_name = sys.argv[2]
+    access_key = sys.argv[3]
+    secret_key = sys.argv[4]
     points = json.loads(points_json)
 
     # Créer la carte avec les points donnés
@@ -48,6 +50,6 @@ if __name__ == "__main__":
     object_name = file_name + '.html'
 
     # Upload du fichier vers Wasabi dans le dossier /maraude
-    upload_to_wasabi(map_file, bucket_name, 'maraude/' + object_name)
+    upload_to_wasabi(map_file, bucket_name, 'maraude/' + object_name, access_key, secret_key)
 
     print("Map file uploaded to Wasabi successfully")
