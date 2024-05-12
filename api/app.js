@@ -2,6 +2,7 @@
 const express = require('express');
 const app = express();
 require('dotenv').config();
+const cors = require('cors');
 const sequelize = require('./config/db');
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
@@ -11,13 +12,20 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, x-access-token, x-refresh-token');
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5174');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
-    res.setHeader('Access-Control-Allow-Credentials', true);
-    next();
-});
+app.use(cors({
+    origin: ['http://localhost:8080', "http://localhost:8081"],
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'x-access-token', 'x-refresh-token'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
+}));
+
+// app.use((req, res, next) => {
+//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, x-access-token, x-refresh-token');
+//     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
+//     res.setHeader('Access-Control-Allow-Credentials', true);
+//     next();
+// });
   
 sequelize.sync().then(() => {
     console.log('La connexion à la base de données a été établie avec succès.');
