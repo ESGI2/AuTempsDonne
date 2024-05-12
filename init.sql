@@ -62,9 +62,9 @@ create table product
     id       int auto_increment
         primary key,
     name     varchar(255) not null,
-    type     varchar(255)  null,
+    type     varchar(20)  null,
     donation tinyint(1)   null,
-    ean      varchar(13) null
+    ean      varchar(255) null
 );
 
 create table training
@@ -96,12 +96,14 @@ create table truck
 
 create table delivery
 (
-    id                  int auto_increment
+    id       int auto_increment
         primary key,
-    departure           datetime not null,
-    id_truck            int      not null,
-    theoretical_arrival datetime not null,
-    status              int      not null,
+    id_truck int not null,
+    id_event int not null,
+    status   int not null,
+    constraint delivery_event_id_fk
+        foreign key (id_event) references event (id)
+            on delete cascade,
     constraint delivery_ibfk_1
         foreign key (id_truck) references truck (id)
 );
@@ -111,10 +113,10 @@ create index id_truck
 
 create table delivery_listing
 (
-    id_delivery int        null,
-    id_point    int        null,
-    isDeparture tinyint(1) not null,
-    isArrival   tinyint(1) not null,
+    id_delivery int not null,
+    id_point    int not null,
+    step        int not null,
+    primary key (step, id_point, id_delivery),
     constraint delivery_listing_ibfk_1
         foreign key (id_delivery) references delivery (id),
     constraint delivery_listing_ibfk_2
@@ -192,27 +194,27 @@ create table user
 (
     id                int auto_increment
         primary key,
-    first_name        varchar(255) not null,
-    last_name         varchar(255) not null,
-    email             varchar(255) not null,
-    password          varchar(255) not null,
-    role              varchar(255) not null,
-    registration_date varchar(255) not null,
-    validation_status varchar(255) not null,
-    nbr_child         int          not null,
-    newsletter        tinyint(1)   not null,
-    salt              varchar(255) not null,
-    phone             varchar(255) null,
-    country           varchar(255) null,
-    city              varchar(255) null,
-    postal_code       varchar(255) null,
-    road              varchar(255) null,
-    road_number       int          null,
-    date_of_birth     datetime     null,
-    nationality       varchar(255) null,
-    account_status    varchar(255) not null,
-    family_situation  varchar(255) null,
-    tag boolean default false not null
+    first_name        varchar(255)         not null,
+    last_name         varchar(255)         not null,
+    email             varchar(255)         not null,
+    password          varchar(255)         not null,
+    role              varchar(255)         not null,
+    registration_date varchar(255)         not null,
+    validation_status varchar(255)         not null,
+    nbr_child         int                  not null,
+    newsletter        tinyint(1)           not null,
+    salt              varchar(255)         not null,
+    phone             varchar(255)         null,
+    country           varchar(255)         null,
+    city              varchar(255)         null,
+    postal_code       varchar(255)         null,
+    road              varchar(255)         null,
+    road_number       int                  null,
+    date_of_birth     datetime             null,
+    nationality       varchar(255)         null,
+    account_status    varchar(255)         not null,
+    family_situation  varchar(255)         null,
+    tag               tinyint(1) default 0 not null
 );
 
 create table child
@@ -324,11 +326,11 @@ create table warehouse
 
 create table stock
 (
-    id_product   int not null,
-    id_warehouse int not null,
-    quantity     int not null,
-    dlc         datetime not null,
-    date       datetime not null,
+    id_product   int      not null,
+    id_warehouse int      not null,
+    quantity     int      not null,
+    dlc          datetime not null,
+    date         datetime not null,
     primary key (id_product, id_warehouse),
     constraint stock_ibfk_1
         foreign key (id_product) references product (id)
@@ -343,3 +345,4 @@ create index id_warehouse
 
 create index id_delivery_point
     on warehouse (id_delivery_point);
+
