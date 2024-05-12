@@ -1,231 +1,345 @@
-CREATE DATABASE if not exists ATD_API;
-USE ATD_API;
-CREATE TABLE if not exists user(
-    id integer NOT NULL AUTO_INCREMENT,
-    first_name varchar(50) NOT NULL,
-    last_name varchar(50) NOT NULL,
-    email varchar(50) NOT NULL,
-    password varchar(255) NOT NULL,
-    role varchar(50) NOT NULL,
-    registration_date date NOT NULL,
-    validation_status varchar(50) NOT NULL,
-    nbr_child integer NOT NULL,
-    newsletter boolean NOT NULL,
-    salt varchar(255) NOT NULL,
+create database if not exists atd_api;
+use atd_api;
 
-    phone varchar(50),
-    country varchar(50),
-    city varchar(50),
-    postal_code varchar(50),
-    road varchar(50),
-    road_number integer,
-    date_of_birth date,
-    nationality varchar(30),
-    account_status varchar(50),
-    family_situation varchar(50),
-
-    PRIMARY KEY (id)
+create table activity
+(
+    id            int auto_increment
+        primary key,
+    activity_name varchar(255) not null,
+    description   varchar(255) null,
+    people_needed int          not null,
+    color         varchar(255) not null
 );
 
-CREATE TABLE if not exists child(
-    id integer NOT NULL AUTO_INCREMENT,
-    first_name varchar(50) NOT NULL,
-    last_name varchar(50) NOT NULL,
-    date_of_birth date NOT NULL,
-    id_user integer NOT NULL,
-    FOREIGN KEY (id_user) REFERENCES user(id),
-    PRIMARY KEY (id)
+create table delivery_point
+(
+    id          int auto_increment
+        primary key,
+    type        varchar(255)   not null,
+    name        varchar(255)   null,
+    country     varchar(255)   null,
+    city        varchar(255)   null,
+    postal_code varchar(255)   null,
+    road        varchar(255)   null,
+    lat         decimal(10, 8) null,
+    lon         decimal(11, 8) null
 );
 
-CREATE TABLE if not exists training(
-    id integer NOT NULL AUTO_INCREMENT,
-    name varchar(50) NOT NULL,
-    description varchar(50) NOT NULL,
-    duration integer NOT NULL,
-    PRIMARY KEY (id)
+create table event
+(
+    id          int auto_increment
+        primary key,
+    title       varchar(50) not null,
+    description varchar(50) not null,
+    start       datetime    not null,
+    end         datetime    not null,
+    activity_id int         null,
+    allDay      tinyint(1)  not null,
+    maraude     tinyint(1)  not null,
+    delivery    tinyint(1)  not null,
+    constraint event_ibfk_1
+        foreign key (activity_id) references activity (id)
 );
 
-CREATE TABLE if not exists training_listing(
-    id_user integer NOT NULL,
-    id_training integer NOT NULL,
-    FOREIGN KEY (id_user) REFERENCES user(id),
-    FOREIGN KEY (id_training) REFERENCES training(id),
-    PRIMARY KEY (id_user, id_training)
+create index activity_id
+    on event (activity_id);
+
+create table maraude_point
+(
+    id          int auto_increment
+        primary key,
+    name        varchar(255) not null,
+    country     varchar(255) not null,
+    city        varchar(255) not null,
+    postal_code varchar(255) not null,
+    road        varchar(255) not null,
+    lat         varchar(30)  not null,
+    lon         varchar(30)  not null
 );
 
-CREATE TABLE if not exists ticket(
-    id integer NOT NULL AUTO_INCREMENT,
-    title varchar(50) NOT NULL,
-    message varchar(50) NOT NULL,
-    date_creation date NOT NULL,
-    id_user integer NOT NULL,
-    FOREIGN KEY (id_user) REFERENCES user(id),
-    PRIMARY KEY (id)
+create table product
+(
+    id       int auto_increment
+        primary key,
+    name     varchar(255) not null,
+    type     varchar(255)  null,
+    donation tinyint(1)   null,
+    ean      varchar(13) null
 );
 
-CREATE TABLE if not exists activity(
-    id integer NOT NULL AUTO_INCREMENT,
-    activity_name varchar(50) NOT NULL,
-    description varchar(255) NOT NULL,
-    people_needed integer NOT NULL,
-    color varchar(30) NOT NULL,
-    PRIMARY KEY (id)
+create table training
+(
+    id          int auto_increment
+        primary key,
+    name        varchar(255) null,
+    description varchar(255) null,
+    duration    int          null
 );
 
-CREATE TABLE if not exists event(
-    id integer NOT NULL AUTO_INCREMENT,
-    title varchar(50) NOT NULL,
-    description varchar(50) NOT NULL,
-    start date NOT NULL,
-    end date NOT NULL,
-    allDay boolean NOT NULL,
-    activity_id integer NOT NULL,
-    maraude_id integer,
-    delivery_id integer,
-    PRIMARY KEY (id),
-    FOREIGN KEY (activity_id) REFERENCES activity(id),
-    FOREIGN KEY (maraude_id) REFERENCES maraude(id),
-    FOREIGN KEY (delivery_id) REFERENCES delivery(id)
+create table trainings
+(
+    id          int auto_increment
+        primary key,
+    name        varchar(255) null,
+    description varchar(255) null,
+    duration    int          null
 );
 
-CREATE TABLE if not exists event_listing(
-    id_user integer NOT NULL,
-    id_event integer NOT NULL,
-    FOREIGN KEY (id_user) REFERENCES user(id),
-    FOREIGN KEY (id_event) REFERENCES event(id),
-    PRIMARY KEY (id_user, id_event)
+create table truck
+(
+    id                     int auto_increment
+        primary key,
+    name                   varchar(255) not null,
+    localisation           varchar(255) not null,
+    plaque_immatriculation varchar(255) not null
 );
 
-
-CREATE TABLE if not exists truck(
-    id integer NOT NULL AUTO_INCREMENT,
-    name varchar(50) NOT NULL,
-    localisation varchar(50) NOT NULL,
-    PRIMARY KEY (id)
+create table delivery
+(
+    id                  int auto_increment
+        primary key,
+    departure           datetime not null,
+    id_truck            int      not null,
+    theoretical_arrival datetime not null,
+    status              int      not null,
+    constraint delivery_ibfk_1
+        foreign key (id_truck) references truck (id)
 );
 
-ALTER TABLE truck
-ADD COLUMN plaque_immatriculation varchar(20) NOT NULL;
+create index id_truck
+    on delivery (id_truck);
 
-CREATE TABLE if not exists maraude(
-    id integer NOT NULL AUTO_INCREMENT,
-    id_truck integer NOT NULL,
-    id_event integer NOT NULL,
-    FOREIGN KEY (id_truck) REFERENCES truck(id),
-    FOREIGN KEY (id_event) REFERENCES event(id),
-    PRIMARY KEY (id)
+create table delivery_listing
+(
+    id_delivery int        null,
+    id_point    int        null,
+    isDeparture tinyint(1) not null,
+    isArrival   tinyint(1) not null,
+    constraint delivery_listing_ibfk_1
+        foreign key (id_delivery) references delivery (id),
+    constraint delivery_listing_ibfk_2
+        foreign key (id_point) references delivery_point (id)
 );
 
-CREATE TABLE if not exists maraude_listing(
-    id_user integer NOT NULL,
-    id_maraude integer NOT NULL,
-    FOREIGN KEY (id_user) REFERENCES user(id),
-    FOREIGN KEY (id_maraude) REFERENCES maraude(id),
-    PRIMARY KEY (id_user, id_maraude)
+create index id_delivery
+    on delivery_listing (id_delivery);
+
+create index id_point
+    on delivery_listing (id_point);
+
+create table delivery_product
+(
+    id_product  int not null,
+    id_delivery int not null,
+    quantity    int not null,
+    primary key (id_product, id_delivery),
+    constraint delivery_product_ibfk_1
+        foreign key (id_product) references product (id),
+    constraint delivery_product_ibfk_2
+        foreign key (id_delivery) references delivery (id)
 );
 
-CREATE TABLE if not exists maraude_point(
-    id integer NOT NULL AUTO_INCREMENT,
-    name varchar(50) NOT NULL,
-    country varchar(50) NOT NULL,
-    city varchar(50) NOT NULL,
-    postal_code varchar(50) NOT NULL,
-    road varchar(50) NOT NULL,
-    lat varchar(10) NOT NULL,
-    lon varchar(10) NOT NULL,
-    PRIMARY KEY (id)
+create index id_delivery
+    on delivery_product (id_delivery);
+
+create table maraude
+(
+    id       int auto_increment
+        primary key,
+    id_event int not null,
+    id_truck int not null,
+    constraint maraude_ibfk_10
+        foreign key (id_truck) references truck (id),
+    constraint maraude_ibfk_9
+        foreign key (id_event) references event (id)
 );
 
-CREATE TABLE if not exists maraude_passing(
-    id_maraude integer NOT NULL,
-    id_maraude_point integer NOT NULL,
-    step integer NOT NULL,
-    FOREIGN KEY (id_maraude) REFERENCES maraude(id),
-    FOREIGN KEY (id_maraude_point) REFERENCES maraude_point(id),
-    PRIMARY KEY (id_maraude, id_maraude_point)
+create index id_event
+    on maraude (id_event);
+
+create index id_truck
+    on maraude (id_truck);
+
+create table maraude_content
+(
+    id_product int not null,
+    id_maraude int not null,
+    quantity   int not null,
+    primary key (id_product, id_maraude),
+    constraint maraude_content_ibfk_1
+        foreign key (id_product) references product (id)
+            on delete cascade,
+    constraint maraude_content_ibfk_2
+        foreign key (id_maraude) references maraude (id)
+            on delete cascade
 );
 
-CREATE TABLE if not exists delivery(
-    id integer NOT NULL AUTO_INCREMENT,
-    departure date NOT NULL,
-    theorical_arrival date NOT NULL,
-    id_truck integer NOT NULL,
-    status integer NOT NULL,
-    FOREIGN KEY (id_truck) REFERENCES truck(id),
-    PRIMARY KEY (id)
+create table maraude_passing
+(
+    id_maraude int not null,
+    id_point   int not null,
+    step       int not null,
+    primary key (id_point, id_maraude, step),
+    constraint maraude_passing_maraude_id_fk
+        foreign key (id_maraude) references maraude (id)
+            on delete cascade,
+    constraint maraude_passing_maraude_point_id_fk
+        foreign key (id_point) references maraude_point (id)
+            on delete cascade
 );
 
-CREATE TABLE if not exists Delivery_point (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    type VARCHAR(255),
-    name VARCHAR(255),
-    country VARCHAR(255),
-    city VARCHAR(255),
-    postal_code VARCHAR(20),
-    road VARCHAR(255)
+create table user
+(
+    id                int auto_increment
+        primary key,
+    first_name        varchar(255) not null,
+    last_name         varchar(255) not null,
+    email             varchar(255) not null,
+    password          varchar(255) not null,
+    role              varchar(255) not null,
+    registration_date varchar(255) not null,
+    validation_status varchar(255) not null,
+    nbr_child         int          not null,
+    newsletter        tinyint(1)   not null,
+    salt              varchar(255) not null,
+    phone             varchar(255) null,
+    country           varchar(255) null,
+    city              varchar(255) null,
+    postal_code       varchar(255) null,
+    road              varchar(255) null,
+    road_number       int          null,
+    date_of_birth     datetime     null,
+    nationality       varchar(255) null,
+    account_status    varchar(255) not null,
+    family_situation  varchar(255) null,
+    tag boolean default false not null
 );
 
-CREATE TABLE Delivery_listing (
-    id_delivery INT,
-    id_point INT,
-    isDeparture BOOLEAN,
-    isArrival BOOLEAN,
-    FOREIGN KEY (id_delivery) REFERENCES delivery(id),
-    FOREIGN KEY (id_point) REFERENCES Delivery_point(id)
+create table child
+(
+    id            int auto_increment
+        primary key,
+    first_name    varchar(255) not null,
+    last_name     varchar(255) not null,
+    date_of_birth datetime     not null,
+    id_user       int          not null,
+    constraint child_ibfk_1
+        foreign key (id_user) references user (id)
 );
 
-CREATE TABLE if not exists product(
-    id integer NOT NULL AUTO_INCREMENT,
-    name varchar(50) NOT NULL,
-    PRIMARY KEY (id)
+create index id_user
+    on child (id_user);
+
+create table delivery_drivers
+(
+    id          int auto_increment
+        primary key,
+    id_user     int not null,
+    id_delivery int not null,
+    constraint delivery_drivers_ibfk_491
+        foreign key (id_user) references user (id),
+    constraint delivery_drivers_ibfk_492
+        foreign key (id_delivery) references delivery (id)
 );
 
-CREATE TABLE if not exists warehouse(
-    id integer NOT NULL AUTO_INCREMENT,
-    name varchar(50) NOT NULL,
-    country varchar(50) NOT NULL,
-    city varchar(50) NOT NULL,
-    postal_code varchar(50) NOT NULL,
-    road varchar(50) NOT NULL,
-    road_number integer NOT NULL,
-    PRIMARY KEY (id)
+create index id_delivery
+    on delivery_drivers (id_delivery);
+
+create index id_user
+    on delivery_drivers (id_user);
+
+create table event_listing
+(
+    id_user  int not null,
+    id_event int not null,
+    primary key (id_user, id_event),
+    constraint event_listing_ibfk_1
+        foreign key (id_user) references user (id)
+            on delete cascade,
+    constraint event_listing_ibfk_2
+        foreign key (id_event) references event (id)
+            on delete cascade
 );
 
-CREATE TABLE if not exists stock(
-    id_product integer NOT NULL,
-    id_warehouse integer NOT NULL,
-    quantity integer NOT NULL,
-    FOREIGN KEY (id_product) REFERENCES product(id) ON DELETE CASCADE,
-    FOREIGN KEY (id_warehouse) REFERENCES warehouse(id) ON DELETE CASCADE,
-    PRIMARY KEY (id_product, id_warehouse)
+create table maraude_listing
+(
+    id_user    int not null,
+    id_maraude int not null,
+    primary key (id_user, id_maraude),
+    constraint maraude_listing_ibfk_1
+        foreign key (id_user) references user (id),
+    constraint maraude_listing_ibfk_2
+        foreign key (id_maraude) references maraude (id)
 );
 
-CREATE TABLE if not exists delivery_listing(
-    id_product integer NOT NULL,
-    id_delivery integer NOT NULL,
-    FOREIGN KEY (id_product) REFERENCES product(id),
-    FOREIGN KEY (id_delivery) REFERENCES delivery(id),
-    PRIMARY KEY (id_product, id_delivery)
+create index id_maraude
+    on maraude_listing (id_maraude);
+
+create table ticket
+(
+    id            int auto_increment
+        primary key,
+    title         varchar(255) not null,
+    message       varchar(255) not null,
+    date_creation varchar(255) not null,
+    id_user       int          not null,
+    id_answer     int          null,
+    status        int          null,
+    constraint ticket_ibfk_1
+        foreign key (id_user) references user (id),
+    constraint ticket_id_answer_foreign_idx
+        foreign key (id_answer) references user (id)
 );
 
-CREATE TABLE if not exists delivery_product(
-    id_product integer NOT NULL,
-    id_delivery integer NOT NULL,
-    quantity integer NOT NULL,
-    FOREIGN KEY (id_product) REFERENCES product(id),
-    FOREIGN KEY (id_delivery) REFERENCES delivery(id),
-    PRIMARY KEY (id_product, id_delivery)
+create index id_user
+    on ticket (id_user);
+
+create table training_listing
+(
+    id_user     int not null,
+    id_training int not null,
+    primary key (id_user, id_training),
+    constraint training_listing_ibfk_1
+        foreign key (id_user) references user (id),
+    constraint training_listing_ibfk_2
+        foreign key (id_training) references training (id)
 );
 
-CREATE TABLE if not exists maraude_content(
-    id_product integer NOT NULL,
-    id_maraude integer NOT NULL,
-    quantity integer NOT NULL,
-    FOREIGN KEY (id_product) REFERENCES product(id),
-    FOREIGN KEY (id_maraude) REFERENCES maraude(id),
-    PRIMARY KEY (id_product, id_maraude)
+create index id_training
+    on training_listing (id_training);
+
+create table warehouse
+(
+    id                int auto_increment
+        primary key,
+    name              varchar(255) not null,
+    country           varchar(255) not null,
+    city              varchar(255) not null,
+    postal_code       varchar(255) not null,
+    road              varchar(255) not null,
+    id_delivery_point int          null,
+    constraint warehouse_ibfk_1
+        foreign key (id_delivery_point) references delivery_point (id)
 );
 
-ALTER TABLE product
-    ADD COLUMN type varchar(20),
-    ADD COLUMN donation BOOL;
+create table stock
+(
+    id_product   int not null,
+    id_warehouse int not null,
+    quantity     int not null,
+    dlc         datetime not null,
+    date       datetime not null,
+    primary key (id_product, id_warehouse),
+    constraint stock_ibfk_1
+        foreign key (id_product) references product (id)
+            on delete cascade,
+    constraint stock_ibfk_2
+        foreign key (id_warehouse) references warehouse (id)
+            on delete cascade
+);
+
+create index id_warehouse
+    on stock (id_warehouse);
+
+create index id_delivery_point
+    on warehouse (id_delivery_point);

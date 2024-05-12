@@ -2,8 +2,8 @@ const Delivery = require('../models/delivery.model');
 const DeliveryProduct = require('../models/deliveryProduct.model');
 const DeliveryListing = require('../models/deliveryListing.model');
 const Warehouse = require('../models/warehouse.model');
-const Stock = require('../models/Stock.model');
 const Maraude = require("../models/maraude.model");
+const Stock = require('../models/stock.model');
 
 class DeliveryRepository {
     static async addDelivery(deliveryData) {

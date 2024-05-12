@@ -88,7 +88,11 @@ const User = sequelize.define('user', {
     family_situation: {
         type: Sequelize.STRING,
         allowNull: true
-    }
+    },
+    tag: {
+        type: Sequelize.BOOLEAN,
+        allowNull: true
+    },
 },
 {
     tableName: 'user',
