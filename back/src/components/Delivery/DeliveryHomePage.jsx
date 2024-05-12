@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ky from 'ky';
+import ClassicButton from "../Button/ClassicButton.jsx";
 
 const DeliveryHomePage = () => {
     const [deliveries, setDeliveries] = useState([]);
@@ -283,11 +284,11 @@ const DeliveryHomePage = () => {
                                     </select>
                                 </div>
                                 <div className="form-group">
-                                    <button type="button" className="btn btn-primary"
+                                    <button type="button" className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
                                             onClick={openIntermediateModal}>Point intermédiaire
                                     </button>
                                 </div>
-                                <button type="submit" className="btn btn-primary">Créer</button>
+                                <button type="submit" className="bg-green-400 hover:bg-green-500 text-white py-2 px-4 rounded">Créer</button>
                             </form>
                         </div>
                     </div>
@@ -318,7 +319,7 @@ const DeliveryHomePage = () => {
                             ))}
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-primary" onClick={openNewPointModal}>Ajouter un
+                            <button type="button" className="bg-green-400 hover:bg-green-500 text-white py-2 px-4 rounded" onClick={openNewPointModal}>Ajouter un
                                 point intermédiaire
                             </button>
                         </div>
@@ -398,9 +399,9 @@ const DeliveryHomePage = () => {
                             <td className="py-2.5 px-3 border border-gray-200">{matchingEvent ? formatDate(matchingEvent.end) : ''}</td>
                             <td className="py-2.5 px-3 border border-gray-200">{matchingEvent ? matchingEvent.title : ''}</td>
                             <td className="py-2.5 px-3 border border-gray-200">
-                                <button className="btn btn-primary" onClick={() => downloadMap(delivery.id)}>
+                                <ClassicButton onClick={() => downloadMap(delivery.id)}>
                                     Télécharger
-                                </button>
+                                </ClassicButton>
                             </td>
                         </tr>
                     );
