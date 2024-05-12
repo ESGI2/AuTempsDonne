@@ -1,4 +1,4 @@
 package com.example.androidapp
 
-class ProductSearchActivity {
+class ProductAdapter {
 }
