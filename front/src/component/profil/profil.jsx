@@ -26,7 +26,7 @@ const Profiler = () => {
         const fetchUserData = async () => {
             try {
                 const meResponse = await getMe();
-                const userData = meResponse.user;
+                const userData = meResponse.me;
                 setId(userData.id);
                 setFirstName(userData.first_name);
                 setLastName(userData.last_name);
