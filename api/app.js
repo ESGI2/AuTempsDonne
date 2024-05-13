@@ -13,7 +13,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cors({
-    origin: ['http://localhost:8080', "http://localhost:8081", "http://localhost:5173", "http://localhost:5174"],
+    origin: ['http://localhost:8080', "http://localhost:8081", "http://localhost:5173", "http://localhost:5174",
+'http://autempsdonne.site:8080', 'http://autempsdonne.site:8081'],
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'x-access-token', 'x-refresh-token'],
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
