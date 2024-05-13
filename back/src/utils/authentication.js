@@ -6,7 +6,7 @@ const checkCredentials = () => {
 const AuthenticatedRoute = ({element}) => {
     if (checkCredentials()) {
 
-        ky.get("http://localhost:3000/user/me", {
+        ky.get("http://autempsdonne.site:3000/user/me", {
             credentials: "include",
         }).then(async (response) => {
             if (response.status !== 200) {

@@ -35,7 +35,7 @@ function NewsletterForm() {
     };
 
     const sendMail = (title, message) => {
-        return ky.post(`http://localhost:3000/newsletter`, {
+        return ky.post(`http://autempsdonne.site:3000/newsletter`, {
             credentials: "include",
             method: "POST",
             json: { title, message }

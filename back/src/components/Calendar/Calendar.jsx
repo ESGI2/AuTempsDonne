@@ -40,7 +40,7 @@ export default function Calendar() {
 
     async function fetchEvents(){
         try {
-            const response = await ky.get('http://localhost:3000/event', {
+            const response = await ky.get('http://autempsdonne.site:3000/event', {
                 credentials: "include"
             });
             const data = await response.json();
@@ -53,7 +53,7 @@ export default function Calendar() {
     async function fetchEventsByPerson(personId){
         try {
             console.log("Récupération des événements pour la personne", personId)
-            const response = await ky.get(`http://localhost:3000/event/user/${personId}`, {
+            const response = await ky.get(`http://autempsdonne.site:3000/event/user/${personId}`, {
                 credentials: "include"
             });
             const data = await response.json();

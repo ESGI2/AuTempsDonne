@@ -16,7 +16,7 @@ const role = {
 }
 
 function getAllUsers() {
-    return ky.get("http://localhost:3000/user", {
+    return ky.get("http://autempsdonne.site:3000/user", {
         credentials: "include",
     }).then((response) => {
         if (response.status !== 200) {

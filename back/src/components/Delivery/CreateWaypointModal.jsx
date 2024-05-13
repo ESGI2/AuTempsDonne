@@ -3,7 +3,7 @@ import { Button, Modal, Form } from 'react-bootstrap';
 import ky from "ky";
 
 const getDeliveryPoint = () => {
-    return ky.get(`http://localhost:3000/DeliveryPoint`, {
+    return ky.get(`http://autempsdonne.site:3000/DeliveryPoint`, {
         credentials: "include",
     }).then((response) => {
         if (response.status !== 200) {

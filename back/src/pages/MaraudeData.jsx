@@ -26,7 +26,7 @@ const MaraudeData = () => {
     // Comportement
     async function getMaraudeInformations(id) {
         try {
-            const response = await ky.get(`http://localhost:3000/maraude/${id}`, {
+            const response = await ky.get(`http://autempsdonne.site:3000/maraude/${id}`, {
                 credentials: 'include'
             });
             if (!response.ok) {

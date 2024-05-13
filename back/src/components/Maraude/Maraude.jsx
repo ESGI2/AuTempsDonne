@@ -8,7 +8,7 @@ import ClassicButton from "../Button/ClassicButton.jsx";
 // import EditMaraudeModal from './EditMaraudeModal.jsx';
 
 function getUpcomingMaraudes() {
-    return ky.get('http://localhost:3000/maraude', {
+    return ky.get('http://autempsdonne.site:3000/maraude', {
         credentials: 'include'
     }).then((response) => {
         if (response.status !== 200) {

@@ -23,7 +23,7 @@ const menuItems = [
 ];
 
 function getUserData() {
-    return ky.get("http://localhost:3000/user/me", {
+    return ky.get("http://autempsdonne.site:3000/user/me", {
         credentials: "include",
     }).then((response) => {
         if (response.status !== 200) {
@@ -35,7 +35,7 @@ function getUserData() {
 }
 
 function logoutUser() {
-    return ky.get("http://localhost:3000/user/logout", {
+    return ky.get("http://autempsdonne.site:3000/user/logout", {
         credentials: "include",
     }).then((response) => {
         if (response.status === 200) {

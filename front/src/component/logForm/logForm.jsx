@@ -35,7 +35,7 @@ function LogForm() {
                 setError('Invalid email format.');
                 return;
             }
-            const response = await ky.post('http://localhost:3000/login', {
+            const response = await ky.post('http://autempsdonne.site:3000/login', {
                 json: {email, password},
                 credentials: 'include',
             });

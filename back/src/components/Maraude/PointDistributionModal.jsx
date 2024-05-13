@@ -22,7 +22,7 @@ export default function PointDistributionModal({ show, handleClose }) {
 
     async function fetchPoints() {
         try {
-            const response = await ky.get('http://localhost:3000/maraudePoint', {
+            const response = await ky.get('http://autempsdonne.site:3000/maraudePoint', {
                 credentials: 'include'
             });
             const data = await response.json();
@@ -46,7 +46,7 @@ export default function PointDistributionModal({ show, handleClose }) {
             return;
         }
         try {
-            const response = await ky.post('http://localhost:3000/maraudePoint', {
+            const response = await ky.post('http://autempsdonne.site:3000/maraudePoint', {
                 credentials: 'include',
                 json: data
             });
@@ -65,7 +65,7 @@ export default function PointDistributionModal({ show, handleClose }) {
 
     const handleDeletePoint = async (id) => {
         try {
-            await ky.delete(`http://localhost:3000/maraudePoint/${id}`, {
+            await ky.delete(`http://autempsdonne.site:3000/maraudePoint/${id}`, {
                 credentials: 'include'
             });
             setPoints(points.filter(point => point.id !== id));

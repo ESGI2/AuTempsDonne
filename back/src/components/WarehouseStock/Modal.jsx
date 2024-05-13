@@ -17,7 +17,7 @@ const Modal = ({ onClose }) => {
 
     const getAllWarehouses = async () => {
         try {
-            const response = await ky.get("http://localhost:3000/warehouse", {
+            const response = await ky.get("http://autempsdonne.site:3000/warehouse", {
                 credentials: "include",
             });
             if (!response.ok) {
@@ -65,7 +65,7 @@ const Modal = ({ onClose }) => {
     const AddProduct = async (name, type, donation) => {
         const queryString = `?name=${name}&type=${type}&donation=${donation}`;
         try {
-            const response = await ky.post(`http://localhost:3000/product${queryString}`, {
+            const response = await ky.post(`http://autempsdonne.site:3000/product${queryString}`, {
                 credentials: "include",
             });
             if (!response.ok) {
@@ -81,7 +81,7 @@ const Modal = ({ onClose }) => {
     const AddStock = async (productId, warehouseId, quantity) => {
         const queryString = `?id_product=${productId}&id_warehouse=${warehouseId}&quantity=${quantity}`;
         try {
-            const response = await ky.post(`http://localhost:3000/stock${queryString}`, {
+            const response = await ky.post(`http://autempsdonne.site:3000/stock${queryString}`, {
                 credentials: "include",
             });
             if (!response.ok) {

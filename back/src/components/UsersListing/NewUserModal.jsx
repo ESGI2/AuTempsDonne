@@ -59,12 +59,12 @@ const NewUserModal = ({ onClose }) => {
     }
 
     const createBeneficiary = async (user) => {
-        const response = await ky.post('http://localhost:3000/register/beneficiary', { json: user });
+        const response = await ky.post('http://autempsdonne.site:3000/register/beneficiary', { json: user });
         return response.json();
     }
 
     const createVolunteer = async (user) => {
-        const response = await ky.post('http://localhost:3000/register/volunteer', { json: user });
+        const response = await ky.post('http://autempsdonne.site:3000/register/volunteer', { json: user });
         return response.json();
     }
 

@@ -14,7 +14,7 @@ export default function ShowEventModal({ show, handleClose, event }) {
     const [showAssignationModal, setShowAssignationModal] = useState(false); // État pour gérer l'affichage du modal d'assignation
 
     async function deleteEvent(id) {
-        return ky.delete(`http://localhost:3000/event/${id}`, {
+        return ky.delete(`http://autempsdonne.site:3000/event/${id}`, {
             credentials: "include",
         }).then((response) => {
             if (response.status === 200) {

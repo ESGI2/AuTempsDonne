@@ -96,7 +96,7 @@ const EditUserModal = ({ user, onClose }) => {
 
     const updateUser = async (userId, userData) => {
         try {
-            const response = await ky.put(`http://localhost:3000/user/${userId}`, {
+            const response = await ky.put(`http://autempsdonne.site:3000/user/${userId}`, {
                 credentials: 'include',
                 json: userData,
             });
@@ -112,7 +112,7 @@ const EditUserModal = ({ user, onClose }) => {
 
     function deleteUser(id) {
 
-        return ky.delete(`http://localhost:3000/user/${id}`, {
+        return ky.delete(`http://autempsdonne.site:3000/user/${id}`, {
             credentials: "include",
         }).then((response) => {
             if (response.status === 200) {

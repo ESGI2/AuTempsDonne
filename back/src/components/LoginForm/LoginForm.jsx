@@ -23,7 +23,7 @@ const LoginForm = () => {
         const password = e.target.elements[1].value;
 
         try {
-            const response = await ky.post('http://localhost:3000/login', {
+            const response = await ky.post('http://autempsdonne.site:3000/login', {
                 json: {email, password},
                 credentials: 'include'
             });

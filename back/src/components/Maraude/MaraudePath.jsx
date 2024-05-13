@@ -22,7 +22,7 @@ const MaraudePath = ({ closeModal, data }) => {
 
     const fetchPoints = async () => {
         try {
-            const data = await ky.get('http://localhost:3000/maraudePoint', {
+            const data = await ky.get('http://autempsdonne.site:3000/maraudePoint', {
                 credentials: 'include'
             }).json();
             setPoints(data);

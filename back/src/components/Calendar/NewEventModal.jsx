@@ -32,7 +32,7 @@ export default function NewEventModal({ show, handleClose }) {
             return;
         }
         try {
-            await ky.post('http://localhost:3000/event', {
+            await ky.post('http://autempsdonne.site:3000/event', {
                 credentials: "include",
                 json: data,
             });
@@ -51,7 +51,7 @@ export default function NewEventModal({ show, handleClose }) {
 
     async function getActivity() {
         try {
-            const response = await ky.get('http://localhost:3000/activity', {
+            const response = await ky.get('http://autempsdonne.site:3000/activity', {
                 credentials: "include"
             });
             const data = await response.json();

@@ -31,12 +31,12 @@ class HomePage(QtWidgets.QWidget):
         token = get_token()
         if token:
             self.cookies = {"jwt": token}
-            response_user = requests.get('http://localhost:3000/user/me', cookies=self.cookies)
+            response_user = requests.get('http://autempsdonne.site:3000/user/me', cookies=self.cookies)
             if response_user.status_code == 200:
                 user_data = response_user.json()
                 self.user_id = user_data['me']['id']
                 self.user_role = user_data['me']['role']  # Récupérer le rôle de l'utilisateur connecté
-                response = requests.get('http://localhost:3000/ticket', cookies=self.cookies)
+                response = requests.get('http://autempsdonne.site:3000/ticket', cookies=self.cookies)
                 if response.status_code == 200:
                     ticket_data = response.json()
                     self.display_ticket_table(ticket_data)
@@ -171,11 +171,11 @@ class HomePage(QtWidgets.QWidget):
         # Cacher le bouton "Reload"
         self.reload_button.hide()
 
-        response_ticket = requests.get(f'http://localhost:3000/ticket/{ticket_id}', cookies=self.cookies)
+        response_ticket = requests.get(f'http://autempsdonne.site:3000/ticket/{ticket_id}', cookies=self.cookies)
         if response_ticket.status_code == 200:
             ticket_data = response_ticket.json()
             user_id = ticket_data.get("id_user", "")
-            response_user = requests.get(f'http://localhost:3000/user?id={user_id}', cookies=self.cookies)
+            response_user = requests.get(f'http://autempsdonne.site:3000/user?id={user_id}', cookies=self.cookies)
             if response_user.status_code == 200:
                 user_data = response_user.json().get("users", {})
                 user_email = user_data.get('email', '')
@@ -221,7 +221,7 @@ class HomePage(QtWidgets.QWidget):
             print("Erreur.", response_ticket.status_code)
 
     def display_user_dropdown(self):
-        response_users = requests.get('http://localhost:3000/user', cookies=self.cookies)
+        response_users = requests.get('http://autempsdonne.site:3000/user', cookies=self.cookies)
         if response_users.status_code == 200:
             user_data = response_users.json().get("users", [])
             admin_users = [user for user in user_data if user["role"] in ["admin", "responsable"]]
@@ -279,13 +279,13 @@ class HomePage(QtWidgets.QWidget):
         if hasattr(self, 'selected_user_id'):
             ticket_id = self.table.item(self.table.currentRow(), 0).text()
 
-            add_answer_url = 'http://localhost:3000/ticket/add-answer'
+            add_answer_url = 'http://autempsdonne.site:3000/ticket/add-answer'
             add_answer_payload = {"ticketId": ticket_id, "userId": self.selected_user_id}
             add_answer_response = requests.post(add_answer_url, json=add_answer_payload, cookies=self.cookies)
 
             if add_answer_response.status_code == 200:
                 print("Réponse ajoutée avec succès.")
-                increment_status_url = f'http://localhost:3000/ticket/increment-status/{ticket_id}'
+                increment_status_url = f'http://autempsdonne.site:3000/ticket/increment-status/{ticket_id}'
                 increment_status_response = requests.put(increment_status_url, cookies=self.cookies)
 
                 if increment_status_response.status_code == 200:
@@ -312,7 +312,7 @@ class HomePage(QtWidgets.QWidget):
         ticket_id_item = self.table.item(selected_row, 0)
         ticket_id = int(ticket_id_item.text())
 
-        increment_status_url = f'http://localhost:3000/ticket/increment-status/{ticket_id}'
+        increment_status_url = f'http://autempsdonne.site:3000/ticket/increment-status/{ticket_id}'
         increment_status_response = requests.put(increment_status_url, cookies=self.cookies)
 
         if increment_status_response.status_code == 200:

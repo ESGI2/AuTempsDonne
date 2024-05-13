@@ -7,7 +7,7 @@ export default function PersonnalCalendarSelection({ onSelectPerson }) {
 
     async function getVolunteers() {
         try {
-            const response = await ky.get(`http://localhost:3000/user/volunteers`, {
+            const response = await ky.get(`http://autempsdonne.site:3000/user/volunteers`, {
                 credentials: "include",
             });
             const data = await response.json();

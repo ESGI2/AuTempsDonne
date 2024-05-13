@@ -73,7 +73,7 @@ class ConnectionPage(QtWidgets.QWidget):
             self.msg_error_field.show()
             return
 
-        response = requests.post("http://localhost:3000/login", json={"email": self.input_email.text(), "password": self.input_password.text()})
+        response = requests.post("http://autempsdonne.site:3000/login", json={"email": self.input_email.text(), "password": self.input_password.text()})
 
         if response.status_code == 200  :
 

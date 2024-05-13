@@ -31,7 +31,7 @@ const AssignationPersonnesModal = ({ show, handleClose, onAssign, eventId }) => 
 
     async function getAvailablePersons(eventId) {
         try {
-            const response = await ky.get(`http://localhost:3000/event/availableUser?idNewEvent=${eventId}`, {
+            const response = await ky.get(`http://autempsdonne.site:3000/event/availableUser?idNewEvent=${eventId}`, {
                 credentials: "include",
             });
             const data = await response.json();
@@ -44,7 +44,7 @@ const AssignationPersonnesModal = ({ show, handleClose, onAssign, eventId }) => 
 
     async function assignPersonToEvent(personId, eventId) {
         try {
-            await ky.post(`http://localhost:3000/eventListing`, {
+            await ky.post(`http://autempsdonne.site:3000/eventListing`, {
                 credentials: "include",
                 json: {
                     id_event: eventId,
@@ -79,7 +79,7 @@ const AssignationPersonnesModal = ({ show, handleClose, onAssign, eventId }) => 
 
     async function removeParticipant(personId) {
         try {
-            await ky.delete(`http://localhost:3000/eventListing?id_user=${personId}&id_event=${eventId}`, {
+            await ky.delete(`http://autempsdonne.site:3000/eventListing?id_user=${personId}&id_event=${eventId}`, {
                 credentials: "include"
             });
             const person = participate.find(person => person.id === personId);

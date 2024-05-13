@@ -4,7 +4,7 @@ import ky from "ky";
 const AddTruck = async (name, localisation, plaque_immatriculation) => {
     const queryString = `?name=${name}&localisation=${localisation}&plaque_immatriculation=${plaque_immatriculation}`;
     try {
-        const response = await ky.post(`http://localhost:3000/truck${queryString}`, {
+        const response = await ky.post(`http://autempsdonne.site:3000/truck${queryString}`, {
             credentials: "include",
         });
         if (!response.ok) {

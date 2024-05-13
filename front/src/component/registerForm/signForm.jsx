@@ -56,7 +56,7 @@ function SignForm() {
 
         try {
             const apiUrl = role === 'beneficiary' ? '/beneficiary' : '/volunteer';
-            const response = await ky.post(`http://localhost:3000/register${apiUrl}`, {
+            const response = await ky.post(`http://autempsdonne.site:3000/register${apiUrl}`, {
                 json: {first_name: first_name, last_name: last_name, email, password, subscribe},
                 credentials: 'include',
             });

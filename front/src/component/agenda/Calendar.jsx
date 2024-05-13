@@ -21,7 +21,7 @@ export default function MyCalendar() {
 
     const getMe = async () => {
         try {
-            const response = await ky.get("http://localhost:3000/user/me", {
+            const response = await ky.get("http://autempsdonne.site:3000/user/me", {
                 credentials: "include",
             });
             if (response.status !== 200) {
@@ -37,7 +37,7 @@ export default function MyCalendar() {
 
     const fetchEventsByPerson = async (personId) => {
         try {
-            const response = await ky.get(`http://localhost:3000/event/user/${personId}`, {
+            const response = await ky.get(`http://autempsdonne.site:3000/event/user/${personId}`, {
                 credentials: "include"
             });
             const data = await response.json();
@@ -49,7 +49,7 @@ export default function MyCalendar() {
 
     const fetchAllEvents = async () => {
         try {
-            const response = await ky.get('http://localhost:3000/event', {
+            const response = await ky.get('http://autempsdonne.site:3000/event', {
                 credentials: "include"
             });
             const data = await response.json();
@@ -114,7 +114,7 @@ export default function MyCalendar() {
         const checkUserInEvent = async () => {
             if (currentUser && selectedEvent) {
                 try {
-                    const response = await ky.get(`http://localhost:3000/eventListing/checkUserInEvent`, {
+                    const response = await ky.get(`http://autempsdonne.site:3000/eventListing/checkUserInEvent`, {
                         credentials: "include",
                         searchParams: {
                             id_event: selectedEvent.id,
@@ -185,7 +185,7 @@ export default function MyCalendar() {
 
 async function assignPersonToEvent(personId, eventId) {
     try {
-        await ky.post(`http://localhost:3000/eventListing`, {
+        await ky.post(`http://autempsdonne.site:3000/eventListing`, {
             credentials: "include",
             json: {
                 id_event: eventId,

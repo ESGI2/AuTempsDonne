@@ -51,7 +51,7 @@ const Profiler = () => {
 
     const getMe = async () => {
         try {
-            const response = await ky.get("http://localhost:3000/user/me", {
+            const response = await ky.get("http://autempsdonne.site:3000/user/me", {
                 credentials: "include",
             });
             if (response.status !== 200) {
@@ -83,7 +83,7 @@ const Profiler = () => {
                 family_situation: familySituation
             };
 
-            const response = await ky.put(`http://localhost:3000/user/${id}`, {
+            const response = await ky.put(`http://autempsdonne.site:3000/user/${id}`, {
                 json: userInfo,
                 credentials: "include",
             });
@@ -105,7 +105,7 @@ const Profiler = () => {
                 return;
             }
 
-            const response = await ky.put(`http://localhost:3000/user/password/${id}`, {
+            const response = await ky.put(`http://autempsdonne.site:3000/user/password/${id}`, {
                 json: { password: newPassword },
                 credentials: "include",
             });

@@ -15,7 +15,7 @@ function Main() {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await ky.get('http://localhost:3000/user/me', {
+                const response = await ky.get('http://autempsdonne.site:3000/user/me', {
                     credentials: 'include',
                 }).json();
                 console.log(response);

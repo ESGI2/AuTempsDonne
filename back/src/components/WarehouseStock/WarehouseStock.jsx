@@ -3,7 +3,7 @@ import ky from "ky";
 import Modal from './Modal';
 
 function getAllProducts() {
-    return ky.get("http://localhost:3000/product", {
+    return ky.get("http://autempsdonne.site:3000/product", {
         credentials: "include",
     }).then((response) => {
         if (response.status !== 200) {
@@ -15,7 +15,7 @@ function getAllProducts() {
 }
 
 function getAllStocks() {
-    return ky.get("http://localhost:3000/stock/all", {
+    return ky.get("http://autempsdonne.site:3000/stock/all", {
         credentials: "include",
     }).then((response) => {
         if (response.status !== 200) {
@@ -27,7 +27,7 @@ function getAllStocks() {
 }
 
 function getAllWarehouses() {
-    return ky.get("http://localhost:3000/warehouse", {
+    return ky.get("http://autempsdonne.site:3000/warehouse", {
         credentials: "include",
     }).then((response) => {
         if (response.status !== 200) {
@@ -39,7 +39,7 @@ function getAllWarehouses() {
 }
 
 function patchProductquantity(id, warehouseId, quantity) {
-    return ky.patch(`http://localhost:3000/stock/${id}/${warehouseId}/${quantity}`, {
+    return ky.patch(`http://autempsdonne.site:3000/stock/${id}/${warehouseId}/${quantity}`, {
         credentials: "include",
     }).then((response) => {
         if (response.status !== 200) {

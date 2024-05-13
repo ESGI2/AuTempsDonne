@@ -37,7 +37,7 @@ const DeliveryHomePage = () => {
     }, []);
 
     const getAllDelivery = () => {
-        return ky.get("http://localhost:3000/delivery", {
+        return ky.get("http://autempsdonne.site:3000/delivery", {
             credentials: "include",
         }).then((response) => {
             if (response.status !== 200) {
@@ -49,7 +49,7 @@ const DeliveryHomePage = () => {
     };
 
     const getAllEvent = () => {
-        return ky.get("http://localhost:3000/event/", {
+        return ky.get("http://autempsdonne.site:3000/event/", {
             credentials: "include",
         }).then((response) => {
             if (response.status !== 200) {
@@ -61,7 +61,7 @@ const DeliveryHomePage = () => {
     };
 
     const getAllWarehouse = () => {
-        return ky.get("http://localhost:3000/warehouse", {
+        return ky.get("http://autempsdonne.site:3000/warehouse", {
             credentials: "include",
         }).then((response) => {
             if (response.status !== 200) {
@@ -75,7 +75,7 @@ const DeliveryHomePage = () => {
     const addDeliveryPointAPI = () => {
         const formData = { ...newPointFormData, type: "point" };
 
-        return ky.post("http://localhost:3000/deliveryPoint", {
+        return ky.post("http://autempsdonne.site:3000/deliveryPoint", {
             credentials: "include",
             json: formData
         }).then((response) => {
@@ -88,7 +88,7 @@ const DeliveryHomePage = () => {
     };
 
     const addDelivery = (formData) => {
-        return ky.post("http://localhost:3000/delivery", {
+        return ky.post("http://autempsdonne.site:3000/delivery", {
             credentials: "include",
             json: formData
         }).then((response) => {
@@ -101,7 +101,7 @@ const DeliveryHomePage = () => {
     };
 
     const getAllDeliveryPoints = () => {
-        return ky.get("http://localhost:3000/deliveryPoint", {
+        return ky.get("http://autempsdonne.site:3000/deliveryPoint", {
             credentials: "include",
         }).then((response) => {
             if (response.status !== 200) {
@@ -115,7 +115,7 @@ const DeliveryHomePage = () => {
     async function downloadMap(id) {
         try {
             console.log("Téléchargement de la carte...");
-            const response = await fetch(`http://localhost:3000/wasabi/delivery/${id}`);
+            const response = await fetch(`http://autempsdonne.site:3000/wasabi/delivery/${id}`);
 
             if (!response.ok) {
                 throw new Error('Error downloading file');

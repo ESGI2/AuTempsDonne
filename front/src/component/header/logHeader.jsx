@@ -15,7 +15,7 @@ function LogHeader() {
     useEffect(() => {
         const fetchUserRole = async () => {
             try {
-                const response = await ky.get('http://localhost:3000/user/me', {
+                const response = await ky.get('http://autempsdonne.site:3000/user/me', {
                     credentials: 'include',
                 }).json();
                 const {role} = response.me;
@@ -31,7 +31,7 @@ function LogHeader() {
 
 
     function Signout() {
-        return ky.get("http://localhost:3000/user/logout", {
+        return ky.get("http://autempsdonne.site:3000/user/logout", {
             credentials: "include",
         }).then((response) => {
             if (response.status === 200) {

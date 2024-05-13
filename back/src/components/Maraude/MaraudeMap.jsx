@@ -26,7 +26,7 @@ const MaraudeMap = ({information}) => {
     // async function getMap(){
     //     const id = window.location.pathname.split("/")[2];
     //     try {
-    //         const response = await ky.get('http://localhost:3000/wasabi/maraude/' + id, {
+    //         const response = await ky.get('http://autempsdonne.site:3000/wasabi/maraude/' + id, {
     //             credentials: 'include'
     //         });
     //         const data = await response.text(); // Appeler la méthode text() comme une fonction pour obtenir le texte
@@ -46,7 +46,7 @@ const MaraudeMap = ({information}) => {
             // Appel de l'API pour récupérer le fichier
             console.log("Téléchargement de la carte...");
             setIsLoaded(true);
-            const response = await fetch(`http://localhost:3000/wasabi/maraude/${id}`);
+            const response = await fetch(`http://autempsdonne.site:3000/wasabi/maraude/${id}`);
 
             if (!response.ok) {
                 throw new Error('Error downloading file');

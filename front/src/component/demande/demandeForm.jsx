@@ -28,7 +28,7 @@ function DemandeForm() {
 
         try {
             const cookie = getAuthCookie();
-            const response = await ky.post('http://localhost:3000/ticket', {
+            const response = await ky.post('http://autempsdonne.site:3000/ticket', {
                 json: {
                     title,
                     message

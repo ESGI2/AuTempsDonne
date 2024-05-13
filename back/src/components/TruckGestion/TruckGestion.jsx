@@ -3,7 +3,7 @@ import ky from 'ky';
 import TruckModal from './AddTruckModal.jsx';
 
 const getAllTrucks = () => {
-    return ky.get("http://localhost:3000/truck", {
+    return ky.get("http://autempsdonne.site:3000/truck", {
         credentials: "include",
     }).then((response) => {
         if (response.status !== 200) {
@@ -15,7 +15,7 @@ const getAllTrucks = () => {
 };
 
 const EditTrucksLocalisation = (id, localisation) => {
-    return ky.patch(`http://localhost:3000/truck/?id=${id}&localisation=${localisation}`, {
+    return ky.patch(`http://autempsdonne.site:3000/truck/?id=${id}&localisation=${localisation}`, {
         credentials: "include",
     }).then((response) => {
         if (response.status !== 200) {

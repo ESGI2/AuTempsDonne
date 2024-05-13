@@ -34,7 +34,7 @@ const NewMaraudeModal = ({ closeModal }) => {
 
     const handleSubmit = async () => {
         try {
-            await ky.post('http://localhost:3000/maraude', {
+            await ky.post('http://autempsdonne.site:3000/maraude', {
                 json: {
                     title: formData.name,
                     description: formData.description,
@@ -115,7 +115,7 @@ const NewMaraudeModal = ({ closeModal }) => {
 
     const fetchPoints = async () => {
         try {
-            const data = await ky.get('http://localhost:3000/maraudePoint', {
+            const data = await ky.get('http://autempsdonne.site:3000/maraudePoint', {
                 credentials: 'include'
             }).json();
             setPoints(data);
@@ -126,7 +126,7 @@ const NewMaraudeModal = ({ closeModal }) => {
 
     const fetchProducts = async () => {
         try {
-            const data = await ky.get('http://localhost:3000/product', {
+            const data = await ky.get('http://autempsdonne.site:3000/product', {
                 credentials: 'include'
             }).json();
             setProducts(data);

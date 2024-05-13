@@ -20,7 +20,7 @@ export default function ActivityModal({ show, handleClose }) {
 
     async function fetchActivities() {
         try {
-            const response = await ky.get('http://localhost:3000/activity', {
+            const response = await ky.get('http://autempsdonne.site:3000/activity', {
                 credentials: 'include'
             });
             const data = await response.json();
@@ -37,7 +37,7 @@ export default function ActivityModal({ show, handleClose }) {
             return;
         }
             try {
-                const response = await ky.post('http://localhost:3000/activity', {
+                const response = await ky.post('http://autempsdonne.site:3000/activity', {
                     credentials: 'include',
                     json: {
                         activity_name: newActivityName,
@@ -59,7 +59,7 @@ export default function ActivityModal({ show, handleClose }) {
 
         const handleDeleteActivity = async (id) => {
             try {
-                await ky.delete(`http://localhost:3000/activity/${id}`, {
+                await ky.delete(`http://autempsdonne.site:3000/activity/${id}`, {
                     credentials: 'include'
                 });
                 setActivities(activities.filter(activity => activity.id !== id));
