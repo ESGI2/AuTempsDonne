@@ -13,6 +13,19 @@ class EventListingController {
         }
     }
 
+    static async checkUserInEvent(req, res) {
+        try {
+            const { id_user, id_event } = req.body;
+            console.log(id_user, id_event)
+            const result = await EventListingService.checkUserInEvent(id_user, id_event);
+            res.status(200).json({ exists: result });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: "Error checking user in event" });
+        }
+    }
+
+
     static async getListingByParam(req, res) {
         try {
             const {id_user, id_event} = req.query;

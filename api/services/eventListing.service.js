@@ -10,6 +10,17 @@ class EventListingService {
         }
     }
 
+    static async checkUserInEvent(id_user, id_event) {
+        try {
+            const listings = await EventListingRepository.isUserInEvent(id_user, id_event);
+            return listings.length > 0;
+        } catch (error) {
+            console.error("Service error:", error);
+            throw error;
+        }
+    }
+
+
     static async getListingById(id_user) {
         try {
             return await EventListingRepository.getListingById(id_user);

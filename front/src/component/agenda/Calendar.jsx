@@ -15,8 +15,10 @@ export default function MyCalendar() {
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [selectedAgenda, setSelectedAgenda] = useState('Mon agenda');
+    const [currentUser, setCurrentUser] = useState(null);
+    const [isUserInEvent, setIsUserInEvent] = useState(false);
+    const [message, setMessage] = useState('');
 
-    // Fonction pour récupérer l'utilisateur actuel
     const getMe = async () => {
         try {
             const response = await ky.get("http://localhost:3000/user/me", {
@@ -61,6 +63,7 @@ export default function MyCalendar() {
         const fetchEvents = async () => {
             try {
                 const user = await getMe();
+                setCurrentUser(user); // Mettre à jour l'utilisateur actuel
                 if (user) {
                     if (selectedAgenda === 'Mon agenda') {
                         await fetchEventsByPerson(user.id);
@@ -87,6 +90,51 @@ export default function MyCalendar() {
     const handleDropdownChange = (event) => {
         setSelectedAgenda(event.target.value);
     };
+
+    const handleJoinEvent = async () => {
+        if (currentUser && selectedEvent) {
+            try {
+                await assignPersonToEvent(currentUser.id, selectedEvent.id);
+                // Rafraîchir les événements après l'assignation de la personne
+                if (selectedAgenda === 'Mon agenda') {
+                    await fetchEventsByPerson(currentUser.id);
+                } else {
+                    await fetchAllEvents();
+                }
+                setShowModal(false);
+                setIsUserInEvent(true); // Mettre à jour l'état pour indiquer que l'utilisateur est maintenant dans l'événement
+                setMessage('Vous êtes déjà inscrit à cet événement.');
+            } catch (error) {
+                console.error('Erreur lors de l\'assignation de la personne à l\'événement:', error);
+            }
+        }
+    };
+
+    useEffect(() => {
+        const checkUserInEvent = async () => {
+            if (currentUser && selectedEvent) {
+                try {
+                    const response = await ky.get(`http://localhost:3000/eventListing/checkUserInEvent`, {
+                        credentials: "include",
+                        searchParams: {
+                            id_event: selectedEvent.id,
+                            id_user: currentUser.id
+                        }
+                    });
+                    const data = await response.json();
+                    setIsUserInEvent(data);
+                    if (data) {
+                        setMessage('Vous êtes déjà inscrit à cet événement.');
+                    } else {
+                        setMessage('');
+                    }
+                } catch (error) {
+                    console.error('Erreur lors de la vérification de l\'inscription de l\'utilisateur à l\'événement:', error);
+                }
+            }
+        };
+        checkUserInEvent();
+    }, [currentUser, selectedEvent]);
 
     return (
         <div className="my-calendar w-75 m-auto" style={{ backgroundColor: "white" }}>
@@ -124,7 +172,28 @@ export default function MyCalendar() {
                         </>
                     )}
                 </Modal.Body>
+                <Modal.Footer>
+                    {message && <p>{message}</p>}
+                    {!message && !isUserInEvent && (
+                        <Button variant="primary" onClick={handleJoinEvent}>Rejoindre l'événement</Button>
+                    )}
+                </Modal.Footer>
             </Modal>
         </div>
     );
+}
+
+async function assignPersonToEvent(personId, eventId) {
+    try {
+        await ky.post(`http://localhost:3000/eventListing`, {
+            credentials: "include",
+            json: {
+                id_event: eventId,
+                id_user: personId
+            }
+        });
+    } catch (error) {
+        console.error('Erreur lors de l\'assignation de la personne à l\'événement:', error);
+        throw error;
+    }
 }
