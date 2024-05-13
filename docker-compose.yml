@@ -38,6 +38,11 @@ services:
       DB_PASS: Azerty11
       DB_NAME: atd_api
       ACCESS_TOKEN_SECRET: secret
+      WASABI_ACCESS_KEY_ID: OAD77C2QY8CRH2FG2N9Z
+      WASABI_SECRET_ACCESS_KEY: lHcIiu0TvjQFjLJOjskdp0mZALzHJP6zFRLzMuNy
+      GEOCODE_API_KEY: 6614ffc0000da020770270pbhb1b4b5
+      NEWSLETTER_EMAIL: atdpa2024@gmail.com
+      NEWSLETTER_PASSWORD: lgco smip aept juwu
     depends_on:
       db:
         condition: service_healthy
