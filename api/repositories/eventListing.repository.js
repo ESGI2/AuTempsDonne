@@ -29,6 +29,17 @@ class EventListingRepository {
         }
     }
 
+    static async isUserInEvent(id_user, id_event) {
+        try {
+            const result = await EventListing.findOne({ where: { id_user, id_event } });
+            return !!result;
+        } catch (error) {
+            console.error("EventListing error:", error);
+            throw error;
+        }
+    }
+
+
     static async getListingByParam(id_user, id_event) {
         try {
             return await EventListing.findAll({where: {id_user, id_event}});
