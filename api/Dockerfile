@@ -21,6 +21,9 @@ FROM node:alpine
 
 WORKDIR /app
 
+# Installer Python dans l'image Alpine
+RUN apk add --no-cache python3 py3-pip
+
 COPY --from=builder /app .
 COPY --from=python-builder /app .
 
